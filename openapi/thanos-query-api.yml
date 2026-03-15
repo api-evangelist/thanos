@@ -1,0 +1,943 @@
+openapi: 3.0.3
+info:
+  title: Thanos Query API
+  description: >-
+    The Thanos Query API provides a Prometheus-compatible HTTP API for querying
+    metrics across multiple Prometheus servers and long-term storage backends.
+    Thanos Query implements the full Prometheus v1 API surface, enabling a global
+    query view with deduplication across replicated series.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+externalDocs:
+  description: Thanos Documentation
+  url: https://thanos.io/tip/components/query.md/
+servers:
+  - url: http://localhost:9090
+    description: Default Thanos Query HTTP endpoint
+paths:
+  /api/v1/query:
+    get:
+      operationId: instantQuery
+      summary: Evaluate an instant query
+      description: >-
+        Evaluates a PromQL expression at a single point in time. Supports
+        deduplication and partial response controls specific to Thanos.
+      tags:
+        - Query
+      parameters:
+        - name: query
+          in: query
+          required: true
+          description: PromQL query expression
+          schema:
+            type: string
+        - name: time
+          in: query
+          required: false
+          description: >-
+            Evaluation timestamp in RFC3339 or Unix timestamp format. Defaults to
+            current server time.
+          schema:
+            type: string
+        - name: timeout
+          in: query
+          required: false
+          description: Evaluation timeout. Defaults to server-configured timeout.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/dedup'
+        - $ref: '#/components/parameters/partial_response'
+        - $ref: '#/components/parameters/max_source_resolution'
+        - $ref: '#/components/parameters/engine'
+      responses:
+        '200':
+          description: Successful query result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable expression
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Unavailable or timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: instantQueryPost
+      summary: Evaluate an instant query (POST)
+      description: >-
+        Evaluates a PromQL expression at a single point in time using POST body
+        encoding for large queries.
+      tags:
+        - Query
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  description: PromQL query expression
+                time:
+                  type: string
+                  description: Evaluation timestamp
+                timeout:
+                  type: string
+                  description: Evaluation timeout
+                dedup:
+                  type: boolean
+                  description: Enable deduplication
+                partial_response:
+                  type: boolean
+                  description: Enable partial response
+                max_source_resolution:
+                  type: string
+                  description: Maximum source resolution
+      responses:
+        '200':
+          description: Successful query result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/query_range:
+    get:
+      operationId: rangeQuery
+      summary: Evaluate a range query
+      description: >-
+        Evaluates a PromQL expression over a range of time with a specified step
+        interval. Returns a matrix of time series values.
+      tags:
+        - Query
+      parameters:
+        - name: query
+          in: query
+          required: true
+          description: PromQL query expression
+          schema:
+            type: string
+        - name: start
+          in: query
+          required: true
+          description: Start timestamp in RFC3339 or Unix timestamp format
+          schema:
+            type: string
+        - name: end
+          in: query
+          required: true
+          description: End timestamp in RFC3339 or Unix timestamp format
+          schema:
+            type: string
+        - name: step
+          in: query
+          required: true
+          description: Query resolution step width as duration or float seconds
+          schema:
+            type: string
+        - name: timeout
+          in: query
+          required: false
+          description: Evaluation timeout
+          schema:
+            type: string
+        - $ref: '#/components/parameters/dedup'
+        - $ref: '#/components/parameters/partial_response'
+        - $ref: '#/components/parameters/max_source_resolution'
+        - $ref: '#/components/parameters/engine'
+      responses:
+        '200':
+          description: Successful range query result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable expression
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: rangeQueryPost
+      summary: Evaluate a range query (POST)
+      description: >-
+        Evaluates a PromQL range query using POST body encoding for large
+        queries.
+      tags:
+        - Query
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - query
+                - start
+                - end
+                - step
+              properties:
+                query:
+                  type: string
+                start:
+                  type: string
+                end:
+                  type: string
+                step:
+                  type: string
+                timeout:
+                  type: string
+                dedup:
+                  type: boolean
+                partial_response:
+                  type: boolean
+                max_source_resolution:
+                  type: string
+      responses:
+        '200':
+          description: Successful range query result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/series:
+    get:
+      operationId: getSeries
+      summary: Find series by label matchers
+      description: >-
+        Returns the list of time series that match a certain label set. Queries
+        across all connected stores.
+      tags:
+        - Metadata
+      parameters:
+        - name: match[]
+          in: query
+          required: true
+          description: >-
+            Series selector argument that selects the series to return. At least
+            one match[] argument must be provided.
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - name: start
+          in: query
+          required: false
+          description: Start timestamp
+          schema:
+            type: string
+        - name: end
+          in: query
+          required: false
+          description: End timestamp
+          schema:
+            type: string
+        - $ref: '#/components/parameters/dedup'
+        - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful series lookup
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeriesResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/labels:
+    get:
+      operationId: getLabels
+      summary: Get label names
+      description: Returns a list of label names available across all stores.
+      tags:
+        - Metadata
+      parameters:
+        - name: start
+          in: query
+          required: false
+          description: Start timestamp
+          schema:
+            type: string
+        - name: end
+          in: query
+          required: false
+          description: End timestamp
+          schema:
+            type: string
+        - name: match[]
+          in: query
+          required: false
+          description: Series selector to filter labels
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful label names response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelsResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/label/{label_name}/values:
+    get:
+      operationId: getLabelValues
+      summary: Get label values
+      description: >-
+        Returns a list of label values for a given label name across all
+        connected stores.
+      tags:
+        - Metadata
+      parameters:
+        - name: label_name
+          in: path
+          required: true
+          description: The label name to retrieve values for
+          schema:
+            type: string
+        - name: start
+          in: query
+          required: false
+          description: Start timestamp
+          schema:
+            type: string
+        - name: end
+          in: query
+          required: false
+          description: End timestamp
+          schema:
+            type: string
+        - name: match[]
+          in: query
+          required: false
+          description: Series selector to filter label values
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful label values response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelValuesResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/targets:
+    get:
+      operationId: getTargets
+      summary: Get current target discovery
+      description: >-
+        Returns an overview of the current state of target discovery across
+        connected Prometheus instances.
+      tags:
+        - Targets
+      parameters:
+        - name: state
+          in: query
+          required: false
+          description: >-
+            Filter targets by state. Can be active, dropped, or any.
+          schema:
+            type: string
+            enum:
+              - active
+              - dropped
+              - any
+        - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful targets response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetsResponse'
+  /api/v1/rules:
+    get:
+      operationId: getRules
+      summary: Get alerting and recording rules
+      description: >-
+        Returns a list of alerting and recording rules that are currently loaded
+        across connected Thanos Ruler and Prometheus instances.
+      tags:
+        - Rules
+      parameters:
+        - name: type
+          in: query
+          required: false
+          description: Filter by rule type
+          schema:
+            type: string
+            enum:
+              - alert
+              - record
+        - name: match[]
+          in: query
+          required: false
+          description: Filter rules by label matchers
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful rules response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RulesResponse'
+  /api/v1/alerts:
+    get:
+      operationId: getAlerts
+      summary: Get active alerts
+      description: >-
+        Returns a list of all active alerts across connected Thanos Ruler and
+        Prometheus instances.
+      tags:
+        - Rules
+      parameters:
+        - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful alerts response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertsResponse'
+  /api/v1/stores:
+    get:
+      operationId: getStores
+      summary: Get connected store information
+      description: >-
+        Returns information about all connected Thanos store endpoints including
+        their type, labels, min/max time range, and last health check status.
+        This is a Thanos-specific endpoint not found in vanilla Prometheus.
+      tags:
+        - Stores
+      responses:
+        '200':
+          description: Successful stores response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoresResponse'
+components:
+  parameters:
+    dedup:
+      name: dedup
+      in: query
+      required: false
+      description: >-
+        If true, enables deduplication of time series from replicated
+        Prometheus instances. Defaults to true.
+      schema:
+        type: boolean
+        default: true
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: >-
+        If true, enables partial response. If a store is unavailable, partial
+        data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
+    max_source_resolution:
+      name: max_source_resolution
+      in: query
+      required: false
+      description: >-
+        Maximum source resolution to use for the query. Can be 0s, 5m, or 1h.
+        Selects the appropriate downsampled data when available.
+      schema:
+        type: string
+        default: 0s
+        enum:
+          - 0s
+          - 5m
+          - 1h
+    engine:
+      name: engine
+      in: query
+      required: false
+      description: >-
+        Query engine to use. Thanos supports the default Prometheus engine
+        and the Thanos engine for distributed execution.
+      schema:
+        type: string
+        enum:
+          - prometheus
+          - thanos
+  schemas:
+    QueryResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+            - error
+        data:
+          type: object
+          required:
+            - resultType
+            - result
+          properties:
+            resultType:
+              type: string
+              enum:
+                - matrix
+                - vector
+                - scalar
+                - string
+            result:
+              type: array
+              description: >-
+                Query result. Structure varies based on resultType.
+              items:
+                oneOf:
+                  - $ref: '#/components/schemas/VectorResult'
+                  - $ref: '#/components/schemas/MatrixResult'
+                  - $ref: '#/components/schemas/ScalarResult'
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Warnings from partial responses or store issues
+    VectorResult:
+      type: object
+      properties:
+        metric:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label set identifying the metric
+        value:
+          type: array
+          description: '[timestamp, value] pair'
+          items: {}
+          minItems: 2
+          maxItems: 2
+    MatrixResult:
+      type: object
+      properties:
+        metric:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label set identifying the metric
+        values:
+          type: array
+          description: Array of [timestamp, value] pairs
+          items:
+            type: array
+            items: {}
+            minItems: 2
+            maxItems: 2
+    ScalarResult:
+      type: array
+      description: '[timestamp, value] pair for scalar results'
+      items: {}
+      minItems: 2
+      maxItems: 2
+    SeriesResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: string
+          description: Array of label sets
+        warnings:
+          type: array
+          items:
+            type: string
+    LabelsResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+        data:
+          type: array
+          items:
+            type: string
+          description: List of label names
+        warnings:
+          type: array
+          items:
+            type: string
+    LabelValuesResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+        data:
+          type: array
+          items:
+            type: string
+          description: List of label values
+        warnings:
+          type: array
+          items:
+            type: string
+    TargetsResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+        data:
+          type: object
+          properties:
+            activeTargets:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActiveTarget'
+            droppedTargets:
+              type: array
+              items:
+                $ref: '#/components/schemas/DroppedTarget'
+    ActiveTarget:
+      type: object
+      properties:
+        discoveredLabels:
+          type: object
+          additionalProperties:
+            type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        scrapePool:
+          type: string
+        scrapeUrl:
+          type: string
+        globalUrl:
+          type: string
+        lastError:
+          type: string
+        lastScrape:
+          type: string
+          format: date-time
+        lastScrapeDuration:
+          type: number
+          format: double
+        health:
+          type: string
+          enum:
+            - up
+            - down
+            - unknown
+    DroppedTarget:
+      type: object
+      properties:
+        discoveredLabels:
+          type: object
+          additionalProperties:
+            type: string
+    RulesResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+        data:
+          type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/RuleGroup'
+    RuleGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        file:
+          type: string
+        interval:
+          type: number
+          format: double
+        rules:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/AlertingRule'
+              - $ref: '#/components/schemas/RecordingRule'
+        partialResponseStrategy:
+          type: string
+          description: Thanos-specific field for partial response handling
+    AlertingRule:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - alerting
+        name:
+          type: string
+        query:
+          type: string
+        duration:
+          type: number
+          format: double
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        alerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert'
+        health:
+          type: string
+        lastError:
+          type: string
+        lastEvaluation:
+          type: string
+          format: date-time
+        evaluationTime:
+          type: number
+          format: double
+        state:
+          type: string
+          enum:
+            - firing
+            - pending
+            - inactive
+    RecordingRule:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - recording
+        name:
+          type: string
+        query:
+          type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        health:
+          type: string
+        lastError:
+          type: string
+        lastEvaluation:
+          type: string
+          format: date-time
+        evaluationTime:
+          type: number
+          format: double
+    AlertsResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+        data:
+          type: object
+          properties:
+            alerts:
+              type: array
+              items:
+                $ref: '#/components/schemas/Alert'
+    Alert:
+      type: object
+      properties:
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        state:
+          type: string
+          enum:
+            - firing
+            - pending
+        activeAt:
+          type: string
+          format: date-time
+        value:
+          type: string
+    StoresResponse:
+      type: object
+      required:
+        - status
+        - data
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoreInfo'
+    StoreInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Store endpoint name or address
+        lastCheck:
+          type: string
+          format: date-time
+          description: Timestamp of last health check
+        lastError:
+          type: string
+          nullable: true
+          description: Last error from the store, null if healthy
+        labelSets:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: string
+          description: External labels advertised by the store
+        minTime:
+          type: integer
+          format: int64
+          description: Minimum time in milliseconds the store has data for
+        maxTime:
+          type: integer
+          format: int64
+          description: Maximum time in milliseconds the store has data for
+        storeType:
+          type: string
+          description: Type of store component
+          enum:
+            - sidecar
+            - store
+            - rule
+            - receive
+            - debug
+            - unknown
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - errorType
+        - error
+      properties:
+        status:
+          type: string
+          enum:
+            - error
+        errorType:
+          type: string
+          description: Category of error
+        error:
+          type: string
+          description: Human-readable error message
+        warnings:
+          type: array
+          items:
+            type: string

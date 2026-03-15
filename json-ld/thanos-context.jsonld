@@ -1,0 +1,189 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "ssn": "http://www.w3.org/ns/ssn/",
+    "sosa": "http://www.w3.org/ns/sosa/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "thanos": "https://thanos.io/vocabulary#",
+
+    "MonitoringSystem": {
+      "@id": "schema:SoftwareApplication",
+      "@context": {
+        "name": "schema:name",
+        "description": "schema:description",
+        "version": "schema:softwareVersion",
+        "url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "Store": {
+      "@id": "thanos:Store",
+      "@context": {
+        "name": "schema:name",
+        "storeType": "thanos:storeType",
+        "minTime": {
+          "@id": "schema:startDate",
+          "@type": "xsd:long"
+        },
+        "maxTime": {
+          "@id": "schema:endDate",
+          "@type": "xsd:long"
+        },
+        "lastCheck": {
+          "@id": "thanos:lastHealthCheck",
+          "@type": "xsd:dateTime"
+        },
+        "lastError": "thanos:lastError",
+        "labelSets": "thanos:labelSets",
+        "endpoint": {
+          "@id": "schema:url",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "TimeSeries": {
+      "@id": "sosa:ObservationCollection",
+      "@context": {
+        "metric": {
+          "@id": "sosa:observedProperty",
+          "@type": "@id"
+        },
+        "labels": "thanos:labels",
+        "values": "sosa:hasResult"
+      }
+    },
+
+    "Observation": {
+      "@id": "sosa:Observation",
+      "@context": {
+        "timestamp": {
+          "@id": "sosa:resultTime",
+          "@type": "xsd:dateTime"
+        },
+        "value": {
+          "@id": "qudt:numericValue",
+          "@type": "xsd:double"
+        }
+      }
+    },
+
+    "Query": {
+      "@id": "thanos:Query",
+      "@context": {
+        "expression": "thanos:promqlExpression",
+        "startTime": {
+          "@id": "schema:startDate",
+          "@type": "xsd:dateTime"
+        },
+        "endTime": {
+          "@id": "schema:endDate",
+          "@type": "xsd:dateTime"
+        },
+        "step": "thanos:queryStep",
+        "dedup": {
+          "@id": "thanos:deduplication",
+          "@type": "xsd:boolean"
+        },
+        "partialResponse": {
+          "@id": "thanos:partialResponse",
+          "@type": "xsd:boolean"
+        },
+        "maxSourceResolution": "thanos:maxSourceResolution"
+      }
+    },
+
+    "AlertingRule": {
+      "@id": "thanos:AlertingRule",
+      "@context": {
+        "name": "schema:name",
+        "query": "thanos:promqlExpression",
+        "duration": {
+          "@id": "schema:duration",
+          "@type": "xsd:duration"
+        },
+        "state": "thanos:alertState",
+        "labels": "thanos:labels",
+        "annotations": "thanos:annotations",
+        "lastEvaluation": {
+          "@id": "prov:generatedAtTime",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "RecordingRule": {
+      "@id": "thanos:RecordingRule",
+      "@context": {
+        "name": "schema:name",
+        "query": "thanos:promqlExpression",
+        "labels": "thanos:labels",
+        "lastEvaluation": {
+          "@id": "prov:generatedAtTime",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Alert": {
+      "@id": "thanos:Alert",
+      "@context": {
+        "labels": "thanos:labels",
+        "annotations": "thanos:annotations",
+        "state": "thanos:alertState",
+        "activeAt": {
+          "@id": "prov:generatedAtTime",
+          "@type": "xsd:dateTime"
+        },
+        "value": {
+          "@id": "qudt:numericValue",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Target": {
+      "@id": "thanos:ScrapeTarget",
+      "@context": {
+        "scrapeUrl": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "health": "thanos:targetHealth",
+        "labels": "thanos:labels",
+        "lastScrape": {
+          "@id": "prov:generatedAtTime",
+          "@type": "xsd:dateTime"
+        },
+        "lastScrapeDuration": {
+          "@id": "schema:duration",
+          "@type": "xsd:double"
+        }
+      }
+    },
+
+    "RuleGroup": {
+      "@id": "thanos:RuleGroup",
+      "@context": {
+        "name": "schema:name",
+        "file": "thanos:ruleFile",
+        "interval": {
+          "@id": "schema:repeatFrequency",
+          "@type": "xsd:double"
+        },
+        "rules": {
+          "@id": "schema:hasPart",
+          "@container": "@set"
+        },
+        "partialResponseStrategy": "thanos:partialResponseStrategy"
+      }
+    }
+  }
+}

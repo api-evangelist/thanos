@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thanos.io/schemas/store-info.json",
+  "title": "Thanos Store Info",
+  "description": "Describes a connected store endpoint in Thanos, including its type, available time range, external labels, and health status.",
+  "type": "object",
+  "required": [
+    "name",
+    "storeType"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Address or identifier of the store endpoint (e.g., sidecar gRPC address)."
+    },
+    "storeType": {
+      "type": "string",
+      "description": "The type of Thanos store component.",
+      "enum": [
+        "sidecar",
+        "store",
+        "rule",
+        "receive",
+        "debug",
+        "unknown"
+      ]
+    },
+    "labelSets": {
+      "type": "array",
+      "description": "External label sets advertised by this store, used for identifying data origin and deduplication.",
+      "items": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      }
+    },
+    "minTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Minimum timestamp in milliseconds since epoch for data available from this store."
+    },
+    "maxTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Maximum timestamp in milliseconds since epoch for data available from this store."
+    },
+    "lastCheck": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the last successful health check."
+    },
+    "lastError": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Last error message from this store, or null if the store is healthy."
+    }
+  },
+  "examples": [
+    {
+      "name": "sidecar-prometheus-0:10901",
+      "storeType": "sidecar",
+      "labelSets": [
+        {
+          "cluster": "us-east-1",
+          "prometheus": "monitoring/prometheus-0"
+        }
+      ],
+      "minTime": 1672531200000,
+      "maxTime": 1704067200000,
+      "lastCheck": "2025-06-15T12:00:00Z",
+      "lastError": null
+    }
+  ]
+}

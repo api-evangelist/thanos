@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thanos.io/schemas/query-response.json",
+  "title": "Thanos Query Response",
+  "description": "The standard JSON response envelope returned by Thanos Query API endpoints for instant and range queries. Compatible with the Prometheus API response format, with Thanos-specific additions such as partial response warnings.",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Indicates whether the query was successful or encountered an error.",
+      "enum": [
+        "success",
+        "error"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "description": "The query result payload. Present when status is success.",
+      "required": [
+        "resultType",
+        "result"
+      ],
+      "properties": {
+        "resultType": {
+          "type": "string",
+          "description": "The type of result returned by the query.",
+          "enum": [
+            "matrix",
+            "vector",
+            "scalar",
+            "string"
+          ]
+        },
+        "result": {
+          "description": "The query result data. Structure depends on resultType.",
+          "oneOf": [
+            {
+              "title": "VectorResult",
+              "description": "Result for instant vector queries.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "metric": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Label set identifying the time series."
+                  },
+                  "value": {
+                    "type": "array",
+                    "description": "A [unix_timestamp, sample_value] pair.",
+                    "prefixItems": [
+                      {
+                        "type": "number",
+                        "description": "Unix timestamp with millisecond precision."
+                      },
+                      {
+                        "type": "string",
+                        "description": "Sample value as a string to preserve precision."
+                      }
+                    ],
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                },
+                "required": [
+                  "metric",
+                  "value"
+                ]
+              }
+            },
+            {
+              "title": "MatrixResult",
+              "description": "Result for range vector queries.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "metric": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Label set identifying the time series."
+                  },
+                  "values": {
+                    "type": "array",
+                    "description": "Array of [unix_timestamp, sample_value] pairs.",
+                    "items": {
+                      "type": "array",
+                      "prefixItems": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  }
+                },
+                "required": [
+                  "metric",
+                  "values"
+                ]
+              }
+            },
+            {
+              "title": "ScalarResult",
+              "description": "Result for scalar queries.",
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2
+            },
+            {
+              "title": "StringResult",
+              "description": "Result for string queries.",
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2
+            }
+          ]
+        }
+      }
+    },
+    "errorType": {
+      "type": "string",
+      "description": "Category of error. Present when status is error."
+    },
+    "error": {
+      "type": "string",
+      "description": "Human-readable error message. Present when status is error."
+    },
+    "warnings": {
+      "type": "array",
+      "description": "Warnings generated during query execution. In Thanos, this often includes partial response warnings when a store is unavailable.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "examples": [
+    {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "up",
+              "instance": "prometheus-0:9090",
+              "job": "prometheus"
+            },
+            "value": [
+              1704067200,
+              "1"
+            ]
+          }
+        ]
+      },
+      "warnings": []
+    },
+    {
+      "status": "success",
+      "data": {
+        "resultType": "matrix",
+        "result": [
+          {
+            "metric": {
+              "__name__": "http_requests_total",
+              "method": "GET"
+            },
+            "values": [
+              [1704060000, "100"],
+              [1704063600, "150"],
+              [1704067200, "200"]
+            ]
+          }
+        ]
+      },
+      "warnings": [
+        "store sidecar-prometheus-1:10901 is unhealthy, returning partial response"
+      ]
+    }
+  ]
+}

@@ -1,14 +1,56 @@
+aid: thanos
 name: Thanos
-description: Open-source, highly available Prometheus setup with long-term storage
-  capabilities that provides a global query view across multiple Prometheus servers.
+description: >-
+  Open-source, highly available Prometheus setup with long-term storage
+  capabilities that provides a global query view across multiple Prometheus
+  servers.
 url: https://thanos.io/
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-- Monitoring
-- Observability
-- Prometheus
-- Time Series Database
-- Metrics
+  - Monitoring
+  - Observability
+  - Prometheus
+  - Time Series Database
+  - Metrics
 created: '2025'
 modified: '2025'
-apis: []
-common: []
+type: Index
+apis:
+  - aid: thanos:thanos-query-api
+    name: Thanos Query API
+    description: >-
+      Prometheus-compatible HTTP API for querying metrics across multiple
+      Prometheus servers and long-term storage backends with global query
+      view, deduplication, and partial response support.
+    humanURL: https://thanos.io/tip/components/query.md/
+    baseURL: http://localhost:9090
+    tags:
+      - Monitoring
+      - Metrics
+      - PromQL
+      - Query
+      - Time Series
+    properties:
+      - url: https://thanos.io/tip/components/query.md/
+        type: Documentation
+      - url: openapi/thanos-query-api.yml
+        type: OpenAPI
+      - url: json-schema/query-response.json
+        type: JSONSchema
+      - url: json-schema/store-info.json
+        type: JSONSchema
+      - url: json-ld/thanos-context.jsonld
+        type: JSONLD
+common:
+  - url: https://thanos.io/tip/thanos/getting-started.md/
+    type: GettingStarted
+  - url: https://github.com/thanos-io/thanos
+    type: GitHubRepository
+  - url: https://thanos.io/tip/operating/troubleshooting.md/
+    type: Troubleshooting
+  - url: https://www.apache.org/licenses/LICENSE-2.0
+    type: License
+maintainers:
+  - FN: API Evangelist
+    url: http://apievangelist.com
+    email: info@apievangelist.com

@@ -1,0 +1,14 @@
+name: Thanos
+description: Open-source, highly available Prometheus setup with long-term storage
+  capabilities that provides a global query view across multiple Prometheus servers.
+url: https://thanos.io/
+tags:
+- Monitoring
+- Observability
+- Prometheus
+- Time Series Database
+- Metrics
+created: '2025'
+modified: '2025'
+apis: []
+common: []

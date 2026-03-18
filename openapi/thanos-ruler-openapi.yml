@@ -1,0 +1,348 @@
+openapi: 3.1.0
+info:
+  title: Thanos Ruler API
+  description: >-
+    The Thanos Ruler HTTP API exposes Prometheus-compatible endpoints for
+    querying alerting and recording rules evaluated by the Ruler component.
+    Ruler evaluates rules against the Thanos Query API for a global view,
+    fires alerts to Alertmanager, and optionally uploads rule evaluation blocks
+    to object storage for long-term storage.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+externalDocs:
+  description: Thanos Ruler Documentation
+  url: https://thanos.io/tip/components/rule.md/
+servers:
+  - url: http://localhost:10902
+    description: Default Thanos Ruler HTTP endpoint
+tags:
+  - name: Health
+    description: Liveness and readiness probes for the Ruler.
+  - name: Metrics
+    description: Prometheus metrics for monitoring Ruler performance.
+  - name: Rules
+    description: Endpoints for querying evaluated alerting and recording rules.
+  - name: Alerts
+    description: Endpoints for querying currently active alerts.
+paths:
+  /-/healthy:
+    get:
+      operationId: getRulerHealthy
+      summary: Liveness check
+      description: >-
+        Returns HTTP 200 if the Ruler process is alive and running. Used as a
+        liveness probe in Kubernetes deployments.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Ruler is healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Ruler is Healthy.
+  /-/ready:
+    get:
+      operationId: getRulerReady
+      summary: Readiness check
+      description: >-
+        Returns HTTP 200 when the Ruler is ready to serve requests, indicating
+        it has loaded rule configuration files and established connectivity to
+        the Thanos Query endpoint.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Ruler is ready to serve requests
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Ruler is Ready.
+        '503':
+          description: Ruler is not yet ready
+          content:
+            text/plain:
+              schema:
+                type: string
+  /metrics:
+    get:
+      operationId: getRulerMetrics
+      summary: Prometheus metrics
+      description: >-
+        Exposes internal Ruler metrics in Prometheus text exposition format.
+        Includes metrics for rule evaluation durations, alert firing rates,
+        Alertmanager notification counts, and block upload operations.
+      tags:
+        - Metrics
+      responses:
+        '200':
+          description: Prometheus metrics in text format
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/v1/rules:
+    get:
+      operationId: getRulerRules
+      summary: List alerting and recording rules
+      description: >-
+        Returns all alerting and recording rules currently loaded and being
+        evaluated by the Ruler. Supports filtering by rule type and rule group
+        label matchers. Compatible with the Prometheus rules API.
+      tags:
+        - Rules
+      parameters:
+        - name: type
+          in: query
+          required: false
+          description: Filter rules by type.
+          schema:
+            type: string
+            enum:
+              - alert
+              - record
+        - name: match[]
+          in: query
+          required: false
+          description: >-
+            Filter rules by label matchers. Only rules whose labels match all
+            provided matchers will be returned.
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+      responses:
+        '200':
+          description: List of rule groups and rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RulesResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/alerts:
+    get:
+      operationId: getRulerAlerts
+      summary: List active alerts
+      description: >-
+        Returns all currently active (firing or pending) alerts produced by the
+        Ruler's alerting rule evaluations. Compatible with the Prometheus alerts
+        API.
+      tags:
+        - Alerts
+      responses:
+        '200':
+          description: List of active alerts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertsResponse'
+components:
+  schemas:
+    RulesResponse:
+      type: object
+      description: Response containing all evaluated rule groups.
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+            - error
+        data:
+          type: object
+          properties:
+            groups:
+              type: array
+              description: List of rule groups loaded by the Ruler.
+              items:
+                $ref: '#/components/schemas/RuleGroup'
+    RuleGroup:
+      type: object
+      description: A named collection of alerting or recording rules evaluated together.
+      properties:
+        name:
+          type: string
+          description: Name of the rule group.
+        file:
+          type: string
+          description: Configuration file where this rule group is defined.
+        interval:
+          type: number
+          format: double
+          description: Evaluation interval for the group in seconds.
+        rules:
+          type: array
+          description: List of rules in the group.
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/AlertingRule'
+              - $ref: '#/components/schemas/RecordingRule'
+        partialResponseStrategy:
+          type: string
+          description: >-
+            Thanos-specific strategy for handling partial responses when querying
+            through the Thanos Query layer.
+          enum:
+            - abort
+            - warn
+    AlertingRule:
+      type: object
+      description: An alerting rule that fires alerts when its PromQL condition is true.
+      properties:
+        type:
+          type: string
+          enum:
+            - alerting
+        name:
+          type: string
+          description: Alert name.
+        query:
+          type: string
+          description: PromQL expression evaluated to determine if the alert should fire.
+        duration:
+          type: number
+          format: double
+          description: Time in seconds the condition must be true before the alert fires.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels to attach to the alert.
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Annotations to attach to the alert.
+        alerts:
+          type: array
+          description: Currently active instances of this alert.
+          items:
+            $ref: '#/components/schemas/Alert'
+        health:
+          type: string
+          description: Current health status of the rule.
+        lastError:
+          type: string
+          description: Last error encountered during rule evaluation.
+        lastEvaluation:
+          type: string
+          format: date-time
+          description: Timestamp of the last rule evaluation.
+        evaluationTime:
+          type: number
+          format: double
+          description: Time taken for the last evaluation in seconds.
+        state:
+          type: string
+          enum:
+            - firing
+            - pending
+            - inactive
+          description: Current state of the alerting rule.
+    RecordingRule:
+      type: object
+      description: A recording rule that precomputes a PromQL expression and stores the result.
+      properties:
+        type:
+          type: string
+          enum:
+            - recording
+        name:
+          type: string
+          description: Metric name for the recorded result.
+        query:
+          type: string
+          description: PromQL expression to evaluate and record.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels to attach to the recorded metric.
+        health:
+          type: string
+          description: Current health status of the rule.
+        lastError:
+          type: string
+          description: Last error encountered during rule evaluation.
+        lastEvaluation:
+          type: string
+          format: date-time
+          description: Timestamp of the last rule evaluation.
+        evaluationTime:
+          type: number
+          format: double
+          description: Time taken for the last evaluation in seconds.
+    AlertsResponse:
+      type: object
+      description: Response containing currently active alerts.
+      properties:
+        status:
+          type: string
+          enum:
+            - success
+            - error
+        data:
+          type: object
+          properties:
+            alerts:
+              type: array
+              description: List of currently active alerts.
+              items:
+                $ref: '#/components/schemas/Alert'
+    Alert:
+      type: object
+      description: An active alert instance produced by an alerting rule.
+      properties:
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels identifying the alert instance.
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Annotations providing additional context for the alert.
+        state:
+          type: string
+          enum:
+            - firing
+            - pending
+          description: Current state of the alert.
+        activeAt:
+          type: string
+          format: date-time
+          description: Timestamp when the alert became active.
+        value:
+          type: string
+          description: The value of the PromQL expression at the time of the last evaluation.
+    ErrorResponse:
+      type: object
+      description: Error response returned when a request cannot be processed.
+      required:
+        - status
+        - error
+      properties:
+        status:
+          type: string
+          enum:
+            - error
+        errorType:
+          type: string
+          description: Category of error.
+        error:
+          type: string
+          description: Human-readable error message.

@@ -1,0 +1,221 @@
+openapi: 3.1.0
+info:
+  title: Thanos Store Gateway API
+  description: >-
+    The Thanos Store Gateway HTTP API provides operational endpoints for the
+    Store Gateway component, which serves metrics stored in object storage
+    buckets. It exposes health, readiness, and metrics endpoints alongside
+    block metadata inspection capabilities.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+externalDocs:
+  description: Thanos Store Gateway Documentation
+  url: https://thanos.io/tip/components/store.md/
+servers:
+  - url: http://localhost:10902
+    description: Default Thanos Store Gateway HTTP endpoint
+tags:
+  - name: Health
+    description: Liveness and readiness probes for the Store Gateway.
+  - name: Metrics
+    description: Prometheus metrics for monitoring Store Gateway performance.
+  - name: Blocks
+    description: Block metadata and object storage inspection endpoints.
+paths:
+  /-/healthy:
+    get:
+      operationId: getStoreHealthy
+      summary: Liveness check
+      description: >-
+        Returns HTTP 200 if the Store Gateway process is alive and running.
+        Used as a liveness probe in Kubernetes deployments.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Store Gateway is healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Store is Healthy.
+  /-/ready:
+    get:
+      operationId: getStoreReady
+      summary: Readiness check
+      description: >-
+        Returns HTTP 200 when the Store Gateway is ready to serve requests,
+        indicating it has loaded block metadata from the configured object
+        storage backend. Used as a readiness probe in Kubernetes.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Store Gateway is ready to serve requests
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Store is Ready.
+        '503':
+          description: Store Gateway is not yet ready
+          content:
+            text/plain:
+              schema:
+                type: string
+  /metrics:
+    get:
+      operationId: getStoreMetrics
+      summary: Prometheus metrics
+      description: >-
+        Exposes internal Store Gateway metrics in Prometheus text exposition
+        format. Includes metrics for gRPC request rates, block sync operations,
+        cache hit/miss ratios, and object storage operation counts.
+      tags:
+        - Metrics
+      responses:
+        '200':
+          description: Prometheus metrics in text format
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/v1/blocks:
+    get:
+      operationId: listStoreBlocks
+      summary: List blocks in object storage
+      description: >-
+        Returns metadata for all blocks currently loaded or tracked by the Store
+        Gateway from the configured object storage bucket. Each block entry
+        includes its ULID, time range, compaction level, and label set.
+      tags:
+        - Blocks
+      parameters:
+        - name: view
+          in: query
+          required: false
+          description: >-
+            Controls the level of detail in the response. Use 'loaded' to see
+            only blocks currently loaded, or 'all' to include blocks being
+            synced.
+          schema:
+            type: string
+            enum:
+              - loaded
+              - all
+      responses:
+        '200':
+          description: Block metadata list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlocksResponse'
+        '500':
+          description: Internal error retrieving block metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BlocksResponse:
+      type: object
+      description: Response containing metadata for TSDB blocks in object storage.
+      properties:
+        status:
+          type: string
+          description: Status of the response.
+          enum:
+            - success
+            - error
+        data:
+          type: object
+          description: Block metadata payload.
+          properties:
+            blocks:
+              type: array
+              description: List of block metadata entries.
+              items:
+                $ref: '#/components/schemas/BlockMeta'
+            label:
+              type: string
+              description: External label identifying the store.
+    BlockMeta:
+      type: object
+      description: Metadata for a single TSDB block stored in object storage.
+      required:
+        - ulid
+        - minTime
+        - maxTime
+      properties:
+        ulid:
+          type: string
+          description: Universally Unique Lexicographically Sortable Identifier for the block.
+          example: 01FHND2RNJHSZ7E7XFPVKH2JG
+        minTime:
+          type: integer
+          format: int64
+          description: Minimum timestamp in milliseconds for data in this block.
+        maxTime:
+          type: integer
+          format: int64
+          description: Maximum timestamp in milliseconds for data in this block.
+        compaction:
+          type: object
+          description: Compaction metadata for the block.
+          properties:
+            level:
+              type: integer
+              description: Compaction level. Level 1 is raw data; higher levels are compacted.
+            sources:
+              type: array
+              description: ULIDs of source blocks that were merged to create this block.
+              items:
+                type: string
+        thanos:
+          type: object
+          description: Thanos-specific block metadata extensions.
+          properties:
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+              description: External labels attached to this block for identification.
+            downsample:
+              type: object
+              description: Downsampling information for the block.
+              properties:
+                resolution:
+                  type: integer
+                  format: int64
+                  description: >-
+                    Downsampling resolution in milliseconds. 0 for raw data,
+                    300000 for 5m, 3600000 for 1h.
+            source:
+              type: string
+              description: Component that produced this block.
+              enum:
+                - sidecar
+                - receive
+                - ruler
+                - compactor
+                - unknown
+    ErrorResponse:
+      type: object
+      description: Error response returned when a request cannot be processed.
+      required:
+        - status
+        - error
+      properties:
+        status:
+          type: string
+          enum:
+            - error
+        error:
+          type: string
+          description: Human-readable error message.

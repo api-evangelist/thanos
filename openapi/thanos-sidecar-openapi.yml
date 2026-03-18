@@ -1,0 +1,86 @@
+openapi: 3.1.0
+info:
+  title: Thanos Sidecar API
+  description: >-
+    The Thanos Sidecar HTTP API provides operational endpoints for the Sidecar
+    component deployed alongside Prometheus instances. It exposes health,
+    readiness, and metrics endpoints used for monitoring and orchestration. The
+    Sidecar bridges Prometheus to the Thanos ecosystem by implementing the Thanos
+    Store API over gRPC and optionally uploading blocks to object storage.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+externalDocs:
+  description: Thanos Sidecar Documentation
+  url: https://thanos.io/tip/components/sidecar.md/
+servers:
+  - url: http://localhost:10902
+    description: Default Thanos Sidecar HTTP endpoint
+tags:
+  - name: Health
+    description: Liveness and readiness probes for the Sidecar.
+  - name: Metrics
+    description: Prometheus metrics for monitoring Sidecar performance.
+paths:
+  /-/healthy:
+    get:
+      operationId: getSidecarHealthy
+      summary: Liveness check
+      description: >-
+        Returns HTTP 200 if the Sidecar process is alive. Used as a liveness
+        probe in Kubernetes deployments alongside Prometheus pods.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Sidecar is healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Sidecar is Healthy.
+  /-/ready:
+    get:
+      operationId: getSidecarReady
+      summary: Readiness check
+      description: >-
+        Returns HTTP 200 when the Sidecar is ready to serve requests, indicating
+        it has successfully connected to the local Prometheus instance and is
+        ready to serve the Thanos Store API over gRPC.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Sidecar is ready to serve requests
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Sidecar is Ready.
+        '503':
+          description: Sidecar is not yet ready
+          content:
+            text/plain:
+              schema:
+                type: string
+  /metrics:
+    get:
+      operationId: getSidecarMetrics
+      summary: Prometheus metrics
+      description: >-
+        Exposes internal Sidecar metrics in Prometheus text exposition format.
+        Includes metrics for gRPC request counts, block upload operations,
+        Prometheus connectivity status, and shipper sync intervals.
+      tags:
+        - Metrics
+      responses:
+        '200':
+          description: Prometheus metrics in text format
+          content:
+            text/plain:
+              schema:
+                type: string

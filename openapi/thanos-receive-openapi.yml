@@ -1,0 +1,140 @@
+openapi: 3.1.0
+info:
+  title: Thanos Receive API
+  description: >-
+    The Thanos Receive HTTP API implements the Prometheus Remote Write protocol
+    to accept metrics pushed from Prometheus instances. It stores received
+    metrics in a local TSDB and exposes health, readiness, and metrics endpoints
+    for operational monitoring. Receive supports multi-tenancy via hashring-based
+    routing and can replicate data across multiple Receive instances.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+externalDocs:
+  description: Thanos Receive Documentation
+  url: https://thanos.io/tip/components/receive.md/
+servers:
+  - url: http://localhost:10902
+    description: Default Thanos Receive HTTP endpoint
+tags:
+  - name: Health
+    description: Liveness and readiness probes for the Receive component.
+  - name: Metrics
+    description: Prometheus metrics for monitoring Receive performance.
+  - name: Remote Write
+    description: Prometheus Remote Write ingestion endpoint.
+paths:
+  /-/healthy:
+    get:
+      operationId: getReceiveHealthy
+      summary: Liveness check
+      description: >-
+        Returns HTTP 200 if the Receive process is alive and running. Used as a
+        liveness probe in Kubernetes deployments.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Receive is healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Receive is Healthy.
+  /-/ready:
+    get:
+      operationId: getReceiveReady
+      summary: Readiness check
+      description: >-
+        Returns HTTP 200 when the Receive component is ready to accept remote
+        write requests. A 503 is returned during initialization or when the
+        hashring configuration has not yet been loaded.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Receive is ready to accept remote write requests
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Receive is Ready.
+        '503':
+          description: Receive is not yet ready
+          content:
+            text/plain:
+              schema:
+                type: string
+  /metrics:
+    get:
+      operationId: getReceiveMetrics
+      summary: Prometheus metrics
+      description: >-
+        Exposes internal Receive metrics in Prometheus text exposition format.
+        Includes metrics for remote write request rates and errors, replication
+        lag, hashring routing operations, and TSDB compaction counts.
+      tags:
+        - Metrics
+      responses:
+        '200':
+          description: Prometheus metrics in text format
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/v1/receive:
+    post:
+      operationId: remoteWrite
+      summary: Ingest metrics via Prometheus Remote Write
+      description: >-
+        Accepts Prometheus Remote Write requests containing time series data.
+        The request body must be a Snappy-compressed protobuf-encoded
+        WriteRequest. Multi-tenancy is supported via the THANOS-TENANT HTTP
+        header. Requests may be forwarded to other Receive instances based on
+        hashring routing configuration.
+      tags:
+        - Remote Write
+      parameters:
+        - name: THANOS-TENANT
+          in: header
+          required: false
+          description: >-
+            Optional tenant identifier for multi-tenant deployments. Determines
+            which tenant's TSDB the data is written to.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-protobuf:
+            schema:
+              type: string
+              format: binary
+              description: >-
+                Snappy-compressed protobuf-encoded Prometheus WriteRequest
+                containing time series samples.
+      responses:
+        '204':
+          description: Metrics ingested successfully
+        '400':
+          description: Invalid request format or content
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Internal error during ingestion
+          content:
+            text/plain:
+              schema:
+                type: string
+        '503':
+          description: Receive is unavailable or overloaded
+          content:
+            text/plain:
+              schema:
+                type: string

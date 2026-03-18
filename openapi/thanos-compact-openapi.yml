@@ -1,0 +1,225 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact API
+  description: >-
+    The Thanos Compact HTTP API provides operational endpoints for the Compactor
+    component, which runs as a singleton process applying Prometheus compaction
+    procedures to TSDB blocks stored in object storage. It performs downsampling
+    at 5-minute and 1-hour resolutions and enforces retention policies to reduce
+    long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/
+servers:
+  - url: http://localhost:10902
+    description: Default Thanos Compact HTTP endpoint
+tags:
+  - name: Health
+    description: Liveness and readiness probes for the Compactor.
+  - name: Metrics
+    description: Prometheus metrics for monitoring Compactor performance.
+  - name: Blocks
+    description: Block metadata inspection and compaction status endpoints.
+paths:
+  /-/healthy:
+    get:
+      operationId: getCompactHealthy
+      summary: Liveness check
+      description: >-
+        Returns HTTP 200 if the Compactor process is alive and running. Used as
+        a liveness probe in Kubernetes deployments.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Compactor is healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Compact is Healthy.
+  /-/ready:
+    get:
+      operationId: getCompactReady
+      summary: Readiness check
+      description: >-
+        Returns HTTP 200 when the Compactor is ready. The Compactor runs as a
+        long-lived process and this endpoint signals it has started and is
+        actively compacting blocks.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Compactor is ready
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Compact is Ready.
+        '503':
+          description: Compactor is not yet ready
+          content:
+            text/plain:
+              schema:
+                type: string
+  /metrics:
+    get:
+      operationId: getCompactMetrics
+      summary: Prometheus metrics
+      description: >-
+        Exposes internal Compactor metrics in Prometheus text exposition format.
+        Includes metrics for compaction duration, block counts by resolution,
+        retention enforcement operations, downsampling progress, and object
+        storage operation rates.
+      tags:
+        - Metrics
+      responses:
+        '200':
+          description: Prometheus metrics in text format
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/v1/blocks:
+    get:
+      operationId: listCompactBlocks
+      summary: List blocks in object storage
+      description: >-
+        Returns metadata for all TSDB blocks in the configured object storage
+        bucket as seen by the Compactor. Useful for monitoring compaction
+        progress, checking downsampling status, and verifying retention policy
+        enforcement.
+      tags:
+        - Blocks
+      parameters:
+        - name: view
+          in: query
+          required: false
+          description: >-
+            Specifies which blocks to include in the response. Use 'all' to see
+            all tracked blocks, or filter by compaction state.
+          schema:
+            type: string
+            enum:
+              - loaded
+              - all
+      responses:
+        '200':
+          description: Block metadata list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlocksResponse'
+        '500':
+          description: Internal error retrieving block metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BlocksResponse:
+      type: object
+      description: Response containing metadata for TSDB blocks managed by the Compactor.
+      properties:
+        status:
+          type: string
+          description: Status of the response.
+          enum:
+            - success
+            - error
+        data:
+          type: object
+          description: Block metadata payload.
+          properties:
+            blocks:
+              type: array
+              description: List of block metadata entries.
+              items:
+                $ref: '#/components/schemas/BlockMeta'
+            label:
+              type: string
+              description: External label identifying the object storage tenant.
+    BlockMeta:
+      type: object
+      description: Metadata for a single TSDB block managed by the Compactor.
+      required:
+        - ulid
+        - minTime
+        - maxTime
+      properties:
+        ulid:
+          type: string
+          description: Unique identifier for the block.
+          example: 01FHND2RNJHSZ7E7XFPVKH2JG
+        minTime:
+          type: integer
+          format: int64
+          description: Minimum timestamp in milliseconds for data in this block.
+        maxTime:
+          type: integer
+          format: int64
+          description: Maximum timestamp in milliseconds for data in this block.
+        compaction:
+          type: object
+          description: Compaction metadata tracking the block's compaction history.
+          properties:
+            level:
+              type: integer
+              description: >-
+                Compaction level. Raw blocks start at level 1; each compaction
+                pass increments the level.
+            sources:
+              type: array
+              description: ULIDs of source blocks merged to create this block.
+              items:
+                type: string
+        thanos:
+          type: object
+          description: Thanos-specific extensions to block metadata.
+          properties:
+            labels:
+              type: object
+              additionalProperties:
+                type: string
+              description: External labels identifying the origin of this block.
+            downsample:
+              type: object
+              description: Downsampling resolution information.
+              properties:
+                resolution:
+                  type: integer
+                  format: int64
+                  description: >-
+                    Resolution in milliseconds. 0 for raw, 300000 for 5-minute,
+                    3600000 for 1-hour downsampled data.
+            source:
+              type: string
+              description: Thanos component that produced this block.
+              enum:
+                - sidecar
+                - receive
+                - ruler
+                - compactor
+                - unknown
+    ErrorResponse:
+      type: object
+      description: Error response returned when a request cannot be processed.
+      required:
+        - status
+        - error
+      properties:
+        status:
+          type: string
+          enum:
+            - error
+        error:
+          type: string
+          description: Human-readable error message.

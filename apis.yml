@@ -7,11 +7,11 @@ description: >-
 url: https://thanos.io/
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
+  - Metrics
   - Monitoring
   - Observability
   - Prometheus
   - Time Series Database
-  - Metrics
 created: '2025'
 modified: '2026-03-18'
 type: Index
@@ -25,8 +25,8 @@ apis:
     humanURL: https://thanos.io/tip/components/query.md/
     baseURL: http://localhost:9090
     tags:
-      - Monitoring
       - Metrics
+      - Monitoring
       - PromQL
       - Query
       - Time Series
@@ -50,8 +50,8 @@ apis:
     humanURL: https://thanos.io/tip/components/store.md/
     baseURL: http://localhost:10902
     tags:
-      - Monitoring
       - Metrics
+      - Monitoring
       - Object Storage
       - Store
       - Time Series
@@ -70,10 +70,10 @@ apis:
     humanURL: https://thanos.io/tip/components/sidecar.md/
     baseURL: http://localhost:10902
     tags:
+      - Metrics
       - Monitoring
       - Prometheus
       - Sidecar
-      - Metrics
       - Store
     properties:
       - type: Documentation
@@ -89,11 +89,11 @@ apis:
     humanURL: https://thanos.io/tip/components/rule.md/
     baseURL: http://localhost:10902
     tags:
-      - Monitoring
       - Alerting
-      - Rules
-      - Prometheus
       - Metrics
+      - Monitoring
+      - Prometheus
+      - Rules
     properties:
       - type: Documentation
         url: https://thanos.io/tip/components/rule.md/
@@ -108,10 +108,10 @@ apis:
     humanURL: https://thanos.io/tip/components/receive.md/
     baseURL: http://localhost:10902
     tags:
-      - Monitoring
-      - Remote Write
       - Metrics
+      - Monitoring
       - Receive
+      - Remote Write
       - Time Series
     properties:
       - type: Documentation
@@ -128,10 +128,10 @@ apis:
     humanURL: https://thanos.io/tip/components/compact.md/
     baseURL: http://localhost:10902
     tags:
-      - Monitoring
       - Compaction
-      - Object Storage
       - Downsampling
+      - Monitoring
+      - Object Storage
       - Retention
     properties:
       - type: Documentation

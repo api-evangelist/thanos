@@ -20,12 +20,12 @@ servers:
   - url: http://localhost:10902
     description: Default Thanos Store Gateway HTTP endpoint
 tags:
+  - name: Blocks
+    description: Block metadata and object storage inspection endpoints.
   - name: Health
     description: Liveness and readiness probes for the Store Gateway.
   - name: Metrics
     description: Prometheus metrics for monitoring Store Gateway performance.
-  - name: Blocks
-    description: Block metadata and object storage inspection endpoints.
 paths:
   /-/healthy:
     get:

@@ -21,12 +21,12 @@ servers:
   - url: http://localhost:10902
     description: Default Thanos Compact HTTP endpoint
 tags:
+  - name: Blocks
+    description: Block metadata inspection and compaction status endpoints.
   - name: Health
     description: Liveness and readiness probes for the Compactor.
   - name: Metrics
     description: Prometheus metrics for monitoring Compactor performance.
-  - name: Blocks
-    description: Block metadata inspection and compaction status endpoints.
 paths:
   /-/healthy:
     get:

@@ -21,14 +21,14 @@ servers:
   - url: http://localhost:10902
     description: Default Thanos Ruler HTTP endpoint
 tags:
+  - name: Alerts
+    description: Endpoints for querying currently active alerts.
   - name: Health
     description: Liveness and readiness probes for the Ruler.
   - name: Metrics
     description: Prometheus metrics for monitoring Ruler performance.
   - name: Rules
     description: Endpoints for querying evaluated alerting and recording rules.
-  - name: Alerts
-    description: Endpoints for querying currently active alerts.
 paths:
   /-/healthy:
     get:

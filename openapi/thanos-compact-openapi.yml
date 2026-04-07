@@ -31,7 +31,7 @@ paths:
   /-/healthy:
     get:
       operationId: getCompactHealthy
-      summary: Liveness check
+      summary: Thanos Liveness check
       description: >-
         Returns HTTP 200 if the Compactor process is alive and running. Used as
         a liveness probe in Kubernetes deployments.
@@ -48,7 +48,7 @@ paths:
   /-/ready:
     get:
       operationId: getCompactReady
-      summary: Readiness check
+      summary: Thanos Readiness check
       description: >-
         Returns HTTP 200 when the Compactor is ready. The Compactor runs as a
         long-lived process and this endpoint signals it has started and is
@@ -72,7 +72,7 @@ paths:
   /metrics:
     get:
       operationId: getCompactMetrics
-      summary: Prometheus metrics
+      summary: Thanos Prometheus metrics
       description: >-
         Exposes internal Compactor metrics in Prometheus text exposition format.
         Includes metrics for compaction duration, block counts by resolution,
@@ -90,7 +90,7 @@ paths:
   /api/v1/blocks:
     get:
       operationId: listCompactBlocks
-      summary: List blocks in object storage
+      summary: Thanos List blocks in object storage
       description: >-
         Returns metadata for all TSDB blocks in the configured object storage
         bucket as seen by the Compactor. Useful for monitoring compaction

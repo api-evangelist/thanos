@@ -33,7 +33,7 @@ paths:
   /-/healthy:
     get:
       operationId: getRulerHealthy
-      summary: Liveness check
+      summary: Thanos Liveness check
       description: >-
         Returns HTTP 200 if the Ruler process is alive and running. Used as a
         liveness probe in Kubernetes deployments.
@@ -50,7 +50,7 @@ paths:
   /-/ready:
     get:
       operationId: getRulerReady
-      summary: Readiness check
+      summary: Thanos Readiness check
       description: >-
         Returns HTTP 200 when the Ruler is ready to serve requests, indicating
         it has loaded rule configuration files and established connectivity to
@@ -74,7 +74,7 @@ paths:
   /metrics:
     get:
       operationId: getRulerMetrics
-      summary: Prometheus metrics
+      summary: Thanos Prometheus metrics
       description: >-
         Exposes internal Ruler metrics in Prometheus text exposition format.
         Includes metrics for rule evaluation durations, alert firing rates,
@@ -91,7 +91,7 @@ paths:
   /api/v1/rules:
     get:
       operationId: getRulerRules
-      summary: List alerting and recording rules
+      summary: Thanos List alerting and recording rules
       description: >-
         Returns all alerting and recording rules currently loaded and being
         evaluated by the Ruler. Supports filtering by rule type and rule group
@@ -136,7 +136,7 @@ paths:
   /api/v1/alerts:
     get:
       operationId: getRulerAlerts
-      summary: List active alerts
+      summary: Thanos List active alerts
       description: >-
         Returns all currently active (firing or pending) alerts produced by the
         Ruler's alerting rule evaluations. Compatible with the Prometheus alerts

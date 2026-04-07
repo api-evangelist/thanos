@@ -30,7 +30,7 @@ paths:
   /-/healthy:
     get:
       operationId: getStoreHealthy
-      summary: Liveness check
+      summary: Thanos Liveness check
       description: >-
         Returns HTTP 200 if the Store Gateway process is alive and running.
         Used as a liveness probe in Kubernetes deployments.
@@ -47,7 +47,7 @@ paths:
   /-/ready:
     get:
       operationId: getStoreReady
-      summary: Readiness check
+      summary: Thanos Readiness check
       description: >-
         Returns HTTP 200 when the Store Gateway is ready to serve requests,
         indicating it has loaded block metadata from the configured object
@@ -71,7 +71,7 @@ paths:
   /metrics:
     get:
       operationId: getStoreMetrics
-      summary: Prometheus metrics
+      summary: Thanos Prometheus metrics
       description: >-
         Exposes internal Store Gateway metrics in Prometheus text exposition
         format. Includes metrics for gRPC request rates, block sync operations,
@@ -88,7 +88,7 @@ paths:
   /api/v1/blocks:
     get:
       operationId: listStoreBlocks
-      summary: List blocks in object storage
+      summary: Thanos List blocks in object storage
       description: >-
         Returns metadata for all blocks currently loaded or tracked by the Store
         Gateway from the configured object storage bucket. Each block entry

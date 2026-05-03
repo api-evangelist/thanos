@@ -1,0 +1,47 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "http://localhost:9090/api/v1/stores",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "status": "success",
+      "data": [
+        {
+          "name": "thanos-sidecar:10902",
+          "lastCheck": "2026-05-03T12:00:00Z",
+          "lastError": null,
+          "labelSets": [
+            {
+              "cluster": "prod-us-east-1",
+              "replica": "0"
+            }
+          ],
+          "minTime": 1746100000000,
+          "maxTime": 1746273600000,
+          "storeType": "sidecar"
+        },
+        {
+          "name": "thanos-store:10902",
+          "lastCheck": "2026-05-03T12:00:00Z",
+          "lastError": null,
+          "labelSets": [
+            {
+              "cluster": "prod-us-east-1"
+            }
+          ],
+          "minTime": 1714600000000,
+          "maxTime": 1745800000000,
+          "storeType": "store"
+        }
+      ]
+    }
+  }
+}

@@ -29,7 +29,7 @@ paths:
   /-/healthy:
     get:
       operationId: getSidecarHealthy
-      summary: Thanos Liveness check
+      summary: Thanos Liveness Check
       description: >-
         Returns HTTP 200 if the Sidecar process is alive. Used as a liveness
         probe in Kubernetes deployments alongside Prometheus pods.
@@ -46,7 +46,7 @@ paths:
   /-/ready:
     get:
       operationId: getSidecarReady
-      summary: Thanos Readiness check
+      summary: Thanos Readiness Check
       description: >-
         Returns HTTP 200 when the Sidecar is ready to serve requests, indicating
         it has successfully connected to the local Prometheus instance and is
@@ -70,7 +70,7 @@ paths:
   /metrics:
     get:
       operationId: getSidecarMetrics
-      summary: Thanos Prometheus metrics
+      summary: Thanos Prometheus Metrics
       description: >-
         Exposes internal Sidecar metrics in Prometheus text exposition format.
         Includes metrics for gRPC request counts, block upload operations,

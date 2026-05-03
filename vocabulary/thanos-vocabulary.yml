@@ -1,0 +1,174 @@
+vocabulary:
+  name: Thanos Vocabulary
+  description: >-
+    Domain vocabulary for Thanos, a highly available Prometheus setup with
+    long-term storage capabilities. Covers components, query semantics,
+    storage architecture, and operational concepts.
+  version: '1.0'
+  created: '2026-05-03'
+  modified: '2026-05-03'
+
+terms:
+  - term: Thanos Querier
+    definition: >-
+      The central Thanos component that implements the full Prometheus HTTP
+      query API. It fans out queries to all connected Store API endpoints
+      and merges results with deduplication, providing a global query view
+      across multiple Prometheus instances and long-term storage.
+    domain: Components
+    tags:
+      - Components
+      - Query
+
+  - term: Thanos Store Gateway
+    definition: >-
+      A Thanos component that implements the Store API on top of object storage
+      (S3, GCS, Azure Blob, etc.). It serves historical TSDB blocks to Querier
+      for long-term data access without loading all data into memory.
+    domain: Components
+    tags:
+      - Components
+      - Storage
+
+  - term: Thanos Sidecar
+    definition: >-
+      A Thanos component deployed alongside a Prometheus instance. It implements
+      the Store API on top of Prometheus's remote-read API for real-time data
+      access, and optionally uploads completed TSDB blocks to object storage.
+    domain: Components
+    tags:
+      - Components
+      - Sidecar
+
+  - term: Thanos Ruler
+    definition: >-
+      A Thanos component that evaluates Prometheus recording and alerting rules
+      against the Thanos Query API for a global view. It fires alerts to
+      Alertmanager and can upload rule evaluation blocks to object storage.
+    domain: Components
+    tags:
+      - Components
+      - Rules
+      - Alerting
+
+  - term: Thanos Receive
+    definition: >-
+      A Thanos component implementing the Prometheus Remote Write API. It accepts
+      metrics pushed from Prometheus instances, stores them in a local TSDB,
+      and optionally uploads blocks to object storage for long-term retention.
+    domain: Components
+    tags:
+      - Components
+      - Remote Write
+
+  - term: Thanos Compact
+    definition: >-
+      A Thanos component that applies Prometheus compaction to blocks in object
+      storage. It performs downsampling at 5-minute and 1-hour resolutions
+      and enforces data retention policies to reduce storage costs.
+    domain: Components
+    tags:
+      - Components
+      - Compaction
+
+  - term: Store API
+    definition: >-
+      A gRPC-based protocol used internally by Thanos components to serve
+      time series data. Implemented by Sidecar, Store Gateway, Ruler, and
+      Receive. Querier discovers Store API endpoints and fans out queries.
+    domain: Architecture
+    tags:
+      - Architecture
+      - API
+
+  - term: PromQL
+    definition: >-
+      Prometheus Query Language. The expression language used to query time
+      series data. Thanos Query supports the full PromQL specification with
+      additional Thanos-specific parameters for deduplication and partial response.
+    domain: Query Language
+    tags:
+      - Query
+      - Prometheus
+
+  - term: Deduplication
+    definition: >-
+      A Thanos feature that merges duplicate time series from multiple
+      Prometheus replicas into a single unified time series. Controlled by
+      the dedup query parameter (default: true). Uses replica label for
+      identifying duplicates.
+    domain: Query Semantics
+    tags:
+      - Query
+      - High Availability
+
+  - term: Partial Response
+    definition: >-
+      A Thanos query behavior where if some Store API endpoints are unavailable,
+      the query returns partial data with warnings rather than failing entirely.
+      Controlled by the partial_response query parameter (default: false).
+    domain: Query Semantics
+    tags:
+      - Query
+      - Resilience
+
+  - term: Max Source Resolution
+    definition: >-
+      A Thanos query parameter that selects the downsampling resolution for
+      time series data: 0s (raw), 5m (5-minute downsampled), or 1h (1-hour
+      downsampled). Used to improve query performance over long time ranges.
+    domain: Query Semantics
+    tags:
+      - Query
+      - Downsampling
+
+  - term: External Labels
+    definition: >-
+      A set of key-value labels added to all time series by a Prometheus
+      instance to identify its origin (e.g., cluster, region, replica).
+      Required by Thanos for deduplication and store routing. Configured in
+      prometheus.yml as global.external_labels.
+    domain: Configuration
+    tags:
+      - Configuration
+      - Prometheus
+
+  - term: TSDB Block
+    definition: >-
+      A Prometheus/Thanos time series data block containing a fixed 2-hour
+      chunk of metrics data. Blocks are uploaded to object storage by Sidecar
+      or Receive, and read by Store Gateway for long-term queries.
+    domain: Storage
+    tags:
+      - Storage
+      - Data Format
+
+  - term: Downsampling
+    definition: >-
+      A Thanos Compact operation that creates lower-resolution copies of TSDB
+      blocks (5-minute and 1-hour aggregates). Reduces query load and storage
+      costs for long time-range queries on historical data.
+    domain: Storage
+    tags:
+      - Storage
+      - Performance
+
+  - term: Remote Write
+    definition: >-
+      A Prometheus protocol for pushing metrics to a remote receiver. Thanos
+      Receive implements this protocol, allowing Prometheus instances to push
+      data instead of having Thanos pull it via Sidecar.
+    domain: Architecture
+    tags:
+      - Architecture
+      - Streaming
+
+  - term: CNCF
+    definition: >-
+      Cloud Native Computing Foundation. Thanos is a CNCF Incubating project,
+      meaning it has met stability and adoption standards recognized by the
+      cloud native community.
+    domain: Governance
+    tags:
+      - Governance
+      - Open Source

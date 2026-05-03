@@ -1,127 +1,91 @@
-# Thanos (thanos)
-Open-source, highly available Prometheus setup with long-term storage capabilities that provides a global query view across multiple Prometheus servers.
+# Thanos
 
-**URL:** [Visit APIs.json URL](https://thanos.io/)
+Open-source, highly available Prometheus setup with long-term storage capabilities that provides a global query view across multiple Prometheus servers. Thanos is a CNCF Incubating project.
 
-## Scope
-
-- **Type:** Index 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
-
-## Tags:
-
- - Monitoring, Observability, Prometheus, Time Series Database, Metrics
-
-## Timestamps
-
-- **Created:** 2025 
-- **Modified:** 2026-03-18 
+**Website:** https://thanos.io/
+**GitHub:** https://github.com/thanos-io/thanos
 
 ## APIs
 
-### Thanos Query API
-Prometheus-compatible HTTP API for querying metrics across multiple Prometheus servers and long-term storage backends with global query view, deduplication, and partial response support.
+### [Thanos Query API](https://thanos.io/tip/components/query.md/)
+Prometheus-compatible HTTP query interface with global view, deduplication, and partial response support. Base URL: `http://localhost:9090`
 
-**Human URL:** [https://thanos.io/tip/components/query.md/](https://thanos.io/tip/components/query.md/)
+**Tags:** Metrics, Monitoring, PromQL, Query, Time Series
 
-
-#### Tags:
-
- - Monitoring, Metrics, PromQL, Query, Time Series
-
-#### Properties
-
+**Properties:**
 - [Documentation](https://thanos.io/tip/components/query.md/)
 - [OpenAPI](openapi/thanos-query-api.yml)
-- [JSONSchema](json-schema/query-response.json)
-- [JSONSchema](json-schema/store-info.json)
-- [JSONLD](json-ld/thanos-context.jsonld)
+- [JSON Schema](json-schema/query-response.json)
+- [JSON Schema](json-schema/store-info.json)
+- [JSON-LD](json-ld/thanos-context.jsonld)
 
-### Thanos Store Gateway API
-gRPC-based Store API that serves metrics stored in object storage buckets, allowing Thanos Querier to access historical time series data from long-term storage backends such as S3, GCS, and Azure Blob Storage.
+### [Thanos Store Gateway API](https://thanos.io/tip/components/store.md/)
+Serves historical TSDB blocks from object storage (S3, GCS, Azure Blob) to Thanos Querier. Base URL: `http://localhost:10902`
 
-**Human URL:** [https://thanos.io/tip/components/store.md/](https://thanos.io/tip/components/store.md/)
+### [Thanos Sidecar API](https://thanos.io/tip/components/sidecar.md/)
+Deployed alongside Prometheus. Implements Store API on Prometheus remote-read and uploads blocks to object storage.
 
+### [Thanos Ruler API](https://thanos.io/tip/components/rule.md/)
+Evaluates Prometheus alerting and recording rules against Thanos Query, fires alerts to Alertmanager.
 
-#### Tags:
+### [Thanos Receive API](https://thanos.io/tip/components/receive.md/)
+Accepts metrics via Prometheus Remote Write protocol, stores in local TSDB, uploads to object storage.
 
- - Monitoring, Metrics, Object Storage, Store, Time Series
+### [Thanos Compact API](https://thanos.io/tip/components/compact.md/)
+Applies compaction, downsampling (5m, 1h), and retention policies to TSDB blocks in object storage.
 
-#### Properties
+## Artifacts
 
-- [Documentation](https://thanos.io/tip/components/store.md/)
-- [OpenAPI](openapi/thanos-store-gateway-openapi.yml)
+### OpenAPI Specifications
 
-### Thanos Sidecar API
-Component deployed alongside a Prometheus instance that implements the Thanos Store API on top of Prometheus remote-read API, enabling Queriers to access real-time Prometheus data and optionally uploading blocks to object storage.
+- [openapi/thanos-query-api.yml](openapi/thanos-query-api.yml) — Thanos Query HTTP API (PromQL, stores, alerts, rules)
+- [openapi/thanos-store-gateway-openapi.yml](openapi/thanos-store-gateway-openapi.yml) — Store Gateway HTTP API
+- [openapi/thanos-sidecar-openapi.yml](openapi/thanos-sidecar-openapi.yml) — Sidecar HTTP API
+- [openapi/thanos-ruler-openapi.yml](openapi/thanos-ruler-openapi.yml) — Ruler HTTP API
+- [openapi/thanos-receive-openapi.yml](openapi/thanos-receive-openapi.yml) — Receive HTTP API
+- [openapi/thanos-compact-openapi.yml](openapi/thanos-compact-openapi.yml) — Compact HTTP API
 
-**Human URL:** [https://thanos.io/tip/components/sidecar.md/](https://thanos.io/tip/components/sidecar.md/)
+### Spectral Rules
 
+- [rules/thanos-rules.yml](rules/thanos-rules.yml) — Spectral ruleset enforcing Thanos API conventions
 
-#### Tags:
+### Naftiko Capabilities
 
- - Monitoring, Prometheus, Sidecar, Metrics, Store
+**Shared Definitions:**
+- [capabilities/shared/thanos-query.yaml](capabilities/shared/thanos-query.yaml) — Thanos Query API consumed definition
 
-#### Properties
+**Workflow Capabilities:**
+- [capabilities/metrics-observability.yaml](capabilities/metrics-observability.yaml) — Unified metrics observability for SRE (7 MCP tools, REST on :8080)
 
-- [Documentation](https://thanos.io/tip/components/sidecar.md/)
-- [OpenAPI](openapi/thanos-sidecar-openapi.yml)
+### JSON Schema
 
-### Thanos Ruler API
-Component that evaluates Prometheus recording and alerting rules against the Thanos Query API, exposes results as metrics via a Store API endpoint, and optionally uploads rule evaluation blocks to object storage.
+- [json-schema/query-response.json](json-schema/query-response.json) — Thanos/Prometheus query response envelope
+- [json-schema/store-info.json](json-schema/store-info.json) — Thanos store endpoint info schema
 
-**Human URL:** [https://thanos.io/tip/components/rule.md/](https://thanos.io/tip/components/rule.md/)
+### JSON Structure
 
+- [json-structure/thanos-query-structure.json](json-structure/thanos-query-structure.json) — Thanos API data structure documentation
 
-#### Tags:
+### JSON-LD Context
 
- - Monitoring, Alerting, Rules, Prometheus, Metrics
+- [json-ld/thanos-context.jsonld](json-ld/thanos-context.jsonld) — Linked data context for Thanos vocabulary
 
-#### Properties
+### Vocabulary
 
-- [Documentation](https://thanos.io/tip/components/rule.md/)
-- [OpenAPI](openapi/thanos-ruler-openapi.yml)
+- [vocabulary/thanos-vocabulary.yml](vocabulary/thanos-vocabulary.yml) — Thanos domain vocabulary (16 terms covering components, query semantics, storage)
 
-### Thanos Receive API
-Implements the Prometheus Remote Write API to accept metrics pushed from Prometheus instances, storing them in a local TSDB and optionally uploading blocks to object storage for long-term retention and horizontal scalability.
+### Examples
 
-**Human URL:** [https://thanos.io/tip/components/receive.md/](https://thanos.io/tip/components/receive.md/)
-
-
-#### Tags:
-
- - Monitoring, Remote Write, Metrics, Receive, Time Series
-
-#### Properties
-
-- [Documentation](https://thanos.io/tip/components/receive.md/)
-- [OpenAPI](openapi/thanos-receive-openapi.yml)
-
-### Thanos Compact API
-Singleton process that applies Prometheus compaction procedures to block data stored in object storage, performing downsampling and retention policy enforcement to reduce storage costs and improve query performance over long time ranges.
-
-**Human URL:** [https://thanos.io/tip/components/compact.md/](https://thanos.io/tip/components/compact.md/)
-
-
-#### Tags:
-
- - Monitoring, Compaction, Object Storage, Downsampling, Retention
-
-#### Properties
-
-- [Documentation](https://thanos.io/tip/components/compact.md/)
-- [OpenAPI](openapi/thanos-compact-openapi.yml)
+- [examples/thanos-query-instant-query-example.json](examples/thanos-query-instant-query-example.json)
+- [examples/thanos-query-range-query-example.json](examples/thanos-query-range-query-example.json)
+- [examples/thanos-query-get-stores-example.json](examples/thanos-query-get-stores-example.json)
 
 ## Common Properties
 
 - [Website](https://thanos.io/)
-- [JSON-LD](json-ld/thanos-context.jsonld)
-- [JSONSchema](json-schema/query-response.json)
-- [JSONSchema](json-schema/store-info.json)
-- [Getting Started](https://thanos.io/tip/thanos/getting-started.md/)
 - [Documentation](https://thanos.io/tip/)
-- [GitHubRepository](https://github.com/thanos-io/thanos)
+- [Getting Started](https://thanos.io/tip/thanos/getting-started.md/)
+- [GitHub Repository](https://github.com/thanos-io/thanos)
 - [GitHub Organization](https://github.com/thanos-io)
 - [Community](https://thanos.io/tip/contributing/community.md/)
 - [Troubleshooting](https://thanos.io/tip/operating/troubleshooting.md/)
@@ -130,5 +94,4 @@ Singleton process that applies Prometheus compaction procedures to block data st
 ## Maintainers
 
 **FN:** Kin Lane
-
 **Email:** kin@apievangelist.com

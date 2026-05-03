@@ -23,7 +23,7 @@ paths:
   /api/v1/query:
     get:
       operationId: instantQuery
-      summary: Evaluate an instant query
+      summary: Evaluate an Instant Query
       description: >-
         Evaluates a PromQL expression at a single point in time. Supports
         deduplication and partial response controls specific to Thanos.
@@ -81,7 +81,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
       operationId: instantQueryPost
-      summary: Evaluate an instant query (POST)
+      summary: Evaluate an Instant Query (POST)
       description: >-
         Evaluates a PromQL expression at a single point in time using POST body
         encoding for large queries.
@@ -130,7 +130,7 @@ paths:
   /api/v1/query_range:
     get:
       operationId: rangeQuery
-      summary: Evaluate a range query
+      summary: Evaluate a Range Query
       description: >-
         Evaluates a PromQL expression over a range of time with a specified step
         interval. Returns a matrix of time series values.
@@ -192,7 +192,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
       operationId: rangeQueryPost
-      summary: Evaluate a range query (POST)
+      summary: Evaluate a Range Query (POST)
       description: >-
         Evaluates a PromQL range query using POST body encoding for large
         queries.
@@ -242,7 +242,7 @@ paths:
   /api/v1/series:
     get:
       operationId: getSeries
-      summary: Find series by label matchers
+      summary: Find Series by Label Matchers
       description: >-
         Returns the list of time series that match a certain label set. Queries
         across all connected stores.
@@ -291,7 +291,7 @@ paths:
   /api/v1/labels:
     get:
       operationId: getLabels
-      summary: Get label names
+      summary: Get Label Names
       description: Returns a list of label names available across all stores.
       tags:
         - Metadata
@@ -335,7 +335,7 @@ paths:
   /api/v1/label/{label_name}/values:
     get:
       operationId: getLabelValues
-      summary: Get label values
+      summary: Get Label Values
       description: >-
         Returns a list of label values for a given label name across all
         connected stores.
@@ -387,7 +387,7 @@ paths:
   /api/v1/targets:
     get:
       operationId: getTargets
-      summary: Get current target discovery
+      summary: Get Current Target Discovery
       description: >-
         Returns an overview of the current state of target discovery across
         connected Prometheus instances.
@@ -416,7 +416,7 @@ paths:
   /api/v1/rules:
     get:
       operationId: getRules
-      summary: Get alerting and recording rules
+      summary: Get Alerting and Recording Rules
       description: >-
         Returns a list of alerting and recording rules that are currently loaded
         across connected Thanos Ruler and Prometheus instances.
@@ -453,7 +453,7 @@ paths:
   /api/v1/alerts:
     get:
       operationId: getAlerts
-      summary: Get active alerts
+      summary: Get Active Alerts
       description: >-
         Returns a list of all active alerts across connected Thanos Ruler and
         Prometheus instances.
@@ -471,7 +471,7 @@ paths:
   /api/v1/stores:
     get:
       operationId: getStores
-      summary: Get connected store information
+      summary: Get Connected Store Information
       description: >-
         Returns information about all connected Thanos store endpoints including
         their type, labels, min/max time range, and last health check status.

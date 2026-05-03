@@ -31,7 +31,7 @@ paths:
   /-/healthy:
     get:
       operationId: getReceiveHealthy
-      summary: Thanos Liveness check
+      summary: Thanos Liveness Check
       description: >-
         Returns HTTP 200 if the Receive process is alive and running. Used as a
         liveness probe in Kubernetes deployments.
@@ -48,7 +48,7 @@ paths:
   /-/ready:
     get:
       operationId: getReceiveReady
-      summary: Thanos Readiness check
+      summary: Thanos Readiness Check
       description: >-
         Returns HTTP 200 when the Receive component is ready to accept remote
         write requests. A 503 is returned during initialization or when the
@@ -72,7 +72,7 @@ paths:
   /metrics:
     get:
       operationId: getReceiveMetrics
-      summary: Thanos Prometheus metrics
+      summary: Thanos Prometheus Metrics
       description: >-
         Exposes internal Receive metrics in Prometheus text exposition format.
         Includes metrics for remote write request rates and errors, replication
@@ -89,7 +89,7 @@ paths:
   /api/v1/receive:
     post:
       operationId: remoteWrite
-      summary: Thanos Ingest metrics via Prometheus Remote Write
+      summary: Thanos Ingest Metrics via Prometheus Remote Write
       description: >-
         Accepts Prometheus Remote Write requests containing time series data.
         The request body must be a Snappy-compressed protobuf-encoded

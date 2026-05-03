@@ -1,0 +1,92 @@
+{
+  "title": "Thanos API Resource Structures",
+  "description": "Documents the data structures used by Thanos Query, Store, Ruler, Receive, and Compact HTTP APIs.",
+  "version": "0.35.0",
+  "structures": {
+    "QueryResponse": {
+      "description": "Standard response envelope for Prometheus-compatible query results.",
+      "fields": {
+        "status": "enum: success | error — query outcome",
+        "data.resultType": "enum: matrix | vector | scalar | string — result format",
+        "data.result": "array — result items (structure depends on resultType)",
+        "warnings": "array<string> — non-fatal warnings from partial responses or store issues",
+        "errorType": "string — error category (only present on error)",
+        "error": "string — human-readable error message (only present on error)"
+      }
+    },
+    "VectorResult": {
+      "description": "A single time series value at an instant (from instant query).",
+      "fields": {
+        "metric": "map<string,string> — label set identifying the time series",
+        "value": "array[timestamp, string_value] — single [timestamp, value] pair"
+      }
+    },
+    "MatrixResult": {
+      "description": "A time series with multiple values over a range (from range query).",
+      "fields": {
+        "metric": "map<string,string> — label set identifying the time series",
+        "values": "array of [timestamp, string_value] pairs"
+      }
+    },
+    "StoreInfo": {
+      "description": "Information about a connected Thanos store endpoint.",
+      "fields": {
+        "name": "string — store endpoint address or name",
+        "lastCheck": "datetime — last health check timestamp",
+        "lastError": "string|null — last error from this store",
+        "labelSets": "array of map<string,string> — external labels advertised by the store",
+        "minTime": "int64 (milliseconds) — oldest data available",
+        "maxTime": "int64 (milliseconds) — newest data available",
+        "storeType": "enum: sidecar | store | rule | receive | debug | unknown"
+      }
+    },
+    "AlertingRule": {
+      "description": "A Prometheus alerting rule evaluated by Thanos Ruler.",
+      "fields": {
+        "type": "literal: alerting",
+        "name": "string — rule name",
+        "query": "string — PromQL expression",
+        "duration": "float — pending duration in seconds",
+        "labels": "map<string,string> — extra labels",
+        "annotations": "map<string,string> — annotation key-values",
+        "alerts": "array<Alert> — currently firing/pending alerts",
+        "health": "string — rule health status",
+        "state": "enum: firing | pending | inactive"
+      }
+    },
+    "RecordingRule": {
+      "description": "A Prometheus recording rule evaluated by Thanos Ruler.",
+      "fields": {
+        "type": "literal: recording",
+        "name": "string — metric name for recorded series",
+        "query": "string — PromQL expression",
+        "labels": "map<string,string> — extra labels",
+        "health": "string — rule health status"
+      }
+    },
+    "Alert": {
+      "description": "A currently active alert instance.",
+      "fields": {
+        "labels": "map<string,string> — alert labels",
+        "annotations": "map<string,string> — annotation values",
+        "state": "enum: firing | pending",
+        "activeAt": "datetime — when alert became active",
+        "value": "string — current metric value"
+      }
+    },
+    "ActiveTarget": {
+      "description": "A Prometheus scrape target discovered and tracked by Thanos.",
+      "fields": {
+        "discoveredLabels": "map<string,string> — labels from service discovery",
+        "labels": "map<string,string> — labels after relabeling",
+        "scrapePool": "string — scrape configuration pool name",
+        "scrapeUrl": "string — URL being scraped",
+        "globalUrl": "string — global URL exposed externally",
+        "lastError": "string — last scrape error",
+        "lastScrape": "datetime — last successful scrape",
+        "lastScrapeDuration": "float — duration in seconds",
+        "health": "enum: up | down | unknown"
+      }
+    }
+  }
+}

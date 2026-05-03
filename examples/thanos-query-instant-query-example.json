@@ -1,0 +1,44 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "http://localhost:9090/api/v1/query?query=up&time=2026-05-03T12:00:00Z&dedup=true&partial_response=false",
+    "headers": {
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "status": "success",
+      "data": {
+        "resultType": "vector",
+        "result": [
+          {
+            "metric": {
+              "__name__": "up",
+              "job": "prometheus",
+              "instance": "localhost:9090",
+              "replica": "0",
+              "cluster": "prod-us-east-1"
+            },
+            "value": [1746273600, "1"]
+          },
+          {
+            "metric": {
+              "__name__": "up",
+              "job": "thanos-store",
+              "instance": "thanos-store:10902",
+              "replica": "0",
+              "cluster": "prod-us-east-1"
+            },
+            "value": [1746273600, "1"]
+          }
+        ]
+      },
+      "warnings": []
+    }
+  }
+}

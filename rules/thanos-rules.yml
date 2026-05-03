@@ -1,0 +1,85 @@
+extends: spectral:oas
+rules:
+  # Thanos: Prometheus-compatible paths must use /api/v1/ prefix
+  thanos-prometheus-path-prefix:
+    description: Prometheus-compatible API paths must start with /api/v1/
+    message: Prometheus-compatible path "{{value}}" must start with /api/v1/ or /-/
+    severity: warn
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/api/v1/|/-/|/metrics)"
+
+  # Thanos: Operations must have operationIds
+  thanos-operation-id-required:
+    description: All operations must have an operationId
+    message: Operation is missing an operationId
+    severity: error
+    given: "$.paths[*][get,post,put,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  # Thanos: operationIds must be camelCase
+  thanos-operation-id-camel-case:
+    description: Operation IDs must be camelCase
+    message: OperationId "{{value}}" should use camelCase
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  # Thanos: Successful responses must include content
+  thanos-200-has-content:
+    description: Successful responses should include content
+    message: Response 200 should include content definition
+    severity: warn
+    given: "$.paths[*][get].responses.200"
+    then:
+      field: content
+      function: truthy
+
+  # Thanos: Tags must use Title Case
+  thanos-tags-title-case:
+    description: Tags must use Title Case
+    message: Tag "{{value}}" should use Title Case
+    severity: warn
+    given: "$.paths[*][*].tags[*]"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z]*(\\s[A-Z][a-zA-Z]*)*$"
+
+  # Thanos: Summaries must be Title Case
+  thanos-summary-title-case:
+    description: Summaries must use Title Case
+    message: Summary "{{value}}" should use Title Case
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z]"
+
+  # Thanos: All operations must have descriptions
+  thanos-operation-description:
+    description: All operations must have a description
+    message: Operation is missing a description
+    severity: warn
+    given: "$.paths[*][get,post,put,delete]"
+    then:
+      field: description
+      function: truthy
+
+  # Thanos: GET operations must not have a request body
+  thanos-get-no-body:
+    description: GET operations should not have a request body (use POST variants for long queries)
+    message: GET operation should not include requestBody
+    severity: warn
+    given: "$.paths[*].get"
+    then:
+      field: requestBody
+      function: falsy

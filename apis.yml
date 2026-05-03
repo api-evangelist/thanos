@@ -13,7 +13,7 @@ tags:
   - Prometheus
   - Time Series Database
 created: '2025'
-modified: '2026-03-18'
+modified: '2026-05-03'
 type: Index
 apis:
   - aid: thanos:thanos-query-api
@@ -147,6 +147,14 @@ common:
     type: JSONSchema
   - url: json-schema/store-info.json
     type: JSONSchema
+  - url: json-structure/thanos-query-structure.json
+    type: JSONStructure
+  - url: rules/thanos-rules.yml
+    type: SpectralRules
+  - url: vocabulary/thanos-vocabulary.yml
+    type: Vocabulary
+  - url: capabilities/metrics-observability.yaml
+    type: NaftikoCapability
   - url: https://thanos.io/tip/thanos/getting-started.md/
     type: Getting Started
   - url: https://thanos.io/tip/

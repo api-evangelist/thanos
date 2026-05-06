@@ -1,232 +1,384 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "Thanos Metrics and Observability"
-  description: >-
-    Unified metrics and observability capability for SRE, platform engineers,
-    and monitoring teams. Composes Thanos Query API to provide PromQL-based
-    metric queries, long-term trend analysis, alert monitoring, and store
-    health inspection across distributed Prometheus deployments.
+  label: Thanos Metrics and Observability
+  description: Unified metrics and observability capability for SRE, platform engineers, and monitoring teams. Composes Thanos
+    Query API to provide PromQL-based metric queries, long-term trend analysis, alert monitoring, and store health inspection
+    across distributed Prometheus deployments.
   tags:
-    - Thanos
-    - Observability
-    - Metrics
-    - Prometheus
-    - SRE
-    - Monitoring
-    - PromQL
-  created: "2026-05-03"
-  modified: "2026-05-03"
-
+  - Thanos
+  - Observability
+  - Metrics
+  - Prometheus
+  - SRE
+  - Monitoring
+  - PromQL
+  created: '2026-05-03'
+  modified: '2026-05-06'
 capability:
   consumes:
-    - import: thanos-query
-      location: ./shared/thanos-query.yaml
-
+  - type: http
+    namespace: thanos-query
+    baseUri: http://localhost:9090
+    description: Thanos Query HTTP API — Prometheus-compatible query interface
+    resources:
+    - name: instant-query
+      path: /api/v1/query
+      description: Instant PromQL queries
+      operations:
+      - name: instant-query
+        method: GET
+        description: Evaluate a PromQL expression at a single point in time
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: PromQL query expression
+        - name: time
+          in: query
+          type: string
+          required: false
+          description: Evaluation timestamp (RFC3339 or Unix)
+        - name: dedup
+          in: query
+          type: boolean
+          required: false
+          description: 'Enable deduplication (default: true)'
+        - name: partial_response
+          in: query
+          type: boolean
+          required: false
+          description: 'Enable partial response (default: false)'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: range-query
+      path: /api/v1/query_range
+      description: Range PromQL queries
+      operations:
+      - name: range-query
+        method: GET
+        description: Evaluate a PromQL expression over a time range
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: PromQL query expression
+        - name: start
+          in: query
+          type: string
+          required: true
+          description: Start timestamp
+        - name: end
+          in: query
+          type: string
+          required: true
+          description: End timestamp
+        - name: step
+          in: query
+          type: string
+          required: true
+          description: Step interval (e.g., 60s, 5m)
+        - name: dedup
+          in: query
+          type: boolean
+          required: false
+          description: Enable deduplication
+        - name: max_source_resolution
+          in: query
+          type: string
+          required: false
+          description: 'Max resolution: 0s, 5m, or 1h'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: series
+      path: /api/v1/series
+      description: Series discovery
+      operations:
+      - name: get-series
+        method: GET
+        description: Find time series by label matchers
+        inputParameters:
+        - name: match[]
+          in: query
+          type: array
+          required: true
+          description: Label matchers
+        - name: start
+          in: query
+          type: string
+          required: false
+          description: Start timestamp
+        - name: end
+          in: query
+          type: string
+          required: false
+          description: End timestamp
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: labels
+      path: /api/v1/labels
+      description: Label name discovery
+      operations:
+      - name: get-labels
+        method: GET
+        description: Get all label names
+        inputParameters:
+        - name: start
+          in: query
+          type: string
+          required: false
+        - name: end
+          in: query
+          type: string
+          required: false
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: stores
+      path: /api/v1/stores
+      description: Connected store information
+      operations:
+      - name: get-stores
+        method: GET
+        description: Get information about connected Thanos store endpoints
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: alerts
+      path: /api/v1/alerts
+      description: Active alerts
+      operations:
+      - name: get-alerts
+        method: GET
+        description: Get all active alerts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: rules
+      path: /api/v1/rules
+      description: Alerting and recording rules
+      operations:
+      - name: get-rules
+        method: GET
+        description: Get alerting and recording rules
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          required: false
+          description: 'Filter by rule type: alert or record'
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: thanos-observability-api
-      description: "Unified REST API for Thanos metrics and observability."
-      resources:
-        - path: /v1/query
-          name: instant-query
-          description: "Instant PromQL metric queries"
-          operations:
-            - method: GET
-              name: instant-query
-              description: "Execute an instant PromQL query for current metric values"
-              call: "thanos-query.instant-query"
-              with:
-                query: "rest.query"
-                time: "rest.time"
-                dedup: "rest.dedup"
-                partial_response: "rest.partial_response"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/query-range
-          name: range-query
-          description: "Range PromQL metric queries over time"
-          operations:
-            - method: GET
-              name: range-query
-              description: "Execute a PromQL range query for historical metric data"
-              call: "thanos-query.range-query"
-              with:
-                query: "rest.query"
-                start: "rest.start"
-                end: "rest.end"
-                step: "rest.step"
-                dedup: "rest.dedup"
-                max_source_resolution: "rest.max_source_resolution"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/series
-          name: series
-          description: "Time series discovery"
-          operations:
-            - method: GET
-              name: get-series
-              description: "Find time series matching label selectors"
-              call: "thanos-query.get-series"
-              with:
-                "match[]": "rest.matchers"
-                start: "rest.start"
-                end: "rest.end"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/labels
-          name: labels
-          description: "Label name discovery"
-          operations:
-            - method: GET
-              name: get-labels
-              description: "Get all available metric label names"
-              call: "thanos-query.get-labels"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/alerts
-          name: alerts
-          description: "Active alert monitoring"
-          operations:
-            - method: GET
-              name: get-alerts
-              description: "Get all currently active alerts"
-              call: "thanos-query.get-alerts"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/rules
-          name: rules
-          description: "Alerting and recording rules"
-          operations:
-            - method: GET
-              name: get-rules
-              description: "Get alerting and recording rules"
-              call: "thanos-query.get-rules"
-              with:
-                type: "rest.type"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-        - path: /v1/stores
-          name: stores
-          description: "Store endpoint health"
-          operations:
-            - method: GET
-              name: get-stores
-              description: "Get connected Thanos store information and health"
-              call: "thanos-query.get-stores"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9090
-      namespace: thanos-observability-mcp
-      transport: http
-      description: "MCP server for AI-assisted Thanos metrics analysis and observability."
-      tools:
-        - name: instant-query
-          description: "Execute an instant PromQL query to get current metric values from Thanos"
-          hints:
-            readOnly: true
-            openWorld: false
-            idempotent: true
-          call: "thanos-query.instant-query"
-          with:
-            query: "tools.query"
-            time: "tools.time"
-            dedup: "tools.dedup"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: range-query
-          description: "Execute a PromQL range query to analyze metric trends over time in Thanos"
-          hints:
-            readOnly: true
-            openWorld: false
-            idempotent: true
-          call: "thanos-query.range-query"
-          with:
-            query: "tools.query"
-            start: "tools.start"
-            end: "tools.end"
-            step: "tools.step"
-            dedup: "tools.dedup"
-            max_source_resolution: "tools.max_source_resolution"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: find-series
-          description: "Find time series in Thanos matching label selectors for service discovery"
-          hints:
-            readOnly: true
-            openWorld: false
-            idempotent: true
-          call: "thanos-query.get-series"
-          with:
-            "match[]": "tools.matchers"
-            start: "tools.start"
-            end: "tools.end"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: list-labels
-          description: "List all available metric label names across Thanos stores"
-          hints:
-            readOnly: true
-            openWorld: true
-            idempotent: true
-          call: "thanos-query.get-labels"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-active-alerts
-          description: "Get all currently firing and pending alerts from Thanos"
-          hints:
-            readOnly: true
-            openWorld: false
-            idempotent: true
-          call: "thanos-query.get-alerts"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: get-rules
-          description: "Get alerting and recording rules configured in Thanos Ruler"
-          hints:
-            readOnly: true
-            openWorld: false
-            idempotent: true
-          call: "thanos-query.get-rules"
-          with:
-            type: "tools.type"
-          outputParameters:
-            - type: object
-              mapping: "$."
-
-        - name: inspect-stores
-          description: "Inspect connected Thanos store endpoints, health status, and data time ranges"
-          hints:
-            readOnly: true
-            openWorld: false
-            idempotent: true
-          call: "thanos-query.get-stores"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: thanos-observability-api
+    description: Unified REST API for Thanos metrics and observability.
+    resources:
+    - path: /v1/query
+      name: instant-query
+      description: Instant PromQL metric queries
+      operations:
+      - method: GET
+        name: instant-query
+        description: Execute an instant PromQL query for current metric values
+        call: thanos-query.instant-query
+        with:
+          query: rest.query
+          time: rest.time
+          dedup: rest.dedup
+          partial_response: rest.partial_response
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/query-range
+      name: range-query
+      description: Range PromQL metric queries over time
+      operations:
+      - method: GET
+        name: range-query
+        description: Execute a PromQL range query for historical metric data
+        call: thanos-query.range-query
+        with:
+          query: rest.query
+          start: rest.start
+          end: rest.end
+          step: rest.step
+          dedup: rest.dedup
+          max_source_resolution: rest.max_source_resolution
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/series
+      name: series
+      description: Time series discovery
+      operations:
+      - method: GET
+        name: get-series
+        description: Find time series matching label selectors
+        call: thanos-query.get-series
+        with:
+          match[]: rest.matchers
+          start: rest.start
+          end: rest.end
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/labels
+      name: labels
+      description: Label name discovery
+      operations:
+      - method: GET
+        name: get-labels
+        description: Get all available metric label names
+        call: thanos-query.get-labels
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alerts
+      name: alerts
+      description: Active alert monitoring
+      operations:
+      - method: GET
+        name: get-alerts
+        description: Get all currently active alerts
+        call: thanos-query.get-alerts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/rules
+      name: rules
+      description: Alerting and recording rules
+      operations:
+      - method: GET
+        name: get-rules
+        description: Get alerting and recording rules
+        call: thanos-query.get-rules
+        with:
+          type: rest.type
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/stores
+      name: stores
+      description: Store endpoint health
+      operations:
+      - method: GET
+        name: get-stores
+        description: Get connected Thanos store information and health
+        call: thanos-query.get-stores
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: thanos-observability-mcp
+    transport: http
+    description: MCP server for AI-assisted Thanos metrics analysis and observability.
+    tools:
+    - name: instant-query
+      description: Execute an instant PromQL query to get current metric values from Thanos
+      hints:
+        readOnly: true
+        openWorld: false
+        idempotent: true
+      call: thanos-query.instant-query
+      with:
+        query: tools.query
+        time: tools.time
+        dedup: tools.dedup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: range-query
+      description: Execute a PromQL range query to analyze metric trends over time in Thanos
+      hints:
+        readOnly: true
+        openWorld: false
+        idempotent: true
+      call: thanos-query.range-query
+      with:
+        query: tools.query
+        start: tools.start
+        end: tools.end
+        step: tools.step
+        dedup: tools.dedup
+        max_source_resolution: tools.max_source_resolution
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: find-series
+      description: Find time series in Thanos matching label selectors for service discovery
+      hints:
+        readOnly: true
+        openWorld: false
+        idempotent: true
+      call: thanos-query.get-series
+      with:
+        match[]: tools.matchers
+        start: tools.start
+        end: tools.end
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-labels
+      description: List all available metric label names across Thanos stores
+      hints:
+        readOnly: true
+        openWorld: true
+        idempotent: true
+      call: thanos-query.get-labels
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-active-alerts
+      description: Get all currently firing and pending alerts from Thanos
+      hints:
+        readOnly: true
+        openWorld: false
+        idempotent: true
+      call: thanos-query.get-alerts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-rules
+      description: Get alerting and recording rules configured in Thanos Ruler
+      hints:
+        readOnly: true
+        openWorld: false
+        idempotent: true
+      call: thanos-query.get-rules
+      with:
+        type: tools.type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: inspect-stores
+      description: Inspect connected Thanos store endpoints, health status, and data time ranges
+      hints:
+        readOnly: true
+        openWorld: false
+        idempotent: true
+      call: thanos-query.get-stores
+      outputParameters:
+      - type: object
+        mapping: $.

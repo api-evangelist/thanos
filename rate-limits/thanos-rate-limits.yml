@@ -4,112 +4,31 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Thanos
 providerId: thanos
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
-  - Metrics
-  - Monitoring
-  - Observability
-  - Prometheus
-  - Time Series Database
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Thanos API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  - Observability
+  - Open Source
+description: >-
+  Thanos is self-hosted open-source software, not a hosted API service; query and ingest throughput are
+  bounded only by the operator's deployment (compute, object storage backend, replication and downsampling
+  settings). The Thanos project itself imposes no central rate limits.
+sources:
+  - https://thanos.io/
+  - https://thanos.io/tip/components/query/
+notes: >-
+  No central provider-imposed rate limits exist. Throughput is a self-hosting capacity concern.
+responseCodes: {}
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Thanos Query API
-      - Thanos Store Gateway API
-      - Thanos Sidecar API
-      - Thanos Ruler API
-      - Thanos Receive API
-      - Thanos Compact API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Thanos Query API
-      - Thanos Store Gateway API
-      - Thanos Sidecar API
-      - Thanos Ruler API
-      - Thanos Receive API
-      - Thanos Compact API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Thanos Query API
-      - Thanos Store Gateway API
-      - Thanos Sidecar API
-      - Thanos Ruler API
-      - Thanos Receive API
-      - Thanos Compact API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Thanos Query API
-      - Thanos Store Gateway API
-      - Thanos Sidecar API
-      - Thanos Ruler API
-      - Thanos Receive API
-      - Thanos Compact API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Thanos Query API
-      - Thanos Store Gateway API
-      - Thanos Sidecar API
-      - Thanos Ruler API
-      - Thanos Receive API
-      - Thanos Compact API
+  - name: Self-Hosted Query / Ingest
+    scope: deployment
+    metric: varies
+    limit: bounded by self-hosted compute and object storage backend
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Self-Hosted Capacity
+    description: Operators size Querier, Store Gateway, Compactor, and Receiver components and tune object
+      storage to meet their workload; Thanos itself does not throttle externally.
 maintainers:
   - FN: Kin Lane
-    url: http://apievangelist.com
     email: kin@apievangelist.com

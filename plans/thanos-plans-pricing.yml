@@ -4,168 +4,44 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Thanos
 providerId: thanos
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Metrics
-  - Monitoring
   - Observability
   - Prometheus
-  - Time Series Database
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+  - Open Source
+description: >-
+  Thanos is an Apache 2.0 licensed CNCF graduated project that provides highly-available, long-term storage
+  for Prometheus metrics. It is software you self-host; there is no vendor, no managed plan, and no per-call
+  pricing. Operating cost is determined by the underlying object storage and compute.
+sources:
+  - https://thanos.io/
+  - https://github.com/thanos-io/thanos/blob/main/LICENSE
 plans:
-  - id: thanos-free
-    name: Free
+  - id: thanos-open-source
+    name: Open Source
     type: freemium
-    description: Free entry tier for the Thanos API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+    description: Apache 2.0 licensed CNCF project; free to download, run, and modify.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - http://localhost:9090
-          - http://localhost:10902
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - http://localhost:9090
-          - http://localhost:10902
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Thanos Query API
-      - name: Thanos Store Gateway API
-      - name: Thanos Sidecar API
-      - name: Thanos Ruler API
-      - name: Thanos Receive API
-      - name: Thanos Compact API
-  - id: thanos-pro
-    name: Professional
-    type: paid
-    description: Production tier for Thanos. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - http://localhost:9090
-          - http://localhost:10902
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - http://localhost:9090
-          - http://localhost:10902
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
+      - label: Software Use
+        name: software_use
+        type: flat
+        metric: varies
         limit: -1
-        timeFrame: month
+        timeFrame: usage
         geo: global
-        domains:
-          - http://localhost:9090
-          - http://localhost:10902
-        unit: 1000
-        price: TBD
+        unit: 1
+        price: '0.00'
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Thanos Query API
-      - name: Thanos Store Gateway API
-      - name: Thanos Sidecar API
-      - name: Thanos Ruler API
-      - name: Thanos Receive API
-      - name: Thanos Compact API
-  - id: thanos-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Thanos. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - http://localhost:9090
-          - http://localhost:10902
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - http://localhost:9090
-          - http://localhost:10902
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Thanos Query API
-      - name: Thanos Store Gateway API
-      - name: Thanos Sidecar API
-      - name: Thanos Ruler API
-      - name: Thanos Receive API
-      - name: Thanos Compact API
+      - name: Thanos Sidecar
+      - name: Thanos Store Gateway
+      - name: Thanos Querier
+      - name: Thanos Compactor
+      - name: Thanos Receiver
+      - name: Thanos Ruler
+      - name: Apache 2.0 License
 maintainers:
   - FN: Kin Lane
-    url: http://apievangelist.com
     email: kin@apievangelist.com

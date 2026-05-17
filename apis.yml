@@ -142,7 +142,7 @@ common:
   - url: https://thanos.io/
     type: Website
   - url: json-ld/thanos-context.jsonld
-    type: JSON-LD
+    type: JSONLD
   - url: json-schema/query-response.json
     type: JSONSchema
   - url: json-schema/store-info.json
@@ -156,13 +156,13 @@ common:
   - url: capabilities/metrics-observability.yaml
     type: NaftikoCapability
   - url: https://thanos.io/tip/thanos/getting-started.md/
-    type: Getting Started
+    type: GettingStarted
   - url: https://thanos.io/tip/
     type: Documentation
   - url: https://github.com/thanos-io/thanos
     type: GitHubRepository
   - url: https://github.com/thanos-io
-    type: GitHub Organization
+    type: GitHubOrganization
   - url: https://thanos.io/tip/contributing/community.md/
     type: Community
   - url: https://thanos.io/tip/operating/troubleshooting.md/

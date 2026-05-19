@@ -1,0 +1,228 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Thanos Query API — Query
+  description: 'Thanos Query API — Query. 4 operations. Lead operation: Evaluate an Instant Query. Self-contained Naftiko
+    capability covering one Thanos business surface.'
+  tags:
+  - Thanos
+  - Query
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    THANOS_API_KEY: THANOS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: query-query
+    baseUri: http://localhost:9090
+    description: Thanos Query API — Query business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-query
+      path: /api/v1/query
+      operations:
+      - name: instantquery
+        method: GET
+        description: Evaluate an Instant Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: PromQL query expression
+          required: true
+        - name: time
+          in: query
+          type: string
+          description: Evaluation timestamp in RFC3339 or Unix timestamp format. Defaults to current server time.
+        - name: timeout
+          in: query
+          type: string
+          description: Evaluation timeout. Defaults to server-configured timeout.
+      - name: instantquerypost
+        method: POST
+        description: Evaluate an Instant Query (POST)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-query_range
+      path: /api/v1/query_range
+      operations:
+      - name: rangequery
+        method: GET
+        description: Evaluate a Range Query
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: PromQL query expression
+          required: true
+        - name: start
+          in: query
+          type: string
+          description: Start timestamp in RFC3339 or Unix timestamp format
+          required: true
+        - name: end
+          in: query
+          type: string
+          description: End timestamp in RFC3339 or Unix timestamp format
+          required: true
+        - name: step
+          in: query
+          type: string
+          description: Query resolution step width as duration or float seconds
+          required: true
+        - name: timeout
+          in: query
+          type: string
+          description: Evaluation timeout
+      - name: rangequerypost
+        method: POST
+        description: Evaluate a Range Query (POST)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: query-query-rest
+    port: 8080
+    description: REST adapter for Thanos Query API — Query. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/v1/query
+      name: api-v1-query
+      description: REST surface for api-v1-query.
+      operations:
+      - method: GET
+        name: instantquery
+        description: Evaluate an Instant Query
+        call: query-query.instantquery
+        with:
+          query: rest.query
+          time: rest.time
+          timeout: rest.timeout
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: instantquerypost
+        description: Evaluate an Instant Query (POST)
+        call: query-query.instantquerypost
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/query-range
+      name: api-v1-query-range
+      description: REST surface for api-v1-query_range.
+      operations:
+      - method: GET
+        name: rangequery
+        description: Evaluate a Range Query
+        call: query-query.rangequery
+        with:
+          query: rest.query
+          start: rest.start
+          end: rest.end
+          step: rest.step
+          timeout: rest.timeout
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: rangequerypost
+        description: Evaluate a Range Query (POST)
+        call: query-query.rangequerypost
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: query-query-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Thanos Query API — Query. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: evaluate-instant-query
+      description: Evaluate an Instant Query
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: query-query.instantquery
+      with:
+        query: tools.query
+        time: tools.time
+        timeout: tools.timeout
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: evaluate-instant-query-post
+      description: Evaluate an Instant Query (POST)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: query-query.instantquerypost
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: evaluate-range-query
+      description: Evaluate a Range Query
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: query-query.rangequery
+      with:
+        query: tools.query
+        start: tools.start
+        end: tools.end
+        step: tools.step
+        timeout: tools.timeout
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: evaluate-range-query-post
+      description: Evaluate a Range Query (POST)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: query-query.rangequerypost
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

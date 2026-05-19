@@ -1,0 +1,67 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Thanos Query API — Stores
+  description: 'Thanos Query API — Stores. 1 operations. Lead operation: Get Connected Store Information. Self-contained Naftiko
+    capability covering one Thanos business surface.'
+  tags:
+  - Thanos
+  - Stores
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    THANOS_API_KEY: THANOS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: query-stores
+    baseUri: http://localhost:9090
+    description: Thanos Query API — Stores business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-stores
+      path: /api/v1/stores
+      operations:
+      - name: getstores
+        method: GET
+        description: Get Connected Store Information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: query-stores-rest
+    port: 8080
+    description: REST adapter for Thanos Query API — Stores. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/v1/stores
+      name: api-v1-stores
+      description: REST surface for api-v1-stores.
+      operations:
+      - method: GET
+        name: getstores
+        description: Get Connected Store Information
+        call: query-stores.getstores
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: query-stores-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Thanos Query API — Stores. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-connected-store-information
+      description: Get Connected Store Information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: query-stores.getstores
+      outputParameters:
+      - type: object
+        mapping: $.

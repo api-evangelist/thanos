@@ -1,0 +1,99 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Thanos Store Gateway API — Health
+  description: 'Thanos Store Gateway API — Health. 2 operations. Lead operation: Thanos Liveness Check. Self-contained Naftiko
+    capability covering one Thanos business surface.'
+  tags:
+  - Thanos
+  - Health
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    THANOS_API_KEY: THANOS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: store-gateway-health
+    baseUri: http://localhost:10902
+    description: Thanos Store Gateway API — Health business capability. Self-contained, no shared references.
+    resources:
+    - name: --healthy
+      path: /-/healthy
+      operations:
+      - name: getstorehealthy
+        method: GET
+        description: Thanos Liveness Check
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: --ready
+      path: /-/ready
+      operations:
+      - name: getstoreready
+        method: GET
+        description: Thanos Readiness Check
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: store-gateway-health-rest
+    port: 8080
+    description: REST adapter for Thanos Store Gateway API — Health. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1//healthy
+      name: healthy
+      description: REST surface for --healthy.
+      operations:
+      - method: GET
+        name: getstorehealthy
+        description: Thanos Liveness Check
+        call: store-gateway-health.getstorehealthy
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1//ready
+      name: ready
+      description: REST surface for --ready.
+      operations:
+      - method: GET
+        name: getstoreready
+        description: Thanos Readiness Check
+        call: store-gateway-health.getstoreready
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: store-gateway-health-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Thanos Store Gateway API — Health. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: thanos-liveness-check
+      description: Thanos Liveness Check
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: store-gateway-health.getstorehealthy
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: thanos-readiness-check
+      description: Thanos Readiness Check
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: store-gateway-health.getstoreready
+      outputParameters:
+      - type: object
+        mapping: $.

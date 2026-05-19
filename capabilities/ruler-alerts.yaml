@@ -1,0 +1,67 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Thanos Ruler API — Alerts
+  description: 'Thanos Ruler API — Alerts. 1 operations. Lead operation: Thanos List Active Alerts. Self-contained Naftiko
+    capability covering one Thanos business surface.'
+  tags:
+  - Thanos
+  - Alerts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    THANOS_API_KEY: THANOS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ruler-alerts
+    baseUri: http://localhost:10902
+    description: Thanos Ruler API — Alerts business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-alerts
+      path: /api/v1/alerts
+      operations:
+      - name: getruleralerts
+        method: GET
+        description: Thanos List Active Alerts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: ruler-alerts-rest
+    port: 8080
+    description: REST adapter for Thanos Ruler API — Alerts. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/v1/alerts
+      name: api-v1-alerts
+      description: REST surface for api-v1-alerts.
+      operations:
+      - method: GET
+        name: getruleralerts
+        description: Thanos List Active Alerts
+        call: ruler-alerts.getruleralerts
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ruler-alerts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Thanos Ruler API — Alerts. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: thanos-list-active-alerts
+      description: Thanos List Active Alerts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ruler-alerts.getruleralerts
+      outputParameters:
+      - type: object
+        mapping: $.

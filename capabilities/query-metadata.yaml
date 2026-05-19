@@ -1,0 +1,202 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Thanos Query API — Metadata
+  description: 'Thanos Query API — Metadata. 3 operations. Lead operation: Get Label Values. Self-contained Naftiko capability
+    covering one Thanos business surface.'
+  tags:
+  - Thanos
+  - Metadata
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    THANOS_API_KEY: THANOS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: query-metadata
+    baseUri: http://localhost:9090
+    description: Thanos Query API — Metadata business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-label-label_name-values
+      path: /api/v1/label/{label_name}/values
+      operations:
+      - name: getlabelvalues
+        method: GET
+        description: Get Label Values
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: label_name
+          in: path
+          type: string
+          description: The label name to retrieve values for
+          required: true
+        - name: start
+          in: query
+          type: string
+          description: Start timestamp
+        - name: end
+          in: query
+          type: string
+          description: End timestamp
+        - name: match[]
+          in: query
+          type: array
+          description: Series selector to filter label values
+    - name: api-v1-labels
+      path: /api/v1/labels
+      operations:
+      - name: getlabels
+        method: GET
+        description: Get Label Names
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: start
+          in: query
+          type: string
+          description: Start timestamp
+        - name: end
+          in: query
+          type: string
+          description: End timestamp
+        - name: match[]
+          in: query
+          type: array
+          description: Series selector to filter labels
+    - name: api-v1-series
+      path: /api/v1/series
+      operations:
+      - name: getseries
+        method: GET
+        description: Find Series by Label Matchers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: match[]
+          in: query
+          type: array
+          description: Series selector argument that selects the series to return. At least one match[] argument must be provided.
+          required: true
+        - name: start
+          in: query
+          type: string
+          description: Start timestamp
+        - name: end
+          in: query
+          type: string
+          description: End timestamp
+  exposes:
+  - type: rest
+    namespace: query-metadata-rest
+    port: 8080
+    description: REST adapter for Thanos Query API — Metadata. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/v1/label/{label-name}/values
+      name: api-v1-label-label-name-values
+      description: REST surface for api-v1-label-label_name-values.
+      operations:
+      - method: GET
+        name: getlabelvalues
+        description: Get Label Values
+        call: query-metadata.getlabelvalues
+        with:
+          label_name: rest.label_name
+          start: rest.start
+          end: rest.end
+          match[]: rest.match[]
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/labels
+      name: api-v1-labels
+      description: REST surface for api-v1-labels.
+      operations:
+      - method: GET
+        name: getlabels
+        description: Get Label Names
+        call: query-metadata.getlabels
+        with:
+          start: rest.start
+          end: rest.end
+          match[]: rest.match[]
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/series
+      name: api-v1-series
+      description: REST surface for api-v1-series.
+      operations:
+      - method: GET
+        name: getseries
+        description: Find Series by Label Matchers
+        call: query-metadata.getseries
+        with:
+          match[]: rest.match[]
+          start: rest.start
+          end: rest.end
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: query-metadata-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Thanos Query API — Metadata. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-label-values
+      description: Get Label Values
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: query-metadata.getlabelvalues
+      with:
+        label_name: tools.label_name
+        start: tools.start
+        end: tools.end
+        match[]: tools.match[]
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-label-names
+      description: Get Label Names
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: query-metadata.getlabels
+      with:
+        start: tools.start
+        end: tools.end
+        match[]: tools.match[]
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: find-series-label-matchers
+      description: Find Series by Label Matchers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: query-metadata.getseries
+      with:
+        match[]: tools.match[]
+        start: tools.start
+        end: tools.end
+      outputParameters:
+      - type: object
+        mapping: $.

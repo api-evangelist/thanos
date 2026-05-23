@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorResult",
+  "title": "VectorResult",
+  "type": "object",
+  "properties": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Label set identifying the metric"
+    },
+    "value": {
+      "type": "array",
+      "description": "[timestamp, value] pair",
+      "items": {},
+      "minItems": 2,
+      "maxItems": 2
+    }
+  }
+}

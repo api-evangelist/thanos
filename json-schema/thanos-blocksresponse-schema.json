@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BlocksResponse",
+  "title": "BlocksResponse",
+  "type": "object",
+  "description": "Response containing metadata for TSDB blocks managed by the Compactor.",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Status of the response.",
+      "enum": [
+        "success",
+        "error"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "description": "Block metadata payload.",
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "description": "List of block metadata entries.",
+          "items": {
+            "$ref": "#/components/schemas/BlockMeta"
+          }
+        },
+        "label": {
+          "type": "string",
+          "description": "External label identifying the object storage tenant."
+        }
+      }
+    }
+  }
+}

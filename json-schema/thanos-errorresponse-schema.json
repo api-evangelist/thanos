@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ErrorResponse",
+  "title": "ErrorResponse",
+  "type": "object",
+  "description": "Error response returned when a request cannot be processed.",
+  "required": [
+    "status",
+    "error"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "error"
+      ]
+    },
+    "error": {
+      "type": "string",
+      "description": "Human-readable error message."
+    }
+  }
+}

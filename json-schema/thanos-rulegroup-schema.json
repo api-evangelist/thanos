@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RuleGroup",
+  "title": "RuleGroup",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "file": {
+      "type": "string"
+    },
+    "interval": {
+      "type": "number",
+      "format": "double"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AlertingRule"
+          },
+          {
+            "$ref": "#/components/schemas/RecordingRule"
+          }
+        ]
+      }
+    },
+    "partialResponseStrategy": {
+      "type": "string",
+      "description": "Thanos-specific field for partial response handling"
+    }
+  }
+}

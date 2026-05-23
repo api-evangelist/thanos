@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MatrixResult",
+  "title": "MatrixResult",
+  "type": "object",
+  "properties": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Label set identifying the metric"
+    },
+    "values": {
+      "type": "array",
+      "description": "Array of [timestamp, value] pairs",
+      "items": {
+        "type": "array",
+        "items": {},
+        "minItems": 2,
+        "maxItems": 2
+      }
+    }
+  }
+}

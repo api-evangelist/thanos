@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ActiveTarget",
+  "title": "ActiveTarget",
+  "type": "object",
+  "properties": {
+    "discoveredLabels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "scrapePool": {
+      "type": "string"
+    },
+    "scrapeUrl": {
+      "type": "string"
+    },
+    "globalUrl": {
+      "type": "string"
+    },
+    "lastError": {
+      "type": "string"
+    },
+    "lastScrape": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lastScrapeDuration": {
+      "type": "number",
+      "format": "double"
+    },
+    "health": {
+      "type": "string",
+      "enum": [
+        "up",
+        "down",
+        "unknown"
+      ]
+    }
+  }
+}

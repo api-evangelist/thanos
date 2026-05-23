@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/QueryResponse",
+  "title": "QueryResponse",
+  "type": "object",
+  "required": [
+    "status",
+    "data"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "error"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "resultType",
+        "result"
+      ],
+      "properties": {
+        "resultType": {
+          "type": "string",
+          "enum": [
+            "matrix",
+            "vector",
+            "scalar",
+            "string"
+          ]
+        },
+        "result": {
+          "type": "array",
+          "description": "Query result. Structure varies based on resultType.",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VectorResult"
+              },
+              {
+                "$ref": "#/components/schemas/MatrixResult"
+              },
+              {
+                "$ref": "#/components/schemas/ScalarResult"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Warnings from partial responses or store issues"
+    }
+  }
+}

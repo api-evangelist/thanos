@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StoreInfo",
+  "title": "StoreInfo",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Store endpoint name or address"
+    },
+    "lastCheck": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of last health check"
+    },
+    "lastError": {
+      "type": "string",
+      "nullable": true,
+      "description": "Last error from the store, null if healthy"
+    },
+    "labelSets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "description": "External labels advertised by the store"
+    },
+    "minTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Minimum time in milliseconds the store has data for"
+    },
+    "maxTime": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Maximum time in milliseconds the store has data for"
+    },
+    "storeType": {
+      "type": "string",
+      "description": "Type of store component",
+      "enum": [
+        "sidecar",
+        "store",
+        "rule",
+        "receive",
+        "debug",
+        "unknown"
+      ]
+    }
+  }
+}

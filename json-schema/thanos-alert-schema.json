@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Alert",
+  "title": "Alert",
+  "type": "object",
+  "properties": {
+    "labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "annotations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "firing",
+        "pending"
+      ]
+    },
+    "activeAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "value": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ScalarResult",
+  "title": "ScalarResult",
+  "type": "array",
+  "description": "[timestamp, value] pair for scalar results",
+  "items": {},
+  "minItems": 2,
+  "maxItems": 2
+}

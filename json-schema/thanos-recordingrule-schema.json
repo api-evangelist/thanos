@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecordingRule",
+  "title": "RecordingRule",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "recording"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "health": {
+      "type": "string"
+    },
+    "lastError": {
+      "type": "string"
+    },
+    "lastEvaluation": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluationTime": {
+      "type": "number",
+      "format": "double"
+    }
+  }
+}

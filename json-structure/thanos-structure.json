@@ -1,0 +1,253 @@
+{
+  "provider": "Thanos",
+  "providerId": "thanos",
+  "kind": "json-structure",
+  "description": "Structural overview of the Thanos API surface; extracted from openapi/.",
+  "schemaCount": 19,
+  "operationCount": 11,
+  "schemas": [
+    {
+      "name": "QueryResponse",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "status",
+        "data"
+      ]
+    },
+    {
+      "name": "VectorResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "MatrixResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "ScalarResult",
+      "type": "array",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SeriesResponse",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "status",
+        "data"
+      ]
+    },
+    {
+      "name": "LabelsResponse",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "status",
+        "data"
+      ]
+    },
+    {
+      "name": "LabelValuesResponse",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "status",
+        "data"
+      ]
+    },
+    {
+      "name": "TargetsResponse",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "status",
+        "data"
+      ]
+    },
+    {
+      "name": "ActiveTarget",
+      "type": "object",
+      "propertyCount": 9,
+      "required": []
+    },
+    {
+      "name": "DroppedTarget",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "RulesResponse",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "status",
+        "data"
+      ]
+    },
+    {
+      "name": "RuleGroup",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "AlertingRule",
+      "type": "object",
+      "propertyCount": 12,
+      "required": []
+    },
+    {
+      "name": "RecordingRule",
+      "type": "object",
+      "propertyCount": 8,
+      "required": []
+    },
+    {
+      "name": "AlertsResponse",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "status",
+        "data"
+      ]
+    },
+    {
+      "name": "Alert",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "StoresResponse",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "status",
+        "data"
+      ]
+    },
+    {
+      "name": "StoreInfo",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "ErrorResponse",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "status",
+        "errorType",
+        "error"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/api/v1/query",
+      "operationId": "instantQuery",
+      "summary": "Evaluate an Instant Query",
+      "tags": [
+        "Query"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/query",
+      "operationId": "instantQueryPost",
+      "summary": "Evaluate an Instant Query (POST)",
+      "tags": [
+        "Query"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/query_range",
+      "operationId": "rangeQuery",
+      "summary": "Evaluate a Range Query",
+      "tags": [
+        "Query"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/query_range",
+      "operationId": "rangeQueryPost",
+      "summary": "Evaluate a Range Query (POST)",
+      "tags": [
+        "Query"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/series",
+      "operationId": "getSeries",
+      "summary": "Find Series by Label Matchers",
+      "tags": [
+        "Metadata"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/labels",
+      "operationId": "getLabels",
+      "summary": "Get Label Names",
+      "tags": [
+        "Metadata"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/label/{label_name}/values",
+      "operationId": "getLabelValues",
+      "summary": "Get Label Values",
+      "tags": [
+        "Metadata"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/targets",
+      "operationId": "getTargets",
+      "summary": "Get Current Target Discovery",
+      "tags": [
+        "Targets"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/rules",
+      "operationId": "getRules",
+      "summary": "Get Alerting and Recording Rules",
+      "tags": [
+        "Rules"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/alerts",
+      "operationId": "getAlerts",
+      "summary": "Get Active Alerts",
+      "tags": [
+        "Rules"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/stores",
+      "operationId": "getStores",
+      "summary": "Get Connected Store Information",
+      "tags": [
+        "Stores"
+      ]
+    }
+  ]
+}

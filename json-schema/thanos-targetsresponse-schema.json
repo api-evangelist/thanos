@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TargetsResponse",
+  "title": "TargetsResponse",
+  "type": "object",
+  "required": [
+    "status",
+    "data"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success"
+      ]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "activeTargets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ActiveTarget"
+          }
+        },
+        "droppedTargets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/DroppedTarget"
+          }
+        }
+      }
+    }
+  }
+}

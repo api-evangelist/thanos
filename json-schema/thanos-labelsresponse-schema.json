@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LabelsResponse",
+  "title": "LabelsResponse",
+  "type": "object",
+  "required": [
+    "status",
+    "data"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "success"
+      ]
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of label names"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

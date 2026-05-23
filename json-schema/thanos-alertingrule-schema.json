@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AlertingRule",
+  "title": "AlertingRule",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "alerting"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "number",
+      "format": "double"
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "annotations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "alerts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Alert"
+      }
+    },
+    "health": {
+      "type": "string"
+    },
+    "lastError": {
+      "type": "string"
+    },
+    "lastEvaluation": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evaluationTime": {
+      "type": "number",
+      "format": "double"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "firing",
+        "pending",
+        "inactive"
+      ]
+    }
+  }
+}

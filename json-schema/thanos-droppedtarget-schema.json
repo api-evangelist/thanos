@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DroppedTarget",
+  "title": "DroppedTarget",
+  "type": "object",
+  "properties": {
+    "discoveredLabels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

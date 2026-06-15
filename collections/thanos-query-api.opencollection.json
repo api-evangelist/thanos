@@ -1,0 +1,469 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Query API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Evaluate an Instant Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/query",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "PromQL query expression"
+              },
+              {
+                "name": "time",
+                "value": "",
+                "type": "query",
+                "description": "Evaluation timestamp in RFC3339 or Unix timestamp format. Defaults to current server time."
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Evaluation timeout. Defaults to server-configured timeout."
+              },
+              {
+                "name": "dedup",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true."
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              },
+              {
+                "name": "max_source_resolution",
+                "value": "",
+                "type": "query",
+                "description": "Maximum source resolution to use for the query. Can be 0s, 5m, or 1h. Selects the appropriate downsampled data when available."
+              },
+              {
+                "name": "engine",
+                "value": "",
+                "type": "query",
+                "description": "Query engine to use. Thanos supports the default Prometheus engine and the Thanos engine for distributed execution."
+              }
+            ]
+          },
+          "docs": "Evaluates a PromQL expression at a single point in time. Supports deduplication and partial response controls specific to Thanos."
+        },
+        {
+          "info": {
+            "name": "Evaluate an Instant Query (POST)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:9090/api/v1/query",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "query",
+                  "value": ""
+                },
+                {
+                  "name": "time",
+                  "value": ""
+                },
+                {
+                  "name": "timeout",
+                  "value": ""
+                },
+                {
+                  "name": "dedup",
+                  "value": ""
+                },
+                {
+                  "name": "partial_response",
+                  "value": ""
+                },
+                {
+                  "name": "max_source_resolution",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Evaluates a PromQL expression at a single point in time using POST body encoding for large queries."
+        },
+        {
+          "info": {
+            "name": "Evaluate a Range Query",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/query_range",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "PromQL query expression"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Start timestamp in RFC3339 or Unix timestamp format"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "End timestamp in RFC3339 or Unix timestamp format"
+              },
+              {
+                "name": "step",
+                "value": "",
+                "type": "query",
+                "description": "Query resolution step width as duration or float seconds"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Evaluation timeout"
+              },
+              {
+                "name": "dedup",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true."
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              },
+              {
+                "name": "max_source_resolution",
+                "value": "",
+                "type": "query",
+                "description": "Maximum source resolution to use for the query. Can be 0s, 5m, or 1h. Selects the appropriate downsampled data when available."
+              },
+              {
+                "name": "engine",
+                "value": "",
+                "type": "query",
+                "description": "Query engine to use. Thanos supports the default Prometheus engine and the Thanos engine for distributed execution."
+              }
+            ]
+          },
+          "docs": "Evaluates a PromQL expression over a range of time with a specified step interval. Returns a matrix of time series values."
+        },
+        {
+          "info": {
+            "name": "Evaluate a Range Query (POST)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:9090/api/v1/query_range",
+            "body": {
+              "type": "form-urlencoded",
+              "data": [
+                {
+                  "name": "query",
+                  "value": ""
+                },
+                {
+                  "name": "start",
+                  "value": ""
+                },
+                {
+                  "name": "end",
+                  "value": ""
+                },
+                {
+                  "name": "step",
+                  "value": ""
+                },
+                {
+                  "name": "timeout",
+                  "value": ""
+                },
+                {
+                  "name": "dedup",
+                  "value": ""
+                },
+                {
+                  "name": "partial_response",
+                  "value": ""
+                },
+                {
+                  "name": "max_source_resolution",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Evaluates a PromQL range query using POST body encoding for large queries."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Find Series by Label Matchers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/series",
+            "params": [
+              {
+                "name": "match[]",
+                "value": "",
+                "type": "query",
+                "description": "Series selector argument that selects the series to return. At least one match[] argument must be provided."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Start timestamp"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "End timestamp"
+              },
+              {
+                "name": "dedup",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true."
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns the list of time series that match a certain label set. Queries across all connected stores."
+        },
+        {
+          "info": {
+            "name": "Get Label Names",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/labels",
+            "params": [
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Start timestamp"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "End timestamp"
+              },
+              {
+                "name": "match[]",
+                "value": "",
+                "type": "query",
+                "description": "Series selector to filter labels"
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns a list of label names available across all stores."
+        },
+        {
+          "info": {
+            "name": "Get Label Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/label/:label_name/values",
+            "params": [
+              {
+                "name": "label_name",
+                "value": "",
+                "type": "path",
+                "description": "The label name to retrieve values for"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Start timestamp"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query",
+                "description": "End timestamp"
+              },
+              {
+                "name": "match[]",
+                "value": "",
+                "type": "query",
+                "description": "Series selector to filter label values"
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns a list of label values for a given label name across all connected stores."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Targets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Current Target Discovery",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/targets",
+            "params": [
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Filter targets by state. Can be active, dropped, or any."
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns an overview of the current state of target discovery across connected Prometheus instances."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Alerting and Recording Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/rules",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by rule type"
+              },
+              {
+                "name": "match[]",
+                "value": "",
+                "type": "query",
+                "description": "Filter rules by label matchers"
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns a list of alerting and recording rules that are currently loaded across connected Thanos Ruler and Prometheus instances."
+        },
+        {
+          "info": {
+            "name": "Get Active Alerts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/alerts",
+            "params": [
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns a list of all active alerts across connected Thanos Ruler and Prometheus instances."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Connected Store Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:9090/api/v1/stores"
+          },
+          "docs": "Returns information about all connected Thanos store endpoints including their type, labels, min/max time range, and last health check status. This is a Thanos-specific endpoint not found in vanilla Prometheus."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

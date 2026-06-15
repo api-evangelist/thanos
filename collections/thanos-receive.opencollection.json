@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Receive API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Liveness Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/-/healthy"
+          },
+          "docs": "Returns HTTP 200 if the Receive process is alive and running. Used as a liveness probe in Kubernetes deployments."
+        },
+        {
+          "info": {
+            "name": "Thanos Readiness Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/-/ready"
+          },
+          "docs": "Returns HTTP 200 when the Receive component is ready to accept remote write requests. A 503 is returned during initialization or when the hashring configuration has not yet been loaded."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Prometheus Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/metrics"
+          },
+          "docs": "Exposes internal Receive metrics in Prometheus text exposition format. Includes metrics for remote write request rates and errors, replication lag, hashring routing operations, and TSDB compaction counts."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Remote Write",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Ingest Metrics via Prometheus Remote Write",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:10902/api/v1/receive",
+            "headers": [
+              {
+                "name": "THANOS-TENANT",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Accepts Prometheus Remote Write requests containing time series data. The request body must be a Snappy-compressed protobuf-encoded WriteRequest. Multi-tenancy is supported via the THANOS-TENANT HTTP header. Requests may be forwarded to other Receive instances based on hashring routing configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

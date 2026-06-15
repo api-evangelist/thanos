@@ -1,0 +1,432 @@
+{
+  "item": [
+    {
+      "id": "4f416353-128c-4cea-a7f3-fd6fdee3dfd1",
+      "name": "Blocks",
+      "description": {
+        "content": "Block metadata and object storage inspection endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "47f7db5f-2c57-40be-a3a2-bd12cbcf19a8",
+          "name": "Thanos List Blocks in Object Storage",
+          "request": {
+            "name": "Thanos List Blocks in Object Storage",
+            "description": {
+              "content": "Returns metadata for all blocks currently loaded or tracked by the Store Gateway from the configured object storage bucket. Each block entry includes its ULID, time range, compaction level, and label set.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "blocks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "view",
+                  "value": "<string>",
+                  "description": "Controls the level of detail in the response. Use 'loaded' to see only blocks currently loaded, or 'all' to include blocks being synced."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "51870030-cb59-4624-ab92-276ca8ad91c5",
+              "name": "Block metadata list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "view",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"blocks\": [\n      {\n        \"ulid\": \"01FHND2RNJHSZ7E7XFPVKH2JG\",\n        \"minTime\": 3150,\n        \"maxTime\": 3747,\n        \"compaction\": {\n          \"level\": 8416,\n          \"sources\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"thanos\": {\n          \"labels\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": \"string\"\n          },\n          \"downsample\": {\n            \"resolution\": 9653\n          },\n          \"source\": \"compactor\"\n        }\n      },\n      {\n        \"ulid\": \"01FHND2RNJHSZ7E7XFPVKH2JG\",\n        \"minTime\": 310,\n        \"maxTime\": 1394,\n        \"compaction\": {\n          \"level\": 3084,\n          \"sources\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"thanos\": {\n          \"labels\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"downsample\": {\n            \"resolution\": 6651\n          },\n          \"source\": \"ruler\"\n        }\n      }\n    ],\n    \"label\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b11d5d5a-c05c-497a-a26b-569985eb4064",
+              "name": "Internal error retrieving block metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "view",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "3b2ad0bc-cc39-4053-8172-47c1c8fef9ef",
+      "name": "Health",
+      "description": {
+        "content": "Liveness and readiness probes for the Store Gateway.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "55c03c16-0b28-487b-af4b-e8925afa8219",
+          "name": "Thanos Liveness Check",
+          "request": {
+            "name": "Thanos Liveness Check",
+            "description": {
+              "content": "Returns HTTP 200 if the Store Gateway process is alive and running. Used as a liveness probe in Kubernetes deployments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "healthy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "90908068-0e24-417e-9d2c-8035828106c8",
+              "name": "Store Gateway is healthy",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "healthy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Store is Healthy.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "52553119-271c-485f-b9a1-1b1263d3451a",
+          "name": "Thanos Readiness Check",
+          "request": {
+            "name": "Thanos Readiness Check",
+            "description": {
+              "content": "Returns HTTP 200 when the Store Gateway is ready to serve requests, indicating it has loaded block metadata from the configured object storage backend. Used as a readiness probe in Kubernetes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "ready"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "092eab6e-226b-4df5-817d-a7371c292c77",
+              "name": "Store Gateway is ready to serve requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Store is Ready.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2126f2f2-c6b8-4563-a3d2-f868f6d14cff",
+              "name": "Store Gateway is not yet ready",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ab462c11-2dab-4f21-9418-24668c010723",
+      "name": "Metrics",
+      "description": {
+        "content": "Prometheus metrics for monitoring Store Gateway performance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "12054725-27db-4ab6-97fd-af1a847e2767",
+          "name": "Thanos Prometheus Metrics",
+          "request": {
+            "name": "Thanos Prometheus Metrics",
+            "description": {
+              "content": "Exposes internal Store Gateway metrics in Prometheus text exposition format. Includes metrics for gRPC request rates, block sync operations, cache hit/miss ratios, and object storage operation counts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0a0671fd-f11f-4baf-939c-e65a03352ddc",
+              "name": "Prometheus metrics in text format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8d8f3cc3-431e-4e3b-9a36-f0129b2217e1",
+    "name": "Thanos Store Gateway API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Store Gateway HTTP API provides operational endpoints for the Store Gateway component, which serves metrics stored in object storage buckets. It exposes health, readiness, and metrics endpoints alongside block metadata inspection capabilities.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

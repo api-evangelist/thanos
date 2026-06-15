@@ -1,0 +1,432 @@
+{
+  "item": [
+    {
+      "id": "f9c3589c-f454-4e4c-9429-a61d8c258562",
+      "name": "Blocks",
+      "description": {
+        "content": "Block metadata inspection and compaction status endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "222fbcae-fbb7-49a0-88d5-85ee36382483",
+          "name": "Thanos List Blocks in Object Storage",
+          "request": {
+            "name": "Thanos List Blocks in Object Storage",
+            "description": {
+              "content": "Returns metadata for all TSDB blocks in the configured object storage bucket as seen by the Compactor. Useful for monitoring compaction progress, checking downsampling status, and verifying retention policy enforcement.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "blocks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "view",
+                  "value": "<string>",
+                  "description": "Specifies which blocks to include in the response. Use 'all' to see all tracked blocks, or filter by compaction state."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "598c4266-a5ef-4f66-acf1-385c895061cc",
+              "name": "Block metadata list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "view",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"blocks\": [\n      {\n        \"ulid\": \"01FHND2RNJHSZ7E7XFPVKH2JG\",\n        \"minTime\": 5130,\n        \"maxTime\": 7417,\n        \"compaction\": {\n          \"level\": 3356,\n          \"sources\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"thanos\": {\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"downsample\": {\n            \"resolution\": 7918\n          },\n          \"source\": \"ruler\"\n        }\n      },\n      {\n        \"ulid\": \"01FHND2RNJHSZ7E7XFPVKH2JG\",\n        \"minTime\": 2301,\n        \"maxTime\": 454,\n        \"compaction\": {\n          \"level\": 1998,\n          \"sources\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"thanos\": {\n          \"labels\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\",\n            \"key_2\": \"string\"\n          },\n          \"downsample\": {\n            \"resolution\": 552\n          },\n          \"source\": \"receive\"\n        }\n      }\n    ],\n    \"label\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4667230-68bb-4df1-9309-a9b5f9cd672b",
+              "name": "Internal error retrieving block metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "view",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "7f0be3e3-72d1-4548-bd5c-92b027eeb907",
+      "name": "Health",
+      "description": {
+        "content": "Liveness and readiness probes for the Compactor.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d7e7640c-b173-4ddd-81b1-3833543363c5",
+          "name": "Thanos Liveness Check",
+          "request": {
+            "name": "Thanos Liveness Check",
+            "description": {
+              "content": "Returns HTTP 200 if the Compactor process is alive and running. Used as a liveness probe in Kubernetes deployments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "healthy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ce65cf3b-c222-4596-98df-8bdd0574a291",
+              "name": "Compactor is healthy",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "healthy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Compact is Healthy.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "66197ed5-cb74-465a-9693-d3d93a104937",
+          "name": "Thanos Readiness Check",
+          "request": {
+            "name": "Thanos Readiness Check",
+            "description": {
+              "content": "Returns HTTP 200 when the Compactor is ready. The Compactor runs as a long-lived process and this endpoint signals it has started and is actively compacting blocks.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "ready"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "27e337d0-6c47-4f33-a36e-96f3c70f44c4",
+              "name": "Compactor is ready",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Compact is Ready.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "658e4973-5f74-482b-9f58-400de7f35af8",
+              "name": "Compactor is not yet ready",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "eaedb5be-7ba2-4016-9301-b19e831765b0",
+      "name": "Metrics",
+      "description": {
+        "content": "Prometheus metrics for monitoring Compactor performance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d255d90f-6b58-4d80-beb1-63347858b774",
+          "name": "Thanos Prometheus Metrics",
+          "request": {
+            "name": "Thanos Prometheus Metrics",
+            "description": {
+              "content": "Exposes internal Compactor metrics in Prometheus text exposition format. Includes metrics for compaction duration, block counts by resolution, retention enforcement operations, downsampling progress, and object storage operation rates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "28de6950-6318-421f-86d3-741c8d586db6",
+              "name": "Prometheus metrics in text format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6c2cd6ed-9ff6-4e47-a72c-df4917cf8e3c",
+    "name": "Thanos Compact API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

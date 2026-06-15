@@ -1,0 +1,545 @@
+{
+  "item": [
+    {
+      "id": "df722130-c339-4bed-be4d-7081c35c3316",
+      "name": "Alerts",
+      "description": {
+        "content": "Endpoints for querying currently active alerts.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "85b97e3a-bfc8-4ca1-8281-c0475deb2c6d",
+          "name": "Thanos List Active Alerts",
+          "request": {
+            "name": "Thanos List Active Alerts",
+            "description": {
+              "content": "Returns all currently active (firing or pending) alerts produced by the Ruler's alerting rule evaluations. Compatible with the Prometheus alerts API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "alerts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d73a5659-e21f-45c0-b856-f291a2d03617",
+              "name": "List of active alerts",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "alerts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"alerts\": [\n      {\n        \"labels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"annotations\": {\n          \"key_0\": \"string\"\n        },\n        \"state\": \"firing\",\n        \"activeAt\": \"2017-04-20T22:42:15.278Z\",\n        \"value\": \"string\"\n      },\n      {\n        \"labels\": {\n          \"key_0\": \"string\"\n        },\n        \"annotations\": {\n          \"key_0\": \"string\"\n        },\n        \"state\": \"firing\",\n        \"activeAt\": \"1976-07-07T07:19:05.705Z\",\n        \"value\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ad6850b7-3f07-4c82-b6b9-ec3ececa5750",
+      "name": "Health",
+      "description": {
+        "content": "Liveness and readiness probes for the Ruler.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4854ec89-c210-496c-a33e-fdf4d3ad0b79",
+          "name": "Thanos Liveness Check",
+          "request": {
+            "name": "Thanos Liveness Check",
+            "description": {
+              "content": "Returns HTTP 200 if the Ruler process is alive and running. Used as a liveness probe in Kubernetes deployments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "healthy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "29b30b9c-2df5-4308-9585-c079ccbc6435",
+              "name": "Ruler is healthy",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "healthy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Ruler is Healthy.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f6796beb-6dd2-4709-be3e-c231a380c785",
+          "name": "Thanos Readiness Check",
+          "request": {
+            "name": "Thanos Readiness Check",
+            "description": {
+              "content": "Returns HTTP 200 when the Ruler is ready to serve requests, indicating it has loaded rule configuration files and established connectivity to the Thanos Query endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "ready"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e57a092c-7532-41e9-b5b3-bf938e4b9a3e",
+              "name": "Ruler is ready to serve requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Ruler is Ready.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "66853b19-8971-4ee4-9ce9-7345dfed7691",
+              "name": "Ruler is not yet ready",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "9c9fa802-2d58-4925-98c9-79e116b674c9",
+      "name": "Metrics",
+      "description": {
+        "content": "Prometheus metrics for monitoring Ruler performance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "57d1e2c2-bf51-48cf-a59f-887415c1667e",
+          "name": "Thanos Prometheus Metrics",
+          "request": {
+            "name": "Thanos Prometheus Metrics",
+            "description": {
+              "content": "Exposes internal Ruler metrics in Prometheus text exposition format. Includes metrics for rule evaluation durations, alert firing rates, Alertmanager notification counts, and block upload operations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1f81ae0c-1668-48b6-b5d1-b924f37b5e36",
+              "name": "Prometheus metrics in text format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e342f37e-4e82-4cee-a940-b8a4d97fb1c9",
+      "name": "Rules",
+      "description": {
+        "content": "Endpoints for querying evaluated alerting and recording rules.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "39090d7b-71b8-471e-b8f3-f71d6ba14de8",
+          "name": "Thanos List Alerting and Recording Rules",
+          "request": {
+            "name": "Thanos List Alerting and Recording Rules",
+            "description": {
+              "content": "Returns all alerting and recording rules currently loaded and being evaluated by the Ruler. Supports filtering by rule type and rule group label matchers. Compatible with the Prometheus rules API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter rules by type."
+                },
+                {
+                  "disabled": false,
+                  "key": "match[]",
+                  "value": "<string>",
+                  "description": "Filter rules by label matchers. Only rules whose labels match all provided matchers will be returned."
+                },
+                {
+                  "disabled": false,
+                  "key": "match[]",
+                  "value": "<string>",
+                  "description": "Filter rules by label matchers. Only rules whose labels match all provided matchers will be returned."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "14a9dc70-babe-4de9-a4a1-26d2eced0ddd",
+              "name": "List of rule groups and rules",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "match[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "match[]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"groups\": [\n      {\n        \"name\": \"string\",\n        \"file\": \"string\",\n        \"interval\": 7036.189741101246,\n        \"rules\": [\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 4303.109156231947,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"1962-01-17T23:51:48.082Z\",\n            \"evaluationTime\": 6496.347623609427,\n            \"state\": \"pending\"\n          },\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 4184.757773218001,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"2007-09-25T08:44:45.829Z\",\n            \"evaluationTime\": 1888.695400132989,\n            \"state\": \"pending\"\n          }\n        ],\n        \"partialResponseStrategy\": \"warn\"\n      },\n      {\n        \"name\": \"string\",\n        \"file\": \"string\",\n        \"interval\": 2897.898120003848,\n        \"rules\": [\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 718.8787695505861,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"2014-10-06T19:23:34.011Z\",\n            \"evaluationTime\": 2803.7644998574265,\n            \"state\": \"pending\"\n          },\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 9292.671723610012,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_3\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_4\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"2005-04-06T15:43:22.442Z\",\n            \"evaluationTime\": 3359.8493949403364,\n            \"state\": \"firing\"\n          }\n        ],\n        \"partialResponseStrategy\": \"warn\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b89f74ca-8c5f-42fa-a341-388bc7157eba",
+              "name": "Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "match[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "match[]",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"error\": \"string\",\n  \"errorType\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "516d8e64-ffe0-4a8e-b842-0baff8826afc",
+    "name": "Thanos Ruler API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Ruler HTTP API exposes Prometheus-compatible endpoints for querying alerting and recording rules evaluated by the Ruler component. Ruler evaluates rules against the Thanos Query API for a global view, fires alerts to Alertmanager, and optionally uploads rule evaluation blocks to object storage for long-term storage.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

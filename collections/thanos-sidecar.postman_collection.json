@@ -1,0 +1,293 @@
+{
+  "item": [
+    {
+      "id": "a0bcf652-add6-4832-a436-e459b3434872",
+      "name": "Health",
+      "description": {
+        "content": "Liveness and readiness probes for the Sidecar.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "48ed9afa-870e-46a7-9e7b-fa2e0638e3ae",
+          "name": "Thanos Liveness Check",
+          "request": {
+            "name": "Thanos Liveness Check",
+            "description": {
+              "content": "Returns HTTP 200 if the Sidecar process is alive. Used as a liveness probe in Kubernetes deployments alongside Prometheus pods.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "healthy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "27f3efc0-f0f0-4592-ac79-9fbabd6cadb8",
+              "name": "Sidecar is healthy",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "healthy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Sidecar is Healthy.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "505b8a4c-9b12-4c83-b484-4b41e2682598",
+          "name": "Thanos Readiness Check",
+          "request": {
+            "name": "Thanos Readiness Check",
+            "description": {
+              "content": "Returns HTTP 200 when the Sidecar is ready to serve requests, indicating it has successfully connected to the local Prometheus instance and is ready to serve the Thanos Store API over gRPC.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "ready"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b1e1433b-38f5-4c4e-bbed-1cdc6be254fd",
+              "name": "Sidecar is ready to serve requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Sidecar is Ready.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a756303c-de49-4031-a950-8ecf2817ddf2",
+              "name": "Sidecar is not yet ready",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "b5029743-0a78-4aae-b889-3dfd102a9709",
+      "name": "Metrics",
+      "description": {
+        "content": "Prometheus metrics for monitoring Sidecar performance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "37ebe59e-14f5-4784-a337-afd2f15faaf7",
+          "name": "Thanos Prometheus Metrics",
+          "request": {
+            "name": "Thanos Prometheus Metrics",
+            "description": {
+              "content": "Exposes internal Sidecar metrics in Prometheus text exposition format. Includes metrics for gRPC request counts, block upload operations, Prometheus connectivity status, and shipper sync intervals.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eebfa76b-f172-418e-b718-e0e631bf99e9",
+              "name": "Prometheus metrics in text format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e9f3a398-594e-4a27-b967-c6d8c5a629dc",
+    "name": "Thanos Sidecar API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Sidecar HTTP API provides operational endpoints for the Sidecar component deployed alongside Prometheus instances. It exposes health, readiness, and metrics endpoints used for monitoring and orchestration. The Sidecar bridges Prometheus to the Thanos ecosystem by implementing the Thanos Store API over gRPC and optionally uploading blocks to object storage.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

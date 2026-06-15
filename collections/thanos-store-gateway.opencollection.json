@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Store Gateway API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Liveness Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/-/healthy"
+          },
+          "docs": "Returns HTTP 200 if the Store Gateway process is alive and running. Used as a liveness probe in Kubernetes deployments."
+        },
+        {
+          "info": {
+            "name": "Thanos Readiness Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/-/ready"
+          },
+          "docs": "Returns HTTP 200 when the Store Gateway is ready to serve requests, indicating it has loaded block metadata from the configured object storage backend. Used as a readiness probe in Kubernetes."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Prometheus Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/metrics"
+          },
+          "docs": "Exposes internal Store Gateway metrics in Prometheus text exposition format. Includes metrics for gRPC request rates, block sync operations, cache hit/miss ratios, and object storage operation counts."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Blocks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos List Blocks in Object Storage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/api/v1/blocks",
+            "params": [
+              {
+                "name": "view",
+                "value": "",
+                "type": "query",
+                "description": "Controls the level of detail in the response. Use 'loaded' to see only blocks currently loaded, or 'all' to include blocks being synced."
+              }
+            ]
+          },
+          "docs": "Returns metadata for all blocks currently loaded or tracked by the Store Gateway from the configured object storage bucket. Each block entry includes its ULID, time range, compaction level, and label set."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

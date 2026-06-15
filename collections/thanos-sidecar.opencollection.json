@@ -1,0 +1,59 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Sidecar API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Liveness Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/-/healthy"
+          },
+          "docs": "Returns HTTP 200 if the Sidecar process is alive. Used as a liveness probe in Kubernetes deployments alongside Prometheus pods."
+        },
+        {
+          "info": {
+            "name": "Thanos Readiness Check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/-/ready"
+          },
+          "docs": "Returns HTTP 200 when the Sidecar is ready to serve requests, indicating it has successfully connected to the local Prometheus instance and is ready to serve the Thanos Store API over gRPC."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Prometheus Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/metrics"
+          },
+          "docs": "Exposes internal Sidecar metrics in Prometheus text exposition format. Includes metrics for gRPC request counts, block upload operations, Prometheus connectivity status, and shipper sync intervals."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

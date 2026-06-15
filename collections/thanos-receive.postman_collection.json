@@ -1,0 +1,535 @@
+{
+  "item": [
+    {
+      "id": "dcf73824-06bc-48a1-815a-60dbc42e109b",
+      "name": "Health",
+      "description": {
+        "content": "Liveness and readiness probes for the Receive component.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f53f124c-05e9-41ef-aa64-6db096c2a4cf",
+          "name": "Thanos Liveness Check",
+          "request": {
+            "name": "Thanos Liveness Check",
+            "description": {
+              "content": "Returns HTTP 200 if the Receive process is alive and running. Used as a liveness probe in Kubernetes deployments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "healthy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "285aa8eb-671b-4c13-ad94-feea991d703f",
+              "name": "Receive is healthy",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "healthy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Receive is Healthy.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5673475b-b0a2-4b1d-bf01-1918c7b09eb7",
+          "name": "Thanos Readiness Check",
+          "request": {
+            "name": "Thanos Readiness Check",
+            "description": {
+              "content": "Returns HTTP 200 when the Receive component is ready to accept remote write requests. A 503 is returned during initialization or when the hashring configuration has not yet been loaded.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "-",
+                "ready"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4f87f689-7942-4e0f-b9a4-f8d4a0fc01e2",
+              "name": "Receive is ready to accept remote write requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "Thanos Receive is Ready.",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "95d14285-d56c-4979-99ac-d73aeb9fac6e",
+              "name": "Receive is not yet ready",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "-",
+                    "ready"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "13544376-cb09-400c-92b7-d60f7db06563",
+      "name": "Metrics",
+      "description": {
+        "content": "Prometheus metrics for monitoring Receive performance.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9d71c5d5-c533-41d8-9a01-0d63bc51205f",
+          "name": "Thanos Prometheus Metrics",
+          "request": {
+            "name": "Thanos Prometheus Metrics",
+            "description": {
+              "content": "Exposes internal Receive metrics in Prometheus text exposition format. Includes metrics for remote write request rates and errors, replication lag, hashring routing operations, and TSDB compaction counts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "87c3e7ec-4973-4dfd-9d0c-20dd27db6925",
+              "name": "Prometheus metrics in text format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "718cd06a-e4f1-4024-ad29-943e136a9b17",
+      "name": "Remote Write",
+      "description": {
+        "content": "Prometheus Remote Write ingestion endpoint.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f0842ac4-2378-44db-bcf1-55cc20dc2448",
+          "name": "Thanos Ingest Metrics via Prometheus Remote Write",
+          "request": {
+            "name": "Thanos Ingest Metrics via Prometheus Remote Write",
+            "description": {
+              "content": "Accepts Prometheus Remote Write requests containing time series data. The request body must be a Snappy-compressed protobuf-encoded WriteRequest. Multi-tenancy is supported via the THANOS-TENANT HTTP header. Requests may be forwarded to other Receive instances based on hashring routing configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "receive"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "Optional tenant identifier for multi-tenant deployments. Determines which tenant's TSDB the data is written to.",
+                "key": "THANOS-TENANT",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/x-protobuf"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<binary>"
+            }
+          },
+          "response": [
+            {
+              "id": "01bcdf99-a28c-4382-9cb1-621f55c96ca0",
+              "name": "Metrics ingested successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "receive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Optional tenant identifier for multi-tenant deployments. Determines which tenant's TSDB the data is written to.",
+                    "key": "THANOS-TENANT",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<binary>"
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "905a1d81-8ad0-4b60-bd4a-f28874f99cc2",
+              "name": "Invalid request format or content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "receive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Optional tenant identifier for multi-tenant deployments. Determines which tenant's TSDB the data is written to.",
+                    "key": "THANOS-TENANT",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<binary>"
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "420392e2-2b31-4666-9ae9-f6a6434fdd11",
+              "name": "Internal error during ingestion",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "receive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Optional tenant identifier for multi-tenant deployments. Determines which tenant's TSDB the data is written to.",
+                    "key": "THANOS-TENANT",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<binary>"
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c0b11c26-995c-42c0-8b3b-61ee125a02f2",
+              "name": "Receive is unavailable or overloaded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "receive"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "Optional tenant identifier for multi-tenant deployments. Determines which tenant's TSDB the data is written to.",
+                    "key": "THANOS-TENANT",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<binary>"
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d228ef25-371a-4b56-82f7-c7426efa738a",
+    "name": "Thanos Receive API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Receive HTTP API implements the Prometheus Remote Write protocol to accept metrics pushed from Prometheus instances. It stores received metrics in a local TSDB and exposes health, readiness, and metrics endpoints for operational monitoring. Receive supports multi-tenancy via hashring-based routing and can replicate data across multiple Receive instances.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

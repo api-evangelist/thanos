@@ -132,6 +132,8 @@ apis:
       - type: OpenAPI
         url: openapi/thanos-compact-openapi.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/thanos-agentic-access.yml
   - type: DomainSecurity
     url: security/thanos-domain-security.yml
   - url: https://thanos.io/

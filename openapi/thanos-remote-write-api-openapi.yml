@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts Remote Write API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Remote Write
+  description: Prometheus Remote Write ingestion endpoint.
+paths:
+  /api/v1/receive:
+    post:
+      operationId: remoteWrite
+      summary: Thanos Ingest Metrics via Prometheus Remote Write
+      description: Accepts Prometheus Remote Write requests containing time series data. The request body must be a Snappy-compressed protobuf-encoded WriteRequest. Multi-tenancy is supported via the THANOS-TENANT HTTP header. Requests may be forwarded to other Receive instances based on hashring routing configuration.
+      tags:
+      - Remote Write
+      parameters:
+      - name: THANOS-TENANT
+        in: header
+        required: false
+        description: Optional tenant identifier for multi-tenant deployments. Determines which tenant's TSDB the data is written to.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/x-protobuf:
+            schema:
+              type: string
+              format: binary
+              description: Snappy-compressed protobuf-encoded Prometheus WriteRequest containing time series samples.
+      responses:
+        '204':
+          description: Metrics ingested successfully
+        '400':
+          description: Invalid request format or content
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Internal error during ingestion
+          content:
+            text/plain:
+              schema:
+                type: string
+        '503':
+          description: Receive is unavailable or overloaded
+          content:
+            text/plain:
+              schema:
+                type: string
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

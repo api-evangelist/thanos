@@ -1,0 +1,223 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts Rules API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Rules
+paths:
+  /api/v1/rules:
+    get:
+      operationId: getRules
+      summary: Get Alerting and Recording Rules
+      description: Returns a list of alerting and recording rules that are currently loaded across connected Thanos Ruler and Prometheus instances.
+      tags:
+      - Rules
+      parameters:
+      - name: type
+        in: query
+        required: false
+        description: Filter by rule type
+        schema:
+          type: string
+          enum:
+          - alert
+          - record
+      - name: match[]
+        in: query
+        required: false
+        description: Filter rules by label matchers
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+      - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful rules response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RulesResponse'
+  /api/v1/alerts:
+    get:
+      operationId: getAlerts
+      summary: Get Active Alerts
+      description: Returns a list of all active alerts across connected Thanos Ruler and Prometheus instances.
+      tags:
+      - Rules
+      parameters:
+      - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful alerts response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertsResponse'
+components:
+  schemas:
+    RuleGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        file:
+          type: string
+        interval:
+          type: number
+          format: double
+        rules:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AlertingRule'
+            - $ref: '#/components/schemas/RecordingRule'
+        partialResponseStrategy:
+          type: string
+          description: Thanos-specific field for partial response handling
+    RecordingRule:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - recording
+        name:
+          type: string
+        query:
+          type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        health:
+          type: string
+        lastError:
+          type: string
+        lastEvaluation:
+          type: string
+          format: date-time
+        evaluationTime:
+          type: number
+          format: double
+    AlertingRule:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - alerting
+        name:
+          type: string
+        query:
+          type: string
+        duration:
+          type: number
+          format: double
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        alerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert'
+        health:
+          type: string
+        lastError:
+          type: string
+        lastEvaluation:
+          type: string
+          format: date-time
+        evaluationTime:
+          type: number
+          format: double
+        state:
+          type: string
+          enum:
+          - firing
+          - pending
+          - inactive
+    Alert:
+      type: object
+      properties:
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+        state:
+          type: string
+          enum:
+          - firing
+          - pending
+        activeAt:
+          type: string
+          format: date-time
+        value:
+          type: string
+    RulesResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/RuleGroup'
+    AlertsResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: object
+          properties:
+            alerts:
+              type: array
+              items:
+                $ref: '#/components/schemas/Alert'
+  parameters:
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

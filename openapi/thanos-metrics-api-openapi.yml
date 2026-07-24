@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts Metrics API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Metrics
+  description: Prometheus metrics for monitoring Compactor performance.
+paths:
+  /metrics:
+    get:
+      operationId: getCompactMetrics
+      summary: Thanos Prometheus Metrics
+      description: Exposes internal Compactor metrics in Prometheus text exposition format. Includes metrics for compaction duration, block counts by resolution, retention enforcement operations, downsampling progress, and object storage operation rates.
+      tags:
+      - Metrics
+      responses:
+        '200':
+          description: Prometheus metrics in text format
+          content:
+            text/plain:
+              schema:
+                type: string
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

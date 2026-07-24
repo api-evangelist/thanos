@@ -1,0 +1,81 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Alerts
+  description: Endpoints for querying currently active alerts.
+paths:
+  /api/v1/alerts:
+    get:
+      operationId: getRulerAlerts
+      summary: Thanos List Active Alerts
+      description: Returns all currently active (firing or pending) alerts produced by the Ruler's alerting rule evaluations. Compatible with the Prometheus alerts API.
+      tags:
+      - Alerts
+      responses:
+        '200':
+          description: List of active alerts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertsResponse'
+components:
+  schemas:
+    AlertsResponse:
+      type: object
+      description: Response containing currently active alerts.
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - error
+        data:
+          type: object
+          properties:
+            alerts:
+              type: array
+              description: List of currently active alerts.
+              items:
+                $ref: '#/components/schemas/Alert'
+    Alert:
+      type: object
+      description: An active alert instance produced by an alerting rule.
+      properties:
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels identifying the alert instance.
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Annotations providing additional context for the alert.
+        state:
+          type: string
+          enum:
+          - firing
+          - pending
+          description: Current state of the alert.
+        activeAt:
+          type: string
+          format: date-time
+          description: Timestamp when the alert became active.
+        value:
+          type: string
+          description: The value of the PromQL expression at the time of the last evaluation.
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

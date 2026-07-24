@@ -1,0 +1,89 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts Stores API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Stores
+paths:
+  /api/v1/stores:
+    get:
+      operationId: getStores
+      summary: Get Connected Store Information
+      description: Returns information about all connected Thanos store endpoints including their type, labels, min/max time range, and last health check status. This is a Thanos-specific endpoint not found in vanilla Prometheus.
+      tags:
+      - Stores
+      responses:
+        '200':
+          description: Successful stores response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoresResponse'
+components:
+  schemas:
+    StoresResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoreInfo'
+    StoreInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Store endpoint name or address
+        lastCheck:
+          type: string
+          format: date-time
+          description: Timestamp of last health check
+        lastError:
+          type: string
+          nullable: true
+          description: Last error from the store, null if healthy
+        labelSets:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: string
+          description: External labels advertised by the store
+        minTime:
+          type: integer
+          format: int64
+          description: Minimum time in milliseconds the store has data for
+        maxTime:
+          type: integer
+          format: int64
+          description: Maximum time in milliseconds the store has data for
+        storeType:
+          type: string
+          description: Type of store component
+          enum:
+          - sidecar
+          - store
+          - rule
+          - receive
+          - debug
+          - unknown
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

@@ -1,0 +1,116 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts Targets API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Targets
+paths:
+  /api/v1/targets:
+    get:
+      operationId: getTargets
+      summary: Get Current Target Discovery
+      description: Returns an overview of the current state of target discovery across connected Prometheus instances.
+      tags:
+      - Targets
+      parameters:
+      - name: state
+        in: query
+        required: false
+        description: Filter targets by state. Can be active, dropped, or any.
+        schema:
+          type: string
+          enum:
+          - active
+          - dropped
+          - any
+      - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful targets response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TargetsResponse'
+components:
+  schemas:
+    TargetsResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: object
+          properties:
+            activeTargets:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActiveTarget'
+            droppedTargets:
+              type: array
+              items:
+                $ref: '#/components/schemas/DroppedTarget'
+    DroppedTarget:
+      type: object
+      properties:
+        discoveredLabels:
+          type: object
+          additionalProperties:
+            type: string
+    ActiveTarget:
+      type: object
+      properties:
+        discoveredLabels:
+          type: object
+          additionalProperties:
+            type: string
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+        scrapePool:
+          type: string
+        scrapeUrl:
+          type: string
+        globalUrl:
+          type: string
+        lastError:
+          type: string
+        lastScrape:
+          type: string
+          format: date-time
+        lastScrapeDuration:
+          type: number
+          format: double
+        health:
+          type: string
+          enum:
+          - up
+          - down
+          - unknown
+  parameters:
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

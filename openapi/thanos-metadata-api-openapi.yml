@@ -1,0 +1,258 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts Metadata API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Metadata
+paths:
+  /api/v1/series:
+    get:
+      operationId: getSeries
+      summary: Find Series by Label Matchers
+      description: Returns the list of time series that match a certain label set. Queries across all connected stores.
+      tags:
+      - Metadata
+      parameters:
+      - name: match[]
+        in: query
+        required: true
+        description: Series selector argument that selects the series to return. At least one match[] argument must be provided.
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+      - name: start
+        in: query
+        required: false
+        description: Start timestamp
+        schema:
+          type: string
+      - name: end
+        in: query
+        required: false
+        description: End timestamp
+        schema:
+          type: string
+      - $ref: '#/components/parameters/dedup'
+      - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful series lookup
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeriesResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/labels:
+    get:
+      operationId: getLabels
+      summary: Get Label Names
+      description: Returns a list of label names available across all stores.
+      tags:
+      - Metadata
+      parameters:
+      - name: start
+        in: query
+        required: false
+        description: Start timestamp
+        schema:
+          type: string
+      - name: end
+        in: query
+        required: false
+        description: End timestamp
+        schema:
+          type: string
+      - name: match[]
+        in: query
+        required: false
+        description: Series selector to filter labels
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+      - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful label names response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelsResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/label/{label_name}/values:
+    get:
+      operationId: getLabelValues
+      summary: Get Label Values
+      description: Returns a list of label values for a given label name across all connected stores.
+      tags:
+      - Metadata
+      parameters:
+      - name: label_name
+        in: path
+        required: true
+        description: The label name to retrieve values for
+        schema:
+          type: string
+      - name: start
+        in: query
+        required: false
+        description: Start timestamp
+        schema:
+          type: string
+      - name: end
+        in: query
+        required: false
+        description: End timestamp
+        schema:
+          type: string
+      - name: match[]
+        in: query
+        required: false
+        description: Series selector to filter label values
+        schema:
+          type: array
+          items:
+            type: string
+        style: form
+        explode: true
+      - $ref: '#/components/parameters/partial_response'
+      responses:
+        '200':
+          description: Successful label values response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LabelValuesResponse'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    SeriesResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: string
+          description: Array of label sets
+        warnings:
+          type: array
+          items:
+            type: string
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - errorType
+      - error
+      properties:
+        status:
+          type: string
+          enum:
+          - error
+        errorType:
+          type: string
+          description: Category of error
+        error:
+          type: string
+          description: Human-readable error message
+        warnings:
+          type: array
+          items:
+            type: string
+    LabelsResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: array
+          items:
+            type: string
+          description: List of label names
+        warnings:
+          type: array
+          items:
+            type: string
+    LabelValuesResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: array
+          items:
+            type: string
+          description: List of label values
+        warnings:
+          type: array
+          items:
+            type: string
+  parameters:
+    dedup:
+      name: dedup
+      in: query
+      required: false
+      description: If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true.
+      schema:
+        type: boolean
+        default: true
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

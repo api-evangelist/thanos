@@ -1,0 +1,364 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts Query API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Query
+paths:
+  /api/v1/query:
+    get:
+      operationId: instantQuery
+      summary: Evaluate an Instant Query
+      description: Evaluates a PromQL expression at a single point in time. Supports deduplication and partial response controls specific to Thanos.
+      tags:
+      - Query
+      parameters:
+      - name: query
+        in: query
+        required: true
+        description: PromQL query expression
+        schema:
+          type: string
+      - name: time
+        in: query
+        required: false
+        description: Evaluation timestamp in RFC3339 or Unix timestamp format. Defaults to current server time.
+        schema:
+          type: string
+      - name: timeout
+        in: query
+        required: false
+        description: Evaluation timeout. Defaults to server-configured timeout.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/dedup'
+      - $ref: '#/components/parameters/partial_response'
+      - $ref: '#/components/parameters/max_source_resolution'
+      - $ref: '#/components/parameters/engine'
+      responses:
+        '200':
+          description: Successful query result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable expression
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Unavailable or timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: instantQueryPost
+      summary: Evaluate an Instant Query (POST)
+      description: Evaluates a PromQL expression at a single point in time using POST body encoding for large queries.
+      tags:
+      - Query
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - query
+              properties:
+                query:
+                  type: string
+                  description: PromQL query expression
+                time:
+                  type: string
+                  description: Evaluation timestamp
+                timeout:
+                  type: string
+                  description: Evaluation timeout
+                dedup:
+                  type: boolean
+                  description: Enable deduplication
+                partial_response:
+                  type: boolean
+                  description: Enable partial response
+                max_source_resolution:
+                  type: string
+                  description: Maximum source resolution
+      responses:
+        '200':
+          description: Successful query result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/query_range:
+    get:
+      operationId: rangeQuery
+      summary: Evaluate a Range Query
+      description: Evaluates a PromQL expression over a range of time with a specified step interval. Returns a matrix of time series values.
+      tags:
+      - Query
+      parameters:
+      - name: query
+        in: query
+        required: true
+        description: PromQL query expression
+        schema:
+          type: string
+      - name: start
+        in: query
+        required: true
+        description: Start timestamp in RFC3339 or Unix timestamp format
+        schema:
+          type: string
+      - name: end
+        in: query
+        required: true
+        description: End timestamp in RFC3339 or Unix timestamp format
+        schema:
+          type: string
+      - name: step
+        in: query
+        required: true
+        description: Query resolution step width as duration or float seconds
+        schema:
+          type: string
+      - name: timeout
+        in: query
+        required: false
+        description: Evaluation timeout
+        schema:
+          type: string
+      - $ref: '#/components/parameters/dedup'
+      - $ref: '#/components/parameters/partial_response'
+      - $ref: '#/components/parameters/max_source_resolution'
+      - $ref: '#/components/parameters/engine'
+      responses:
+        '200':
+          description: Successful range query result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable expression
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: rangeQueryPost
+      summary: Evaluate a Range Query (POST)
+      description: Evaluates a PromQL range query using POST body encoding for large queries.
+      tags:
+      - Query
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+              - query
+              - start
+              - end
+              - step
+              properties:
+                query:
+                  type: string
+                start:
+                  type: string
+                end:
+                  type: string
+                step:
+                  type: string
+                timeout:
+                  type: string
+                dedup:
+                  type: boolean
+                partial_response:
+                  type: boolean
+                max_source_resolution:
+                  type: string
+      responses:
+        '200':
+          description: Successful range query result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: Invalid query or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    MatrixResult:
+      type: object
+      properties:
+        metric:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label set identifying the metric
+        values:
+          type: array
+          description: Array of [timestamp, value] pairs
+          items:
+            type: array
+            items: {}
+            minItems: 2
+            maxItems: 2
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - errorType
+      - error
+      properties:
+        status:
+          type: string
+          enum:
+          - error
+        errorType:
+          type: string
+          description: Category of error
+        error:
+          type: string
+          description: Human-readable error message
+        warnings:
+          type: array
+          items:
+            type: string
+    VectorResult:
+      type: object
+      properties:
+        metric:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label set identifying the metric
+        value:
+          type: array
+          description: '[timestamp, value] pair'
+          items: {}
+          minItems: 2
+          maxItems: 2
+    QueryResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - error
+        data:
+          type: object
+          required:
+          - resultType
+          - result
+          properties:
+            resultType:
+              type: string
+              enum:
+              - matrix
+              - vector
+              - scalar
+              - string
+            result:
+              type: array
+              description: Query result. Structure varies based on resultType.
+              items:
+                oneOf:
+                - $ref: '#/components/schemas/VectorResult'
+                - $ref: '#/components/schemas/MatrixResult'
+                - $ref: '#/components/schemas/ScalarResult'
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Warnings from partial responses or store issues
+    ScalarResult:
+      type: array
+      description: '[timestamp, value] pair for scalar results'
+      items: {}
+      minItems: 2
+      maxItems: 2
+  parameters:
+    dedup:
+      name: dedup
+      in: query
+      required: false
+      description: If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true.
+      schema:
+        type: boolean
+        default: true
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
+    engine:
+      name: engine
+      in: query
+      required: false
+      description: Query engine to use. Thanos supports the default Prometheus engine and the Thanos engine for distributed execution.
+      schema:
+        type: string
+        enum:
+        - prometheus
+        - thanos
+    max_source_resolution:
+      name: max_source_resolution
+      in: query
+      required: false
+      description: Maximum source resolution to use for the query. Can be 0s, 5m, or 1h. Selects the appropriate downsampled data when available.
+      schema:
+        type: string
+        default: 0s
+        enum:
+        - 0s
+        - 5m
+        - 1h
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

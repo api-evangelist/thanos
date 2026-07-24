@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: Thanos Compact Alerts Health API
+  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  version: 0.35.0
+  contact:
+    name: Thanos Community
+    url: https://thanos.io/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: http://localhost:10902
+  description: Default Thanos Compact HTTP endpoint
+tags:
+- name: Health
+  description: Liveness and readiness probes for the Compactor.
+paths:
+  /-/healthy:
+    get:
+      operationId: getCompactHealthy
+      summary: Thanos Liveness Check
+      description: Returns HTTP 200 if the Compactor process is alive and running. Used as a liveness probe in Kubernetes deployments.
+      tags:
+      - Health
+      responses:
+        '200':
+          description: Compactor is healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Compact is Healthy.
+  /-/ready:
+    get:
+      operationId: getCompactReady
+      summary: Thanos Readiness Check
+      description: Returns HTTP 200 when the Compactor is ready. The Compactor runs as a long-lived process and this endpoint signals it has started and is actively compacting blocks.
+      tags:
+      - Health
+      responses:
+        '200':
+          description: Compactor is ready
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Thanos Compact is Ready.
+        '503':
+          description: Compactor is not yet ready
+          content:
+            text/plain:
+              schema:
+                type: string
+externalDocs:
+  description: Thanos Compact Documentation
+  url: https://thanos.io/tip/components/compact.md/

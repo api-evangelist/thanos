@@ -4,7 +4,19 @@ description: >-
   Open-source, highly available Prometheus setup with long-term storage capabilities that provides a global query view
   across multiple Prometheus servers.
 url: https://thanos.io/
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/thanos.png
 tags:
   - Metrics
   - Monitoring
@@ -15,122 +27,286 @@ created: '2025'
 modified: '2026-05-19'
 type: Index
 apis:
-  - aid: thanos:thanos-query-api
-    name: Thanos Query API
-    description: >-
-      Prometheus-compatible HTTP API for querying metrics across multiple Prometheus servers and long-term storage
-      backends with global query view, deduplication, and partial response support.
-    humanURL: https://thanos.io/tip/components/query.md/
-    baseURL: http://localhost:9090
-    tags:
-      - Metrics
-      - Monitoring
-      - PromQL
-      - Query
-      - Time Series
-    properties:
-      - url: https://thanos.io/tip/components/query.md/
-        type: Documentation
-      - url: openapi/thanos-query-api.yml
-        type: OpenAPI
-      - url: json-schema/query-response.json
-        type: JSONSchema
-      - url: json-schema/store-info.json
-        type: JSONSchema
-      - url: json-ld/thanos-context.jsonld
-        type: JSONLD
-  - aid: thanos:thanos-store-gateway-api
-    name: Thanos Store Gateway API
-    description: >-
-      gRPC-based Store API that serves metrics stored in object storage buckets, allowing Thanos Querier to access
-      historical time series data from long-term storage backends such as S3, GCS, and Azure Blob Storage.
-    humanURL: https://thanos.io/tip/components/store.md/
-    baseURL: http://localhost:10902
-    tags:
-      - Metrics
-      - Monitoring
-      - Object Storage
-      - Store
-      - Time Series
-    properties:
-      - type: Documentation
-        url: https://thanos.io/tip/components/store.md/
-      - type: OpenAPI
-        url: openapi/thanos-store-gateway-openapi.yml
-  - aid: thanos:thanos-sidecar-api
-    name: Thanos Sidecar API
-    description: >-
-      Component deployed alongside a Prometheus instance that implements the Thanos Store API on top of Prometheus
-      remote-read API, enabling Queriers to access real-time Prometheus data and optionally uploading blocks to object
-      storage.
-    humanURL: https://thanos.io/tip/components/sidecar.md/
-    baseURL: http://localhost:10902
-    tags:
-      - Metrics
-      - Monitoring
-      - Prometheus
-      - Sidecar
-      - Store
-    properties:
-      - type: Documentation
-        url: https://thanos.io/tip/components/sidecar.md/
-      - type: OpenAPI
-        url: openapi/thanos-sidecar-openapi.yml
-  - aid: thanos:thanos-ruler-api
-    name: Thanos Ruler API
-    description: >-
-      Component that evaluates Prometheus recording and alerting rules against the Thanos Query API, exposes results as
-      metrics via a Store API endpoint, and optionally uploads rule evaluation blocks to object storage.
-    humanURL: https://thanos.io/tip/components/rule.md/
-    baseURL: http://localhost:10902
-    tags:
-      - Alerting
-      - Metrics
-      - Monitoring
-      - Prometheus
-      - Rules
-    properties:
-      - type: Documentation
-        url: https://thanos.io/tip/components/rule.md/
-      - type: OpenAPI
-        url: openapi/thanos-ruler-openapi.yml
-  - aid: thanos:thanos-receive-api
-    name: Thanos Receive API
-    description: >-
-      Implements the Prometheus Remote Write API to accept metrics pushed from Prometheus instances, storing them in a
-      local TSDB and optionally uploading blocks to object storage for long-term retention and horizontal scalability.
-    humanURL: https://thanos.io/tip/components/receive.md/
-    baseURL: http://localhost:10902
-    tags:
-      - Metrics
-      - Monitoring
-      - Receive
-      - Remote Write
-      - Time Series
-    properties:
-      - type: Documentation
-        url: https://thanos.io/tip/components/receive.md/
-      - type: OpenAPI
-        url: openapi/thanos-receive-openapi.yml
-  - aid: thanos:thanos-compact-api
-    name: Thanos Compact API
-    description: >-
-      Singleton process that applies Prometheus compaction procedures to block data stored in object storage, performing
-      downsampling and retention policy enforcement to reduce storage costs and improve query performance over long time
-      ranges.
-    humanURL: https://thanos.io/tip/components/compact.md/
-    baseURL: http://localhost:10902
-    tags:
-      - Compaction
-      - Downsampling
-      - Monitoring
-      - Object Storage
-      - Retention
-    properties:
-      - type: Documentation
-        url: https://thanos.io/tip/components/compact.md/
-      - type: OpenAPI
-        url: openapi/thanos-compact-openapi.yml
+- aid: thanos:thanos-alerts-api
+  name: Thanos Alerts API
+  description: Endpoints for querying currently active alerts.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-alerts-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-blocks-api
+  name: Thanos Blocks API
+  description: Block metadata inspection and compaction status endpoints.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Blocks
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-blocks-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-health-api
+  name: Thanos Health API
+  description: Liveness and readiness probes for the Compactor.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-health-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-metadata-api
+  name: Thanos Metadata API
+  description: The Metadata API from Thanos — 3 operation(s) for metadata.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-metrics-api
+  name: Thanos Metrics API
+  description: Prometheus metrics for monitoring Compactor performance.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-query-api
+  name: Thanos Query API
+  description: The Query API from Thanos — 2 operation(s) for query.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Query
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-query-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-remote-write-api
+  name: Thanos Remote Write API
+  description: Prometheus Remote Write ingestion endpoint.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Remote Write
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-remote-write-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-rules-api
+  name: Thanos Rules API
+  description: The Rules API from Thanos — 2 operation(s) for rules.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-rules-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-stores-api
+  name: Thanos Stores API
+  description: The Stores API from Thanos — 1 operation(s) for stores.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Stores
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-stores-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
+- aid: thanos:thanos-targets-api
+  name: Thanos Targets API
+  description: The Targets API from Thanos — 1 operation(s) for targets.
+  humanURL: https://thanos.io/tip/components/query.md/
+  baseURL: http://localhost:9090
+  tags:
+  - Targets
+  properties:
+  - type: OpenAPI
+    url: openapi/thanos-targets-api-openapi.yml
+  - type: Documentation
+    url: https://thanos.io/tip/components/query.md/
+  - type: JSONSchema
+    url: json-schema/query-response.json
+  - type: JSONSchema
+    url: json-schema/store-info.json
+  - type: JSONLD
+    url: json-ld/thanos-context.jsonld
+  - type: Documentation
+    url: https://thanos.io/tip/components/store.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/sidecar.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/rule.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/receive.md/
+  - type: Documentation
+    url: https://thanos.io/tip/components/compact.md/
 common:
   - type: AgenticAccess
     url: agentic-access/thanos-agentic-access.yml

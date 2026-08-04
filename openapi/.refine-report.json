@@ -1,0 +1,32 @@
+{
+  "provider": "thanos",
+  "sources": [
+    "thanos-alerts-api-openapi.yml",
+    "thanos-blocks-api-openapi.yml",
+    "thanos-health-api-openapi.yml",
+    "thanos-metadata-api-openapi.yml",
+    "thanos-metrics-api-openapi.yml",
+    "thanos-query-api-openapi.yml",
+    "thanos-remote-write-api-openapi.yml",
+    "thanos-rules-api-openapi.yml",
+    "thanos-stores-api-openapi.yml",
+    "thanos-targets-api-openapi.yml"
+  ],
+  "outputs": [
+    "thanos-alerts-api-openapi.yml",
+    "thanos-blocks-api-openapi.yml",
+    "thanos-health-api-openapi.yml",
+    "thanos-metadata-api-openapi.yml",
+    "thanos-metrics-api-openapi.yml",
+    "thanos-query-api-openapi.yml",
+    "thanos-remote-write-api-openapi.yml",
+    "thanos-rules-api-openapi.yml",
+    "thanos-stores-api-openapi.yml",
+    "thanos-targets-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Compact Alerts Targets API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Targets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Current Target Discovery",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/api/v1/targets",
+            "params": [
+              {
+                "name": "state",
+                "value": "",
+                "type": "query",
+                "description": "Filter targets by state. Can be active, dropped, or any."
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns an overview of the current state of target discovery across connected Prometheus instances."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

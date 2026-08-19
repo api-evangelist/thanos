@@ -1,0 +1,128 @@
+{
+  "item": [
+    {
+      "id": "18f5b28f-7f7d-4568-862b-c7e3ea3268d8",
+      "name": "Targets",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "46754e4d-7a83-45e9-99bb-7c4a786dd64f",
+          "name": "Get Current Target Discovery",
+          "request": {
+            "name": "Get Current Target Discovery",
+            "description": {
+              "content": "Returns an overview of the current state of target discovery across connected Prometheus instances.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "targets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "state",
+                  "value": "<string>",
+                  "description": "Filter targets by state. Can be active, dropped, or any."
+                },
+                {
+                  "disabled": false,
+                  "key": "partial_response",
+                  "value": "false",
+                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "11d8ee5a-0342-4417-b4b8-5a6442403bdb",
+              "name": "Successful targets response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "targets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "state",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "partial_response",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"activeTargets\": [\n      {\n        \"discoveredLabels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"labels\": {\n          \"key_0\": \"string\"\n        },\n        \"scrapePool\": \"string\",\n        \"scrapeUrl\": \"string\",\n        \"globalUrl\": \"string\",\n        \"lastError\": \"string\",\n        \"lastScrape\": \"1984-04-15T08:32:08.920Z\",\n        \"lastScrapeDuration\": 4627.962621343624,\n        \"health\": \"unknown\"\n      },\n      {\n        \"discoveredLabels\": {\n          \"key_0\": \"string\"\n        },\n        \"labels\": {\n          \"key_0\": \"string\"\n        },\n        \"scrapePool\": \"string\",\n        \"scrapeUrl\": \"string\",\n        \"globalUrl\": \"string\",\n        \"lastError\": \"string\",\n        \"lastScrape\": \"1949-08-09T09:36:33.804Z\",\n        \"lastScrapeDuration\": 8743.996204924346,\n        \"health\": \"unknown\"\n      }\n    ],\n    \"droppedTargets\": [\n      {\n        \"discoveredLabels\": {\n          \"key_0\": \"string\"\n        }\n      },\n      {\n        \"discoveredLabels\": {\n          \"key_0\": \"string\"\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6376ce32-4d33-4161-8042-d315b123cd06",
+    "name": "Thanos Compact Alerts Targets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

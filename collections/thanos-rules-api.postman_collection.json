@@ -1,0 +1,234 @@
+{
+  "item": [
+    {
+      "id": "3a419d52-a6ff-4117-9860-5fa9025ef7af",
+      "name": "Rules",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6b1e4f61-77ef-483f-a797-5eff519e64ea",
+          "name": "Get Alerting and Recording Rules",
+          "request": {
+            "name": "Get Alerting and Recording Rules",
+            "description": {
+              "content": "Returns a list of alerting and recording rules that are currently loaded across connected Thanos Ruler and Prometheus instances.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter by rule type"
+                },
+                {
+                  "disabled": false,
+                  "key": "match[]",
+                  "value": "<string>",
+                  "description": "Filter rules by label matchers"
+                },
+                {
+                  "disabled": false,
+                  "key": "match[]",
+                  "value": "<string>",
+                  "description": "Filter rules by label matchers"
+                },
+                {
+                  "disabled": false,
+                  "key": "partial_response",
+                  "value": "false",
+                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7fcb0ce2-5695-401a-80f1-d8dbf16ac71a",
+              "name": "Successful rules response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "match[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "match[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "partial_response",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"groups\": [\n      {\n        \"name\": \"string\",\n        \"file\": \"string\",\n        \"interval\": 9141.531677640894,\n        \"rules\": [\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 863.1194081131821,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"1997-03-25T03:54:18.742Z\",\n            \"evaluationTime\": 637.5213165038185,\n            \"state\": \"inactive\"\n          },\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 8206.482365507338,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_3\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_4\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"1976-11-12T02:16:18.674Z\",\n            \"evaluationTime\": 1373.8611111055432,\n            \"state\": \"firing\"\n          }\n        ],\n        \"partialResponseStrategy\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"file\": \"string\",\n        \"interval\": 4054.8250802298626,\n        \"rules\": [\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 2068.06099326063,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"2026-01-19T01:21:19.633Z\",\n            \"evaluationTime\": 5310.825238997551,\n            \"state\": \"pending\"\n          },\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 9061.584281660627,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"1959-03-06T12:11:18.746Z\",\n            \"evaluationTime\": 2000.360781246432,\n            \"state\": \"inactive\"\n          }\n        ],\n        \"partialResponseStrategy\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe700a09-5851-4058-aa9c-8f49772ab505",
+          "name": "Get Active Alerts",
+          "request": {
+            "name": "Get Active Alerts",
+            "description": {
+              "content": "Returns a list of all active alerts across connected Thanos Ruler and Prometheus instances.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "alerts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "partial_response",
+                  "value": "false",
+                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "637edcd4-f1fb-4d96-9373-edb348b266f4",
+              "name": "Successful alerts response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "alerts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "partial_response",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"alerts\": [\n      {\n        \"labels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"annotations\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"state\": \"firing\",\n        \"activeAt\": \"2000-11-16T07:16:32.345Z\",\n        \"value\": \"string\"\n      },\n      {\n        \"labels\": {\n          \"key_0\": \"string\"\n        },\n        \"annotations\": {\n          \"key_0\": \"string\"\n        },\n        \"state\": \"firing\",\n        \"activeAt\": \"2015-11-18T11:32:26.087Z\",\n        \"value\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d5971daf-03e7-49e4-9963-abc41f6f5f72",
+    "name": "Thanos Compact Alerts Rules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

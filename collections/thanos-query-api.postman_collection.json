@@ -1,7 +1,7 @@
 {
   "item": [
     {
-      "id": "4a7bd615-56a9-4e1b-9b9e-2cec7a6d1b69",
+      "id": "0b1c95dd-4738-4a19-a422-f7813ff0c694",
       "name": "Query",
       "description": {
         "content": "",
@@ -9,7 +9,7 @@
       },
       "item": [
         {
-          "id": "60b05065-2211-4b94-85ec-af268d406ad8",
+          "id": "980490d9-6d36-4379-88ff-ce59242d76d2",
           "name": "Evaluate an Instant Query",
           "request": {
             "name": "Evaluate an Instant Query",
@@ -83,7 +83,7 @@
           },
           "response": [
             {
-              "id": "24e2d2b3-6b82-4b9e-93b1-23aa4afe1113",
+              "id": "25a99a0a-4621-4e68-90ae-b81680c27d23",
               "name": "Successful query result",
               "originalRequest": {
                 "url": {
@@ -144,12 +144,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"resultType\": \"vector\",\n    \"result\": [\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      },\n      {\n        \"metric\": {\n          \"key_0\": \"string\"\n        }\n      }\n    ]\n  },\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"resultType\": \"scalar\",\n    \"result\": [\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      },\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      }\n    ]\n  },\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "2dea95a0-9881-4ca7-9000-5508653646b8",
+              "id": "c66053ef-f4be-4eee-91c7-021fc08ecf6a",
               "name": "Invalid query or parameters",
               "originalRequest": {
                 "url": {
@@ -215,7 +215,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "3e6f3df3-efbd-49ba-9aa4-bfaec11d36c8",
+              "id": "fde37aee-f61e-4c3b-95c7-079769765a97",
               "name": "Unprocessable expression",
               "originalRequest": {
                 "url": {
@@ -281,7 +281,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "b18180f7-24cf-4fc9-9c74-6cf24f39f56a",
+              "id": "5d0457fb-6e4b-4a34-84e2-629dd1e7c7fe",
               "name": "Unavailable or timeout",
               "originalRequest": {
                 "url": {
@@ -353,7 +353,7 @@
           }
         },
         {
-          "id": "0cdc55aa-78d0-46d2-bd8d-cfb8143a4c05",
+          "id": "e863005d-6bc9-44ca-acd4-f87b8e78084b",
           "name": "Evaluate an Instant Query (POST)",
           "request": {
             "name": "Evaluate an Instant Query (POST)",
@@ -429,7 +429,7 @@
           },
           "response": [
             {
-              "id": "a6e4e51b-f43a-4eba-87c5-9b944f0d9e34",
+              "id": "e24a474f-7e66-44c2-bd3f-ddd44380dbfe",
               "name": "Successful query result",
               "originalRequest": {
                 "url": {
@@ -519,12 +519,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"resultType\": \"matrix\",\n    \"result\": [\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\",\n          \"key_3\": \"string\"\n        }\n      },\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      }\n    ]\n  },\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"resultType\": \"scalar\",\n    \"result\": [\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      },\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      }\n    ]\n  },\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "9030c336-a8f0-4cfa-8f33-26e9d1fd3d33",
+              "id": "b25fb1d8-71ba-437e-bfe5-fb6f5aafb927",
               "name": "Invalid query or parameters",
               "originalRequest": {
                 "url": {
@@ -625,7 +625,7 @@
           }
         },
         {
-          "id": "4e0116af-265c-46fd-bdbe-c5fcaa09cea5",
+          "id": "4f5589d7-ef10-4eb5-aef6-84ef4fd37981",
           "name": "Evaluate a Range Query",
           "request": {
             "name": "Evaluate a Range Query",
@@ -711,7 +711,7 @@
           },
           "response": [
             {
-              "id": "bf9cc532-d7bc-4916-8b4c-834066f04fb1",
+              "id": "0575ba05-4640-4b49-ae7a-ce4c540f7b2a",
               "name": "Successful range query result",
               "originalRequest": {
                 "url": {
@@ -780,12 +780,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"resultType\": \"matrix\",\n    \"result\": [\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\",\n          \"key_3\": \"string\"\n        }\n      },\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      }\n    ]\n  },\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"resultType\": \"scalar\",\n    \"result\": [\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      },\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      }\n    ]\n  },\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "1a6dd8df-a3ce-462b-a0b7-8df5d9ad8232",
+              "id": "a7833094-a59f-489e-882e-78baa16570d8",
               "name": "Invalid query or parameters",
               "originalRequest": {
                 "url": {
@@ -859,7 +859,7 @@
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "a9825869-235e-4f3f-a90c-1fbb81fde67a",
+              "id": "161d6d94-27e7-4390-9eca-3a4dd82d022c",
               "name": "Unprocessable expression",
               "originalRequest": {
                 "url": {
@@ -939,7 +939,7 @@
           }
         },
         {
-          "id": "14abe1dc-f102-44a3-bd05-c07b9e0f4f77",
+          "id": "ae7a031c-cec9-4c4b-9c2c-219897bd89ba",
           "name": "Evaluate a Range Query (POST)",
           "request": {
             "name": "Evaluate a Range Query (POST)",
@@ -1023,7 +1023,7 @@
           },
           "response": [
             {
-              "id": "bf1a99ab-dfb0-47da-849d-0a446ad453e0",
+              "id": "1323def8-17b3-4530-87f6-909323b330c5",
               "name": "Successful range query result",
               "originalRequest": {
                 "url": {
@@ -1115,12 +1115,12 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"resultType\": \"matrix\",\n    \"result\": [\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\",\n          \"key_3\": \"string\"\n        }\n      },\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      }\n    ]\n  },\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"resultType\": \"scalar\",\n    \"result\": [\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      },\n      {\n        \"metric\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      }\n    ]\n  },\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "48fbc2dd-2adb-49c1-981c-d905548c9ae8",
+              "id": "ecec929c-5d49-4d9e-b23e-9a8406c60f7c",
               "name": "Invalid query or parameters",
               "originalRequest": {
                 "url": {
@@ -1224,1034 +1224,22 @@
         }
       ],
       "event": []
-    },
-    {
-      "id": "a8c06bff-11a1-468a-aec4-2c335420f09d",
-      "name": "Metadata",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
-      "item": [
-        {
-          "id": "ef462a8f-5d6a-4299-9e5f-d2a070f73c26",
-          "name": "Find Series by Label Matchers",
-          "request": {
-            "name": "Find Series by Label Matchers",
-            "description": {
-              "content": "Returns the list of time series that match a certain label set. Queries across all connected stores.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "series"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "match[]",
-                  "value": "<string>",
-                  "description": "(Required) Series selector argument that selects the series to return. At least one match[] argument must be provided."
-                },
-                {
-                  "disabled": false,
-                  "key": "match[]",
-                  "value": "<string>",
-                  "description": "(Required) Series selector argument that selects the series to return. At least one match[] argument must be provided."
-                },
-                {
-                  "disabled": false,
-                  "key": "start",
-                  "value": "<string>",
-                  "description": "Start timestamp"
-                },
-                {
-                  "disabled": false,
-                  "key": "end",
-                  "value": "<string>",
-                  "description": "End timestamp"
-                },
-                {
-                  "disabled": false,
-                  "key": "dedup",
-                  "value": "true",
-                  "description": "If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true."
-                },
-                {
-                  "disabled": false,
-                  "key": "partial_response",
-                  "value": "false",
-                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "0c3fdac9-08dd-48b1-81c0-6072dc865767",
-              "name": "Successful series lookup",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "series"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "start",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "end",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "dedup",
-                      "value": "true"
-                    },
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"success\",\n  \"data\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\",\n      \"key_3\": \"string\"\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ],\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "34b9b8e3-7203-4abc-8308-bbe0711f42cd",
-              "name": "Invalid parameters",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "series"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "start",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "end",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "dedup",
-                      "value": "true"
-                    },
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"error\",\n  \"errorType\": \"string\",\n  \"error\": \"string\",\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "2f28bdcb-0ff3-463e-8b82-f35e7c1bab42",
-          "name": "Get Label Names",
-          "request": {
-            "name": "Get Label Names",
-            "description": {
-              "content": "Returns a list of label names available across all stores.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "labels"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "start",
-                  "value": "<string>",
-                  "description": "Start timestamp"
-                },
-                {
-                  "disabled": false,
-                  "key": "end",
-                  "value": "<string>",
-                  "description": "End timestamp"
-                },
-                {
-                  "disabled": false,
-                  "key": "match[]",
-                  "value": "<string>",
-                  "description": "Series selector to filter labels"
-                },
-                {
-                  "disabled": false,
-                  "key": "match[]",
-                  "value": "<string>",
-                  "description": "Series selector to filter labels"
-                },
-                {
-                  "disabled": false,
-                  "key": "partial_response",
-                  "value": "false",
-                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "e5746e5d-2b3d-404a-af81-878535120f9e",
-              "name": "Successful label names response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "labels"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "start",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "end",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"success\",\n  \"data\": [\n    \"string\",\n    \"string\"\n  ],\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "8179721d-06e3-4064-9b67-fedaaba952d1",
-              "name": "Invalid parameters",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "labels"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "start",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "end",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"error\",\n  \"errorType\": \"string\",\n  \"error\": \"string\",\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "8df82d1c-ae5b-4d0e-96a1-12e545405e60",
-          "name": "Get Label Values",
-          "request": {
-            "name": "Get Label Values",
-            "description": {
-              "content": "Returns a list of label values for a given label name across all connected stores.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "label",
-                ":label_name",
-                "values"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "start",
-                  "value": "<string>",
-                  "description": "Start timestamp"
-                },
-                {
-                  "disabled": false,
-                  "key": "end",
-                  "value": "<string>",
-                  "description": "End timestamp"
-                },
-                {
-                  "disabled": false,
-                  "key": "match[]",
-                  "value": "<string>",
-                  "description": "Series selector to filter label values"
-                },
-                {
-                  "disabled": false,
-                  "key": "match[]",
-                  "value": "<string>",
-                  "description": "Series selector to filter label values"
-                },
-                {
-                  "disabled": false,
-                  "key": "partial_response",
-                  "value": "false",
-                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
-                }
-              ],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "label_name",
-                  "description": "(Required) The label name to retrieve values for"
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "60225faa-8ede-4c8f-8aec-96293303bcd9",
-              "name": "Successful label values response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "label",
-                    ":label_name",
-                    "values"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "start",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "end",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "label_name",
-                      "description": "(Required) The label name to retrieve values for"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"success\",\n  \"data\": [\n    \"string\",\n    \"string\"\n  ],\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "431257db-9aa6-4b5e-b1cd-5530396416dd",
-              "name": "Invalid parameters",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "label",
-                    ":label_name",
-                    "values"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "start",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "end",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "label_name",
-                      "description": "(Required) The label name to retrieve values for"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"error\",\n  \"errorType\": \"string\",\n  \"error\": \"string\",\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        }
-      ],
-      "event": []
-    },
-    {
-      "id": "ee8b0ad0-f452-42ab-a92e-f76ef95d407d",
-      "name": "Targets",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
-      "item": [
-        {
-          "id": "acbe9199-5661-4f3c-b901-79766c95dc48",
-          "name": "Get Current Target Discovery",
-          "request": {
-            "name": "Get Current Target Discovery",
-            "description": {
-              "content": "Returns an overview of the current state of target discovery across connected Prometheus instances.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "targets"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "state",
-                  "value": "<string>",
-                  "description": "Filter targets by state. Can be active, dropped, or any."
-                },
-                {
-                  "disabled": false,
-                  "key": "partial_response",
-                  "value": "false",
-                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "a99efe95-cda7-42fa-9384-bfe890231393",
-              "name": "Successful targets response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "targets"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "state",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"activeTargets\": [\n      {\n        \"discoveredLabels\": {\n          \"key_0\": \"string\"\n        },\n        \"labels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\",\n          \"key_3\": \"string\"\n        },\n        \"scrapePool\": \"string\",\n        \"scrapeUrl\": \"string\",\n        \"globalUrl\": \"string\",\n        \"lastError\": \"string\",\n        \"lastScrape\": \"1972-08-08T12:54:05.744Z\",\n        \"lastScrapeDuration\": 7445.725484387431,\n        \"health\": \"up\"\n      },\n      {\n        \"discoveredLabels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"labels\": {\n          \"key_0\": \"string\"\n        },\n        \"scrapePool\": \"string\",\n        \"scrapeUrl\": \"string\",\n        \"globalUrl\": \"string\",\n        \"lastError\": \"string\",\n        \"lastScrape\": \"2019-05-05T00:52:11.073Z\",\n        \"lastScrapeDuration\": 4571.679816338345,\n        \"health\": \"down\"\n      }\n    ],\n    \"droppedTargets\": [\n      {\n        \"discoveredLabels\": {\n          \"key_0\": \"string\"\n        }\n      },\n      {\n        \"discoveredLabels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        }\n      }\n    ]\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        }
-      ],
-      "event": []
-    },
-    {
-      "id": "36b4fcdf-2aa6-4e13-b6cd-ff6fc733a16a",
-      "name": "Rules",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
-      "item": [
-        {
-          "id": "f70e3216-a0da-4fd5-b39e-7c16cb58fb9a",
-          "name": "Get Alerting and Recording Rules",
-          "request": {
-            "name": "Get Alerting and Recording Rules",
-            "description": {
-              "content": "Returns a list of alerting and recording rules that are currently loaded across connected Thanos Ruler and Prometheus instances.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "rules"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "type",
-                  "value": "<string>",
-                  "description": "Filter by rule type"
-                },
-                {
-                  "disabled": false,
-                  "key": "match[]",
-                  "value": "<string>",
-                  "description": "Filter rules by label matchers"
-                },
-                {
-                  "disabled": false,
-                  "key": "match[]",
-                  "value": "<string>",
-                  "description": "Filter rules by label matchers"
-                },
-                {
-                  "disabled": false,
-                  "key": "partial_response",
-                  "value": "false",
-                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "051340c7-9a25-4d1d-ae0a-f829be51c0c2",
-              "name": "Successful rules response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "rules"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "type",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "match[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"groups\": [\n      {\n        \"name\": \"string\",\n        \"file\": \"string\",\n        \"interval\": 6681.539642209166,\n        \"rules\": [\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 7429.621786112461,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"2017-06-08T04:05:18.305Z\",\n            \"evaluationTime\": 6441.590173140554,\n            \"state\": \"firing\"\n          },\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 9812.757240252457,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_3\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"2019-12-29T03:15:29.619Z\",\n            \"evaluationTime\": 2480.8458829513124,\n            \"state\": \"pending\"\n          }\n        ],\n        \"partialResponseStrategy\": \"string\"\n      },\n      {\n        \"name\": \"string\",\n        \"file\": \"string\",\n        \"interval\": 8233.191048342549,\n        \"rules\": [\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 5164.836023608419,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"1998-05-23T22:19:40.221Z\",\n            \"evaluationTime\": 2489.7924202446807,\n            \"state\": \"pending\"\n          },\n          {\n            \"type\": \"alerting\",\n            \"name\": \"string\",\n            \"query\": \"string\",\n            \"duration\": 1803.282159825963,\n            \"labels\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"annotations\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            },\n            \"alerts\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"health\": \"string\",\n            \"lastError\": \"string\",\n            \"lastEvaluation\": \"1993-01-21T10:56:13.094Z\",\n            \"evaluationTime\": 5690.949778511635,\n            \"state\": \"inactive\"\n          }\n        ],\n        \"partialResponseStrategy\": \"string\"\n      }\n    ]\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "f7d63eee-6bdf-4948-8ce6-bd16741f2c18",
-          "name": "Get Active Alerts",
-          "request": {
-            "name": "Get Active Alerts",
-            "description": {
-              "content": "Returns a list of all active alerts across connected Thanos Ruler and Prometheus instances.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "alerts"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "partial_response",
-                  "value": "false",
-                  "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "399afe86-75ea-4ed5-b02b-3e45f0249097",
-              "name": "Successful alerts response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "alerts"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
-                    {
-                      "key": "partial_response",
-                      "value": "false"
-                    }
-                  ],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"success\",\n  \"data\": {\n    \"alerts\": [\n      {\n        \"labels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"annotations\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        \"state\": \"pending\",\n        \"activeAt\": \"1966-09-23T07:02:01.815Z\",\n        \"value\": \"string\"\n      },\n      {\n        \"labels\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"annotations\": {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\"\n        },\n        \"state\": \"pending\",\n        \"activeAt\": \"1980-08-21T20:24:59.220Z\",\n        \"value\": \"string\"\n      }\n    ]\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        }
-      ],
-      "event": []
-    },
-    {
-      "id": "d5c821ae-7e5c-4c40-b1b8-cfd35a93bdd4",
-      "name": "Stores",
-      "description": {
-        "content": "",
-        "type": "text/plain"
-      },
-      "item": [
-        {
-          "id": "b4000197-e41b-406f-8092-d0ab23761956",
-          "name": "Get Connected Store Information",
-          "request": {
-            "name": "Get Connected Store Information",
-            "description": {
-              "content": "Returns information about all connected Thanos store endpoints including their type, labels, min/max time range, and last health check status. This is a Thanos-specific endpoint not found in vanilla Prometheus.",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "api",
-                "v1",
-                "stores"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "ff204b20-772e-4170-a977-6105d21bcdf5",
-              "name": "Successful stores response",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "api",
-                    "v1",
-                    "stores"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": []
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"status\": \"success\",\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"lastCheck\": \"2008-12-27T12:06:59.129Z\",\n      \"lastError\": \"string\",\n      \"labelSets\": [\n        {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        },\n        {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\"\n        }\n      ],\n      \"minTime\": 5937,\n      \"maxTime\": 8577,\n      \"storeType\": \"unknown\"\n    },\n    {\n      \"name\": \"string\",\n      \"lastCheck\": \"1990-05-12T06:22:37.773Z\",\n      \"lastError\": \"string\",\n      \"labelSets\": [\n        {\n          \"key_0\": \"string\"\n        },\n        {\n          \"key_0\": \"string\"\n        }\n      ],\n      \"minTime\": 9458,\n      \"maxTime\": 4292,\n      \"storeType\": \"sidecar\"\n    }\n  ]\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        }
-      ],
-      "event": []
     }
   ],
   "event": [],
   "variable": [
     {
       "type": "string",
-      "value": "http://localhost:9090",
+      "value": "http://localhost:10902",
       "key": "baseUrl"
     }
   ],
   "info": {
-    "_postman_id": "efe5cc69-a378-430d-891c-7d88da6af395",
-    "name": "Thanos Query API",
+    "_postman_id": "488d5b64-3e46-419e-93a4-5def75469840",
+    "name": "Thanos Compact Alerts Query API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
-      "content": "The Thanos Query API provides a Prometheus-compatible HTTP API for querying metrics across multiple Prometheus servers and long-term storage backends. Thanos Query implements the full Prometheus v1 API surface, enabling a global query view with deduplication across replicated series.\n\nContact Support:\n Name: Thanos Community",
+      "content": "The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.\n\nContact Support:\n Name: Thanos Community",
       "type": "text/plain"
     }
   }

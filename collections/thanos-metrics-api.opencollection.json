@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Compact Alerts Metrics API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Prometheus Metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/metrics"
+          },
+          "docs": "Exposes internal Compactor metrics in Prometheus text exposition format. Includes metrics for compaction duration, block counts by resolution, retention enforcement operations, downsampling progress, and object storage operation rates."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

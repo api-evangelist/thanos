@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Compact Alerts Remote Write API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Remote Write",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos Ingest Metrics via Prometheus Remote Write",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "http://localhost:10902/api/v1/receive",
+            "headers": [
+              {
+                "name": "THANOS-TENANT",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Accepts Prometheus Remote Write requests containing time series data. The request body must be a Snappy-compressed protobuf-encoded WriteRequest. Multi-tenancy is supported via the THANOS-TENANT HTTP header. Requests may be forwarded to other Receive instances based on hashring routing configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

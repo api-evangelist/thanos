@@ -1,0 +1,160 @@
+{
+  "item": [
+    {
+      "id": "6e991641-1c88-4692-8762-2519ade69fed",
+      "name": "Blocks",
+      "description": {
+        "content": "Block metadata inspection and compaction status endpoints.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9928f99f-04e9-4437-a53a-e08b71c1a0ac",
+          "name": "Thanos List Blocks in Object Storage",
+          "request": {
+            "name": "Thanos List Blocks in Object Storage",
+            "description": {
+              "content": "Returns metadata for all TSDB blocks in the configured object storage bucket as seen by the Compactor. Useful for monitoring compaction progress, checking downsampling status, and verifying retention policy enforcement.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "blocks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "view",
+                  "value": "<string>",
+                  "description": "Specifies which blocks to include in the response. Use 'all' to see all tracked blocks, or filter by compaction state."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e5f8b2ad-ff6d-4e91-8652-2f4f4fb7f3ad",
+              "name": "Block metadata list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "view",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"data\": {\n    \"blocks\": [\n      {\n        \"ulid\": \"01FHND2RNJHSZ7E7XFPVKH2JG\",\n        \"minTime\": 6963,\n        \"maxTime\": 9525,\n        \"compaction\": {\n          \"level\": 7225,\n          \"sources\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"thanos\": {\n          \"labels\": {\n            \"key_0\": \"string\"\n          },\n          \"downsample\": {\n            \"resolution\": 1794\n          },\n          \"source\": \"compactor\"\n        }\n      },\n      {\n        \"ulid\": \"01FHND2RNJHSZ7E7XFPVKH2JG\",\n        \"minTime\": 748,\n        \"maxTime\": 2103,\n        \"compaction\": {\n          \"level\": 6297,\n          \"sources\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"thanos\": {\n          \"labels\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          },\n          \"downsample\": {\n            \"resolution\": 791\n          },\n          \"source\": \"unknown\"\n        }\n      }\n    ],\n    \"label\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "311b1c80-82ec-4671-9a45-d6a8d79fb836",
+              "name": "Internal error retrieving block metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "view",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "81afeeb9-3def-473f-900f-38eaa1d4ca1a",
+    "name": "Thanos Compact Alerts Blocks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

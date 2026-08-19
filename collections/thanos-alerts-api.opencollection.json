@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Compact Alerts API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Alerts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Thanos List Active Alerts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/api/v1/alerts"
+          },
+          "docs": "Returns all currently active (firing or pending) alerts produced by the Ruler's alerting rule evaluations. Compatible with the Prometheus alerts API."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

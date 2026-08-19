@@ -1,0 +1,106 @@
+{
+  "item": [
+    {
+      "id": "4f5c6983-8aa4-47a0-beda-c50323a6af3b",
+      "name": "Stores",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e5105336-0378-495e-a23c-9a1cbb9a4666",
+          "name": "Get Connected Store Information",
+          "request": {
+            "name": "Get Connected Store Information",
+            "description": {
+              "content": "Returns information about all connected Thanos store endpoints including their type, labels, min/max time range, and last health check status. This is a Thanos-specific endpoint not found in vanilla Prometheus.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "stores"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c07f6e64-a0cc-499e-977b-fbb869872460",
+              "name": "Successful stores response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "stores"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"lastCheck\": \"1965-09-03T03:06:15.603Z\",\n      \"lastError\": \"string\",\n      \"labelSets\": [\n        {\n          \"key_0\": \"string\",\n          \"key_1\": \"string\",\n          \"key_2\": \"string\",\n          \"key_3\": \"string\"\n        },\n        {\n          \"key_0\": \"string\"\n        }\n      ],\n      \"minTime\": 8054,\n      \"maxTime\": 9210,\n      \"storeType\": \"receive\"\n    },\n    {\n      \"name\": \"string\",\n      \"lastCheck\": \"2021-01-11T12:58:24.726Z\",\n      \"lastError\": \"string\",\n      \"labelSets\": [\n        {\n          \"key_0\": \"string\"\n        },\n        {\n          \"key_0\": \"string\"\n        }\n      ],\n      \"minTime\": 1621,\n      \"maxTime\": 4390,\n      \"storeType\": \"rule\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:10902",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0442be0e-2ba1-4985-861c-d9858e4a7403",
+    "name": "Thanos Compact Alerts Stores API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.\n\nContact Support:\n Name: Thanos Community",
+      "type": "text/plain"
+    }
+  }
+}

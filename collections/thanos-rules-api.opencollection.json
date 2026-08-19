@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Compact Alerts Rules API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Alerting and Recording Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/api/v1/rules",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by rule type"
+              },
+              {
+                "name": "match[]",
+                "value": "",
+                "type": "query",
+                "description": "Filter rules by label matchers"
+              },
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns a list of alerting and recording rules that are currently loaded across connected Thanos Ruler and Prometheus instances."
+        },
+        {
+          "info": {
+            "name": "Get Active Alerts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/api/v1/alerts",
+            "params": [
+              {
+                "name": "partial_response",
+                "value": "",
+                "type": "query",
+                "description": "If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query."
+              }
+            ]
+          },
+          "docs": "Returns a list of all active alerts across connected Thanos Ruler and Prometheus instances."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Thanos Compact Alerts Stores API",
+    "version": "0.35.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Connected Store Information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://localhost:10902/api/v1/stores"
+          },
+          "docs": "Returns information about all connected Thanos store endpoints including their type, labels, min/max time range, and last health check status. This is a Thanos-specific endpoint not found in vanilla Prometheus."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

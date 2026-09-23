@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Thanos Compact Alerts Query API
-  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  title: Thanos Query API
+  description: The Thanos Query API provides a Prometheus-compatible HTTP API for querying metrics across multiple Prometheus servers and long-term storage backends. Thanos Query implements the full Prometheus v1 API surface, enabling a global query view with deduplication across replicated series.
   version: 0.35.0
   contact:
     name: Thanos Community
@@ -10,8 +10,8 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
-- url: http://localhost:10902
-  description: Default Thanos Compact HTTP endpoint
+- url: http://localhost:9090
+  description: Default Thanos Query HTTP endpoint
 tags:
 - name: Query
 paths:
@@ -226,22 +226,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    MatrixResult:
-      type: object
-      properties:
-        metric:
-          type: object
-          additionalProperties:
-            type: string
-          description: Label set identifying the metric
-        values:
-          type: array
-          description: Array of [timestamp, value] pairs
-          items:
-            type: array
-            items: {}
-            minItems: 2
-            maxItems: 2
     ErrorResponse:
       type: object
       required:
@@ -263,20 +247,12 @@ components:
           type: array
           items:
             type: string
-    VectorResult:
-      type: object
-      properties:
-        metric:
-          type: object
-          additionalProperties:
-            type: string
-          description: Label set identifying the metric
-        value:
-          type: array
-          description: '[timestamp, value] pair'
-          items: {}
-          minItems: 2
-          maxItems: 2
+    ScalarResult:
+      type: array
+      description: '[timestamp, value] pair for scalar results'
+      items: {}
+      minItems: 2
+      maxItems: 2
     QueryResponse:
       type: object
       required:
@@ -314,13 +290,47 @@ components:
           items:
             type: string
           description: Warnings from partial responses or store issues
-    ScalarResult:
-      type: array
-      description: '[timestamp, value] pair for scalar results'
-      items: {}
-      minItems: 2
-      maxItems: 2
+    VectorResult:
+      type: object
+      properties:
+        metric:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label set identifying the metric
+        value:
+          type: array
+          description: '[timestamp, value] pair'
+          items: {}
+          minItems: 2
+          maxItems: 2
+    MatrixResult:
+      type: object
+      properties:
+        metric:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label set identifying the metric
+        values:
+          type: array
+          description: Array of [timestamp, value] pairs
+          items:
+            type: array
+            items: {}
+            minItems: 2
+            maxItems: 2
   parameters:
+    engine:
+      name: engine
+      in: query
+      required: false
+      description: Query engine to use. Thanos supports the default Prometheus engine and the Thanos engine for distributed execution.
+      schema:
+        type: string
+        enum:
+        - prometheus
+        - thanos
     dedup:
       name: dedup
       in: query
@@ -337,16 +347,6 @@ components:
       schema:
         type: boolean
         default: false
-    engine:
-      name: engine
-      in: query
-      required: false
-      description: Query engine to use. Thanos supports the default Prometheus engine and the Thanos engine for distributed execution.
-      schema:
-        type: string
-        enum:
-        - prometheus
-        - thanos
     max_source_resolution:
       name: max_source_resolution
       in: query
@@ -360,5 +360,5 @@ components:
         - 5m
         - 1h
 externalDocs:
-  description: Thanos Compact Documentation
-  url: https://thanos.io/tip/components/compact.md/
+  description: Thanos Documentation
+  url: https://thanos.io/tip/components/query.md/

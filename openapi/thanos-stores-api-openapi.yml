@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Thanos Compact Alerts Stores API
-  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  title: Thanos Query Stores API
+  description: The Thanos Query API provides a Prometheus-compatible HTTP API for querying metrics across multiple Prometheus servers and long-term storage backends. Thanos Query implements the full Prometheus v1 API surface, enabling a global query view with deduplication across replicated series.
   version: 0.35.0
   contact:
     name: Thanos Community
@@ -10,8 +10,8 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
-- url: http://localhost:10902
-  description: Default Thanos Compact HTTP endpoint
+- url: http://localhost:9090
+  description: Default Thanos Query HTTP endpoint
 tags:
 - name: Stores
 paths:
@@ -31,20 +31,6 @@ paths:
                 $ref: '#/components/schemas/StoresResponse'
 components:
   schemas:
-    StoresResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StoreInfo'
     StoreInfo:
       type: object
       properties:
@@ -56,8 +42,9 @@ components:
           format: date-time
           description: Timestamp of last health check
         lastError:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Last error from the store, null if healthy
         labelSets:
           type: array
@@ -84,6 +71,20 @@ components:
           - receive
           - debug
           - unknown
+    StoresResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoreInfo'
 externalDocs:
-  description: Thanos Compact Documentation
-  url: https://thanos.io/tip/components/compact.md/
+  description: Thanos Documentation
+  url: https://thanos.io/tip/components/query.md/

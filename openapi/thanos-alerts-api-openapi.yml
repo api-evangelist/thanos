@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Thanos Compact Alerts API
-  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  title: Thanos Ruler Alerts API
+  description: The Thanos Ruler HTTP API exposes Prometheus-compatible endpoints for querying alerting and recording rules evaluated by the Ruler component. Ruler evaluates rules against the Thanos Query API for a global view, fires alerts to Alertmanager, and optionally uploads rule evaluation blocks to object storage for long-term storage.
   version: 0.35.0
   contact:
     name: Thanos Community
@@ -11,7 +11,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
 - url: http://localhost:10902
-  description: Default Thanos Compact HTTP endpoint
+  description: Default Thanos Ruler HTTP endpoint
 tags:
 - name: Alerts
   description: Endpoints for querying currently active alerts.
@@ -32,23 +32,6 @@ paths:
                 $ref: '#/components/schemas/AlertsResponse'
 components:
   schemas:
-    AlertsResponse:
-      type: object
-      description: Response containing currently active alerts.
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-          - error
-        data:
-          type: object
-          properties:
-            alerts:
-              type: array
-              description: List of currently active alerts.
-              items:
-                $ref: '#/components/schemas/Alert'
     Alert:
       type: object
       description: An active alert instance produced by an alerting rule.
@@ -76,6 +59,23 @@ components:
         value:
           type: string
           description: The value of the PromQL expression at the time of the last evaluation.
+    AlertsResponse:
+      type: object
+      description: Response containing currently active alerts.
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - error
+        data:
+          type: object
+          properties:
+            alerts:
+              type: array
+              description: List of currently active alerts.
+              items:
+                $ref: '#/components/schemas/Alert'
 externalDocs:
-  description: Thanos Compact Documentation
-  url: https://thanos.io/tip/components/compact.md/
+  description: Thanos Ruler Documentation
+  url: https://thanos.io/tip/components/rule.md/

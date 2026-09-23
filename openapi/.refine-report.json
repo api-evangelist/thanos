@@ -1,32 +1,55 @@
 {
   "provider": "thanos",
   "sources": [
-    "thanos-alerts-api-openapi.yml",
-    "thanos-blocks-api-openapi.yml",
-    "thanos-health-api-openapi.yml",
-    "thanos-metadata-api-openapi.yml",
-    "thanos-metrics-api-openapi.yml",
-    "thanos-query-api-openapi.yml",
-    "thanos-remote-write-api-openapi.yml",
-    "thanos-rules-api-openapi.yml",
-    "thanos-stores-api-openapi.yml",
-    "thanos-targets-api-openapi.yml"
+    "_original/thanos-compact-openapi.yml",
+    "_original/thanos-query-api.yml",
+    "_original/thanos-receive-openapi.yml",
+    "_original/thanos-ruler-openapi.yml"
   ],
   "outputs": [
-    "thanos-alerts-api-openapi.yml",
     "thanos-blocks-api-openapi.yml",
     "thanos-health-api-openapi.yml",
-    "thanos-metadata-api-openapi.yml",
     "thanos-metrics-api-openapi.yml",
+    "thanos-metadata-api-openapi.yml",
     "thanos-query-api-openapi.yml",
-    "thanos-remote-write-api-openapi.yml",
     "thanos-rules-api-openapi.yml",
     "thanos-stores-api-openapi.yml",
-    "thanos-targets-api-openapi.yml"
+    "thanos-targets-api-openapi.yml",
+    "thanos-remote-write-api-openapi.yml",
+    "thanos-alerts-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "2 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (4 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "thanos-compact-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "thanos-query-api.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "thanos-query-api.yml: declared missing tag: Metadata",
+    "thanos-query-api.yml: declared missing tag: Query",
+    "thanos-query-api.yml: declared missing tag: Rules",
+    "thanos-query-api.yml: declared missing tag: Stores",
+    "thanos-query-api.yml: declared missing tag: Targets",
+    "thanos-receive-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "thanos-ruler-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "tag 'Health' spans 3 source specs (thanos-compact-openapi.yml, thanos-receive-openapi.yml, thanos-ruler-openapi.yml): per-path servers applied",
+    "tag 'Metrics' spans 3 source specs (thanos-compact-openapi.yml, thanos-receive-openapi.yml, thanos-ruler-openapi.yml): per-path servers applied",
+    "tag 'Rules' spans 2 source specs (thanos-query-api.yml, thanos-ruler-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/thanos-store-gateway-openapi.yml: archived document superseded by a larger archived document",
+    "_original/thanos-sidecar-openapi.yml: archived document superseded by a larger archived document",
+    "thanos-alerts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-blocks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-metrics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-query-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-remote-write-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-rules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-stores-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "thanos-targets-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

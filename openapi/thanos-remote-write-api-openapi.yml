@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Thanos Compact Alerts Remote Write API
-  description: The Thanos Compact HTTP API provides operational endpoints for the Compactor component, which runs as a singleton process applying Prometheus compaction procedures to TSDB blocks stored in object storage. It performs downsampling at 5-minute and 1-hour resolutions and enforces retention policies to reduce long-term storage costs.
+  title: Thanos Receive Remote Write API
+  description: The Thanos Receive HTTP API implements the Prometheus Remote Write protocol to accept metrics pushed from Prometheus instances. It stores received metrics in a local TSDB and exposes health, readiness, and metrics endpoints for operational monitoring. Receive supports multi-tenancy via hashring-based routing and can replicate data across multiple Receive instances.
   version: 0.35.0
   contact:
     name: Thanos Community
@@ -11,7 +11,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 servers:
 - url: http://localhost:10902
-  description: Default Thanos Compact HTTP endpoint
+  description: Default Thanos Receive HTTP endpoint
 tags:
 - name: Remote Write
   description: Prometheus Remote Write ingestion endpoint.
@@ -60,5 +60,5 @@ paths:
               schema:
                 type: string
 externalDocs:
-  description: Thanos Compact Documentation
-  url: https://thanos.io/tip/components/compact.md/
+  description: Thanos Receive Documentation
+  url: https://thanos.io/tip/components/receive.md/

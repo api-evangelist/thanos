@@ -32,6 +32,23 @@ paths:
                 $ref: '#/components/schemas/AlertsResponse'
 components:
   schemas:
+    AlertsResponse:
+      type: object
+      description: Response containing currently active alerts.
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - error
+        data:
+          type: object
+          properties:
+            alerts:
+              type: array
+              description: List of currently active alerts.
+              items:
+                $ref: '#/components/schemas/Alert'
     Alert:
       type: object
       description: An active alert instance produced by an alerting rule.
@@ -59,23 +76,6 @@ components:
         value:
           type: string
           description: The value of the PromQL expression at the time of the last evaluation.
-    AlertsResponse:
-      type: object
-      description: Response containing currently active alerts.
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-          - error
-        data:
-          type: object
-          properties:
-            alerts:
-              type: array
-              description: List of currently active alerts.
-              items:
-                $ref: '#/components/schemas/Alert'
 externalDocs:
   description: Thanos Ruler Documentation
   url: https://thanos.io/tip/components/rule.md/

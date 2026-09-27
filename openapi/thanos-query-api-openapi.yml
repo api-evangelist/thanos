@@ -226,6 +226,22 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    MatrixResult:
+      type: object
+      properties:
+        metric:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label set identifying the metric
+        values:
+          type: array
+          description: Array of [timestamp, value] pairs
+          items:
+            type: array
+            items: {}
+            minItems: 2
+            maxItems: 2
     ErrorResponse:
       type: object
       required:
@@ -253,6 +269,20 @@ components:
       items: {}
       minItems: 2
       maxItems: 2
+    VectorResult:
+      type: object
+      properties:
+        metric:
+          type: object
+          additionalProperties:
+            type: string
+          description: Label set identifying the metric
+        value:
+          type: array
+          description: '[timestamp, value] pair'
+          items: {}
+          minItems: 2
+          maxItems: 2
     QueryResponse:
       type: object
       required:
@@ -290,37 +320,15 @@ components:
           items:
             type: string
           description: Warnings from partial responses or store issues
-    VectorResult:
-      type: object
-      properties:
-        metric:
-          type: object
-          additionalProperties:
-            type: string
-          description: Label set identifying the metric
-        value:
-          type: array
-          description: '[timestamp, value] pair'
-          items: {}
-          minItems: 2
-          maxItems: 2
-    MatrixResult:
-      type: object
-      properties:
-        metric:
-          type: object
-          additionalProperties:
-            type: string
-          description: Label set identifying the metric
-        values:
-          type: array
-          description: Array of [timestamp, value] pairs
-          items:
-            type: array
-            items: {}
-            minItems: 2
-            maxItems: 2
   parameters:
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
     engine:
       name: engine
       in: query
@@ -331,22 +339,6 @@ components:
         enum:
         - prometheus
         - thanos
-    dedup:
-      name: dedup
-      in: query
-      required: false
-      description: If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true.
-      schema:
-        type: boolean
-        default: true
-    partial_response:
-      name: partial_response
-      in: query
-      required: false
-      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
-      schema:
-        type: boolean
-        default: false
     max_source_resolution:
       name: max_source_resolution
       in: query
@@ -359,6 +351,14 @@ components:
         - 0s
         - 5m
         - 1h
+    dedup:
+      name: dedup
+      in: query
+      required: false
+      description: If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true.
+      schema:
+        type: boolean
+        default: true
 externalDocs:
   description: Thanos Documentation
   url: https://thanos.io/tip/components/query.md/

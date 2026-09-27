@@ -75,106 +75,16 @@ paths:
     - url: http://localhost:9090
       description: Default Thanos Query HTTP endpoint
 components:
+  parameters:
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
   schemas:
-    RecordingRule:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - recording
-        name:
-          type: string
-        query:
-          type: string
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-        health:
-          type: string
-        lastError:
-          type: string
-        lastEvaluation:
-          type: string
-          format: date-time
-        evaluationTime:
-          type: number
-          format: double
-    Alert:
-      type: object
-      properties:
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-        annotations:
-          type: object
-          additionalProperties:
-            type: string
-        state:
-          type: string
-          enum:
-          - firing
-          - pending
-        activeAt:
-          type: string
-          format: date-time
-        value:
-          type: string
-    RulesResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: object
-          properties:
-            groups:
-              type: array
-              items:
-                $ref: '#/components/schemas/RuleGroup'
-    AlertsResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: object
-          properties:
-            alerts:
-              type: array
-              items:
-                $ref: '#/components/schemas/Alert'
-    RuleGroup:
-      type: object
-      properties:
-        name:
-          type: string
-        file:
-          type: string
-        interval:
-          type: number
-          format: double
-        rules:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/AlertingRule'
-            - $ref: '#/components/schemas/RecordingRule'
-        partialResponseStrategy:
-          type: string
-          description: Thanos-specific field for partial response handling
     AlertingRule:
       type: object
       properties:
@@ -217,9 +127,25 @@ components:
           - firing
           - pending
           - inactive
-    RecordingRule_2:
+    RulesResponse:
       type: object
-      description: A recording rule that precomputes a PromQL expression and stores the result.
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: object
+          properties:
+            groups:
+              type: array
+              items:
+                $ref: '#/components/schemas/RuleGroup'
+    RecordingRule:
+      type: object
       properties:
         type:
           type: string
@@ -227,56 +153,79 @@ components:
           - recording
         name:
           type: string
-          description: Metric name for the recorded result.
         query:
           type: string
-          description: PromQL expression to evaluate and record.
         labels:
           type: object
           additionalProperties:
             type: string
-          description: Labels to attach to the recorded metric.
         health:
           type: string
-          description: Current health status of the rule.
         lastError:
           type: string
-          description: Last error encountered during rule evaluation.
         lastEvaluation:
           type: string
           format: date-time
-          description: Timestamp of the last rule evaluation.
         evaluationTime:
           type: number
           format: double
-          description: Time taken for the last evaluation in seconds.
-    Alert_2:
+    RuleGroup:
       type: object
-      description: An active alert instance produced by an alerting rule.
+      properties:
+        name:
+          type: string
+        file:
+          type: string
+        interval:
+          type: number
+          format: double
+        rules:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AlertingRule'
+            - $ref: '#/components/schemas/RecordingRule'
+        partialResponseStrategy:
+          type: string
+          description: Thanos-specific field for partial response handling
+    AlertsResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: object
+          properties:
+            alerts:
+              type: array
+              items:
+                $ref: '#/components/schemas/Alert'
+    Alert:
+      type: object
       properties:
         labels:
           type: object
           additionalProperties:
             type: string
-          description: Labels identifying the alert instance.
         annotations:
           type: object
           additionalProperties:
             type: string
-          description: Annotations providing additional context for the alert.
         state:
           type: string
           enum:
           - firing
           - pending
-          description: Current state of the alert.
         activeAt:
           type: string
           format: date-time
-          description: Timestamp when the alert became active.
         value:
           type: string
-          description: The value of the PromQL expression at the time of the last evaluation.
     ErrorResponse:
       type: object
       description: Error response returned when a request cannot be processed.
@@ -294,50 +243,6 @@ components:
         error:
           type: string
           description: Human-readable error message.
-    RulesResponse_2:
-      type: object
-      description: Response containing all evaluated rule groups.
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-          - error
-        data:
-          type: object
-          properties:
-            groups:
-              type: array
-              description: List of rule groups loaded by the Ruler.
-              items:
-                $ref: '#/components/schemas/RuleGroup_2'
-    RuleGroup_2:
-      type: object
-      description: A named collection of alerting or recording rules evaluated together.
-      properties:
-        name:
-          type: string
-          description: Name of the rule group.
-        file:
-          type: string
-          description: Configuration file where this rule group is defined.
-        interval:
-          type: number
-          format: double
-          description: Evaluation interval for the group in seconds.
-        rules:
-          type: array
-          description: List of rules in the group.
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/AlertingRule_2'
-            - $ref: '#/components/schemas/RecordingRule_2'
-        partialResponseStrategy:
-          type: string
-          description: Thanos-specific strategy for handling partial responses when querying through the Thanos Query layer.
-          enum:
-          - abort
-          - warn
     AlertingRule_2:
       type: object
       description: An alerting rule that fires alerts when its PromQL condition is true.
@@ -392,15 +297,110 @@ components:
           - pending
           - inactive
           description: Current state of the alerting rule.
-  parameters:
-    partial_response:
-      name: partial_response
-      in: query
-      required: false
-      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
-      schema:
-        type: boolean
-        default: false
+    RulesResponse_2:
+      type: object
+      description: Response containing all evaluated rule groups.
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - error
+        data:
+          type: object
+          properties:
+            groups:
+              type: array
+              description: List of rule groups loaded by the Ruler.
+              items:
+                $ref: '#/components/schemas/RuleGroup_2'
+    RecordingRule_2:
+      type: object
+      description: A recording rule that precomputes a PromQL expression and stores the result.
+      properties:
+        type:
+          type: string
+          enum:
+          - recording
+        name:
+          type: string
+          description: Metric name for the recorded result.
+        query:
+          type: string
+          description: PromQL expression to evaluate and record.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels to attach to the recorded metric.
+        health:
+          type: string
+          description: Current health status of the rule.
+        lastError:
+          type: string
+          description: Last error encountered during rule evaluation.
+        lastEvaluation:
+          type: string
+          format: date-time
+          description: Timestamp of the last rule evaluation.
+        evaluationTime:
+          type: number
+          format: double
+          description: Time taken for the last evaluation in seconds.
+    RuleGroup_2:
+      type: object
+      description: A named collection of alerting or recording rules evaluated together.
+      properties:
+        name:
+          type: string
+          description: Name of the rule group.
+        file:
+          type: string
+          description: Configuration file where this rule group is defined.
+        interval:
+          type: number
+          format: double
+          description: Evaluation interval for the group in seconds.
+        rules:
+          type: array
+          description: List of rules in the group.
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AlertingRule_2'
+            - $ref: '#/components/schemas/RecordingRule_2'
+        partialResponseStrategy:
+          type: string
+          description: Thanos-specific strategy for handling partial responses when querying through the Thanos Query layer.
+          enum:
+          - abort
+          - warn
+    Alert_2:
+      type: object
+      description: An active alert instance produced by an alerting rule.
+      properties:
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels identifying the alert instance.
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Annotations providing additional context for the alert.
+        state:
+          type: string
+          enum:
+          - firing
+          - pending
+          description: Current state of the alert.
+        activeAt:
+          type: string
+          format: date-time
+          description: Timestamp when the alert became active.
+        value:
+          type: string
+          description: The value of the PromQL expression at the time of the last evaluation.
 x-refined-from:
 - thanos-query-api.yml
 - thanos-ruler-openapi.yml

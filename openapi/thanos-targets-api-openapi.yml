@@ -50,27 +50,6 @@ components:
           type: object
           additionalProperties:
             type: string
-    TargetsResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: object
-          properties:
-            activeTargets:
-              type: array
-              items:
-                $ref: '#/components/schemas/ActiveTarget'
-            droppedTargets:
-              type: array
-              items:
-                $ref: '#/components/schemas/DroppedTarget'
     ActiveTarget:
       type: object
       properties:
@@ -102,6 +81,27 @@ components:
           - up
           - down
           - unknown
+    TargetsResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: object
+          properties:
+            activeTargets:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActiveTarget'
+            droppedTargets:
+              type: array
+              items:
+                $ref: '#/components/schemas/DroppedTarget'
   parameters:
     partial_response:
       name: partial_response

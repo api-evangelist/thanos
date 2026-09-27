@@ -5,16 +5,21 @@ description: >-
   across multiple Prometheus servers.
 url: https://thanos.io/
 deliveryModel:
-  model: unknown
-  open_source: unknown
+  model: self-hosted
+  license: Apache-2.0
+  license_evidence:
+    repo: thanos-io/thanos
+    spdx: Apache-2.0
+    stars: 14218
+  open_source: true
   commercial: false
   callable_host: false
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
+  label: Self-hosted open source · you run it yourself
+  confidence: medium
   source:
   - openapi
-  - repository-unlicensed
-  generated: '2026-08-28'
+  - repository-license
+  generated: '2026-09-25'
   method: derived
 specificationVersion: '0.23'
 accessModel:

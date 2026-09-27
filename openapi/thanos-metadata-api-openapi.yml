@@ -156,25 +156,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    LabelValuesResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: array
-          items:
-            type: string
-          description: List of label values
-        warnings:
-          type: array
-          items:
-            type: string
     ErrorResponse:
       type: object
       required:
@@ -217,6 +198,25 @@ components:
           type: array
           items:
             type: string
+    LabelValuesResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: array
+          items:
+            type: string
+          description: List of label values
+        warnings:
+          type: array
+          items:
+            type: string
     LabelsResponse:
       type: object
       required:
@@ -237,14 +237,6 @@ components:
           items:
             type: string
   parameters:
-    dedup:
-      name: dedup
-      in: query
-      required: false
-      description: If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true.
-      schema:
-        type: boolean
-        default: true
     partial_response:
       name: partial_response
       in: query
@@ -253,6 +245,14 @@ components:
       schema:
         type: boolean
         default: false
+    dedup:
+      name: dedup
+      in: query
+      required: false
+      description: If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true.
+      schema:
+        type: boolean
+        default: true
 externalDocs:
   description: Thanos Documentation
   url: https://thanos.io/tip/components/query.md/

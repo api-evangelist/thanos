@@ -156,23 +156,21 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
+    LabelsResponse:
       type: object
       required:
       - status
-      - errorType
-      - error
+      - data
       properties:
         status:
           type: string
           enum:
-          - error
-        errorType:
-          type: string
-          description: Category of error
-        error:
-          type: string
-          description: Human-readable error message
+          - success
+        data:
+          type: array
+          items:
+            type: string
+          description: List of label names
         warnings:
           type: array
           items:
@@ -198,6 +196,27 @@ components:
           type: array
           items:
             type: string
+    ErrorResponse:
+      type: object
+      required:
+      - status
+      - errorType
+      - error
+      properties:
+        status:
+          type: string
+          enum:
+          - error
+        errorType:
+          type: string
+          description: Category of error
+        error:
+          type: string
+          description: Human-readable error message
+        warnings:
+          type: array
+          items:
+            type: string
     LabelValuesResponse:
       type: object
       required:
@@ -217,34 +236,7 @@ components:
           type: array
           items:
             type: string
-    LabelsResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: array
-          items:
-            type: string
-          description: List of label names
-        warnings:
-          type: array
-          items:
-            type: string
   parameters:
-    partial_response:
-      name: partial_response
-      in: query
-      required: false
-      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
-      schema:
-        type: boolean
-        default: false
     dedup:
       name: dedup
       in: query
@@ -253,6 +245,14 @@ components:
       schema:
         type: boolean
         default: true
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
 externalDocs:
   description: Thanos Documentation
   url: https://thanos.io/tip/components/query.md/

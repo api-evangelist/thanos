@@ -43,13 +43,27 @@ paths:
                 $ref: '#/components/schemas/TargetsResponse'
 components:
   schemas:
-    DroppedTarget:
+    TargetsResponse:
       type: object
+      required:
+      - status
+      - data
       properties:
-        discoveredLabels:
+        status:
+          type: string
+          enum:
+          - success
+        data:
           type: object
-          additionalProperties:
-            type: string
+          properties:
+            activeTargets:
+              type: array
+              items:
+                $ref: '#/components/schemas/ActiveTarget'
+            droppedTargets:
+              type: array
+              items:
+                $ref: '#/components/schemas/DroppedTarget'
     ActiveTarget:
       type: object
       properties:
@@ -81,27 +95,13 @@ components:
           - up
           - down
           - unknown
-    TargetsResponse:
+    DroppedTarget:
       type: object
-      required:
-      - status
-      - data
       properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
+        discoveredLabels:
           type: object
-          properties:
-            activeTargets:
-              type: array
-              items:
-                $ref: '#/components/schemas/ActiveTarget'
-            droppedTargets:
-              type: array
-              items:
-                $ref: '#/components/schemas/DroppedTarget'
+          additionalProperties:
+            type: string
   parameters:
     partial_response:
       name: partial_response

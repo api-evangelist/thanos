@@ -155,7 +155,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
+  parameters:
+    dedup:
+      name: dedup
+      in: query
+      required: false
+      description: If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true.
+      schema:
+        type: boolean
+        default: true
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
   schemas:
+    LabelValuesResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: array
+          items:
+            type: string
+          description: List of label values
+        warnings:
+          type: array
+          items:
+            type: string
     LabelsResponse:
       type: object
       required:
@@ -171,27 +207,6 @@ components:
           items:
             type: string
           description: List of label names
-        warnings:
-          type: array
-          items:
-            type: string
-    SeriesResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              type: string
-          description: Array of label sets
         warnings:
           type: array
           items:
@@ -217,7 +232,7 @@ components:
           type: array
           items:
             type: string
-    LabelValuesResponse:
+    SeriesResponse:
       type: object
       required:
       - status
@@ -230,29 +245,14 @@ components:
         data:
           type: array
           items:
-            type: string
-          description: List of label values
+            type: object
+            additionalProperties:
+              type: string
+          description: Array of label sets
         warnings:
           type: array
           items:
             type: string
-  parameters:
-    dedup:
-      name: dedup
-      in: query
-      required: false
-      description: If true, enables deduplication of time series from replicated Prometheus instances. Defaults to true.
-      schema:
-        type: boolean
-        default: true
-    partial_response:
-      name: partial_response
-      in: query
-      required: false
-      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
-      schema:
-        type: boolean
-        default: false
 externalDocs:
   description: Thanos Documentation
   url: https://thanos.io/tip/components/query.md/

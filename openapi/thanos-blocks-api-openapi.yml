@@ -62,28 +62,6 @@ components:
         error:
           type: string
           description: Human-readable error message.
-    BlocksResponse:
-      type: object
-      description: Response containing metadata for TSDB blocks managed by the Compactor.
-      properties:
-        status:
-          type: string
-          description: Status of the response.
-          enum:
-          - success
-          - error
-        data:
-          type: object
-          description: Block metadata payload.
-          properties:
-            blocks:
-              type: array
-              description: List of block metadata entries.
-              items:
-                $ref: '#/components/schemas/BlockMeta'
-            label:
-              type: string
-              description: External label identifying the object storage tenant.
     BlockMeta:
       type: object
       description: Metadata for a single TSDB block managed by the Compactor.
@@ -142,6 +120,28 @@ components:
               - ruler
               - compactor
               - unknown
+    BlocksResponse:
+      type: object
+      description: Response containing metadata for TSDB blocks managed by the Compactor.
+      properties:
+        status:
+          type: string
+          description: Status of the response.
+          enum:
+          - success
+          - error
+        data:
+          type: object
+          description: Block metadata payload.
+          properties:
+            blocks:
+              type: array
+              description: List of block metadata entries.
+              items:
+                $ref: '#/components/schemas/BlockMeta'
+            label:
+              type: string
+              description: External label identifying the object storage tenant.
 externalDocs:
   description: Thanos Compact Documentation
   url: https://thanos.io/tip/components/compact.md/

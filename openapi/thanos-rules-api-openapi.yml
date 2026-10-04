@@ -75,66 +75,16 @@ paths:
     - url: http://localhost:9090
       description: Default Thanos Query HTTP endpoint
 components:
+  parameters:
+    partial_response:
+      name: partial_response
+      in: query
+      required: false
+      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
+      schema:
+        type: boolean
+        default: false
   schemas:
-    AlertsResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: object
-          properties:
-            alerts:
-              type: array
-              items:
-                $ref: '#/components/schemas/Alert'
-    AlertingRule:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - alerting
-        name:
-          type: string
-        query:
-          type: string
-        duration:
-          type: number
-          format: double
-        labels:
-          type: object
-          additionalProperties:
-            type: string
-        annotations:
-          type: object
-          additionalProperties:
-            type: string
-        alerts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Alert'
-        health:
-          type: string
-        lastError:
-          type: string
-        lastEvaluation:
-          type: string
-          format: date-time
-        evaluationTime:
-          type: number
-          format: double
-        state:
-          type: string
-          enum:
-          - firing
-          - pending
-          - inactive
     RuleGroup:
       type: object
       properties:
@@ -200,6 +150,23 @@ components:
         evaluationTime:
           type: number
           format: double
+    AlertsResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: object
+          properties:
+            alerts:
+              type: array
+              items:
+                $ref: '#/components/schemas/Alert'
     RulesResponse:
       type: object
       required:
@@ -217,9 +184,8 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/RuleGroup'
-    AlertingRule_2:
+    AlertingRule:
       type: object
-      description: An alerting rule that fires alerts when its PromQL condition is true.
       properties:
         type:
           type: string
@@ -227,50 +193,39 @@ components:
           - alerting
         name:
           type: string
-          description: Alert name.
         query:
           type: string
-          description: PromQL expression evaluated to determine if the alert should fire.
         duration:
           type: number
           format: double
-          description: Time in seconds the condition must be true before the alert fires.
         labels:
           type: object
           additionalProperties:
             type: string
-          description: Labels to attach to the alert.
         annotations:
           type: object
           additionalProperties:
             type: string
-          description: Annotations to attach to the alert.
         alerts:
           type: array
-          description: Currently active instances of this alert.
           items:
-            $ref: '#/components/schemas/Alert_2'
+            $ref: '#/components/schemas/Alert'
         health:
           type: string
-          description: Current health status of the rule.
         lastError:
           type: string
-          description: Last error encountered during rule evaluation.
         lastEvaluation:
           type: string
           format: date-time
-          description: Timestamp of the last rule evaluation.
         evaluationTime:
           type: number
           format: double
-          description: Time taken for the last evaluation in seconds.
         state:
           type: string
           enum:
           - firing
           - pending
           - inactive
-          description: Current state of the alerting rule.
     RuleGroup_2:
       type: object
       description: A named collection of alerting or recording rules evaluated together.
@@ -358,23 +313,6 @@ components:
           type: number
           format: double
           description: Time taken for the last evaluation in seconds.
-    RulesResponse_2:
-      type: object
-      description: Response containing all evaluated rule groups.
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-          - error
-        data:
-          type: object
-          properties:
-            groups:
-              type: array
-              description: List of rule groups loaded by the Ruler.
-              items:
-                $ref: '#/components/schemas/RuleGroup_2'
     ErrorResponse:
       type: object
       description: Error response returned when a request cannot be processed.
@@ -392,15 +330,77 @@ components:
         error:
           type: string
           description: Human-readable error message.
-  parameters:
-    partial_response:
-      name: partial_response
-      in: query
-      required: false
-      description: If true, enables partial response. If a store is unavailable, partial data will be returned with a warning instead of failing the query.
-      schema:
-        type: boolean
-        default: false
+    RulesResponse_2:
+      type: object
+      description: Response containing all evaluated rule groups.
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+          - error
+        data:
+          type: object
+          properties:
+            groups:
+              type: array
+              description: List of rule groups loaded by the Ruler.
+              items:
+                $ref: '#/components/schemas/RuleGroup_2'
+    AlertingRule_2:
+      type: object
+      description: An alerting rule that fires alerts when its PromQL condition is true.
+      properties:
+        type:
+          type: string
+          enum:
+          - alerting
+        name:
+          type: string
+          description: Alert name.
+        query:
+          type: string
+          description: PromQL expression evaluated to determine if the alert should fire.
+        duration:
+          type: number
+          format: double
+          description: Time in seconds the condition must be true before the alert fires.
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels to attach to the alert.
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Annotations to attach to the alert.
+        alerts:
+          type: array
+          description: Currently active instances of this alert.
+          items:
+            $ref: '#/components/schemas/Alert_2'
+        health:
+          type: string
+          description: Current health status of the rule.
+        lastError:
+          type: string
+          description: Last error encountered during rule evaluation.
+        lastEvaluation:
+          type: string
+          format: date-time
+          description: Timestamp of the last rule evaluation.
+        evaluationTime:
+          type: number
+          format: double
+          description: Time taken for the last evaluation in seconds.
+        state:
+          type: string
+          enum:
+          - firing
+          - pending
+          - inactive
+          description: Current state of the alerting rule.
 x-refined-from:
 - thanos-query-api.yml
 - thanos-ruler-openapi.yml

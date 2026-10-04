@@ -64,6 +64,13 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/DroppedTarget'
+    DroppedTarget:
+      type: object
+      properties:
+        discoveredLabels:
+          type: object
+          additionalProperties:
+            type: string
     ActiveTarget:
       type: object
       properties:
@@ -95,13 +102,6 @@ components:
           - up
           - down
           - unknown
-    DroppedTarget:
-      type: object
-      properties:
-        discoveredLabels:
-          type: object
-          additionalProperties:
-            type: string
   parameters:
     partial_response:
       name: partial_response

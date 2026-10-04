@@ -31,20 +31,6 @@ paths:
                 $ref: '#/components/schemas/StoresResponse'
 components:
   schemas:
-    StoresResponse:
-      type: object
-      required:
-      - status
-      - data
-      properties:
-        status:
-          type: string
-          enum:
-          - success
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/StoreInfo'
     StoreInfo:
       type: object
       properties:
@@ -85,6 +71,20 @@ components:
           - receive
           - debug
           - unknown
+    StoresResponse:
+      type: object
+      required:
+      - status
+      - data
+      properties:
+        status:
+          type: string
+          enum:
+          - success
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StoreInfo'
 externalDocs:
   description: Thanos Documentation
   url: https://thanos.io/tip/components/query.md/

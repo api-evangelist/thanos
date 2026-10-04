@@ -326,6 +326,9 @@ apis:
   - type: Documentation
     url: https://thanos.io/tip/components/compact.md/
 common:
+  - type: CapabilityMap
+    url: capabilities/thanos-capability-edges.yml
+    name: Thanos Business Capability Map
   - type: AgenticAccess
     url: agentic-access/thanos-agentic-access.yml
   - type: DomainSecurity

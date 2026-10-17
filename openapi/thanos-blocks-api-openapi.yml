@@ -48,20 +48,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      description: Error response returned when a request cannot be processed.
-      required:
-      - status
-      - error
-      properties:
-        status:
-          type: string
-          enum:
-          - error
-        error:
-          type: string
-          description: Human-readable error message.
     BlockMeta:
       type: object
       description: Metadata for a single TSDB block managed by the Compactor.
@@ -120,6 +106,20 @@ components:
               - ruler
               - compactor
               - unknown
+    ErrorResponse:
+      type: object
+      description: Error response returned when a request cannot be processed.
+      required:
+      - status
+      - error
+      properties:
+        status:
+          type: string
+          enum:
+          - error
+        error:
+          type: string
+          description: Human-readable error message.
     BlocksResponse:
       type: object
       description: Response containing metadata for TSDB blocks managed by the Compactor.
